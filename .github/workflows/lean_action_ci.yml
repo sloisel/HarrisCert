@@ -13,20 +13,28 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
-      # Each module importing Mathlib needs about 6 GB; the runner has 16 GB.
+      # Each module importing Mathlib needs about 3–5 GB; the runner has 16 GB.
       LEAN_NUM_THREADS: "2"
     steps:
       - uses: actions/checkout@v7
-      - name: Start memory logger
+      # Installs elan and fetches the Mathlib cache; the build itself is the next step.
+      - uses: leanprover/lean-action@v1
+        with:
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+      - name: Build (with memory logging)
         run: |
-          nohup bash -c 'while true; do
-            echo "== $(date +%T) $(free -m | awk "/Mem/{print \$3\" MB used, \"\$7\" MB available\"}") | disk: $(df -h / | awk "NR==2{print \$4\" free\"}")"
+          (while true; do
+            echo "== mem $(date +%T): $(free -m | awk '/Mem/{print $3" MB used, "$7" MB available"}'), disk $(df -h / | awk 'NR==2{print $4" free"}')"
             ps -eo rss,etime,args --sort=-rss | head -4 | cut -c1-160
             sleep 15
-          done' > "$RUNNER_TEMP/mem.log" 2>&1 &
-      - uses: leanprover/lean-action@v1
-      - name: Memory log and kernel OOM messages
-        if: always()
-        run: |
-          tail -n 120 "$RUNNER_TEMP/mem.log"
-          sudo dmesg | grep -iE "oom|killed process|out of memory" | tail -n 20 || true
+          done) &
+          logger=$!
+          set +e
+          lake build
+          status=$?
+          kill $logger
+          sudo dmesg | grep -iE "oom|killed process|out of memory" | tail -n 20
+          exit $status
