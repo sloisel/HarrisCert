@@ -17,4 +17,16 @@ jobs:
       LEAN_NUM_THREADS: "2"
     steps:
       - uses: actions/checkout@v7
+      - name: Start memory logger
+        run: |
+          nohup bash -c 'while true; do
+            echo "== $(date +%T) $(free -m | awk "/Mem/{print \$3\" MB used, \"\$7\" MB available\"}") | disk: $(df -h / | awk "NR==2{print \$4\" free\"}")"
+            ps -eo rss,etime,args --sort=-rss | head -4 | cut -c1-160
+            sleep 15
+          done' > "$RUNNER_TEMP/mem.log" 2>&1 &
       - uses: leanprover/lean-action@v1
+      - name: Memory log and kernel OOM messages
+        if: always()
+        run: |
+          tail -n 120 "$RUNNER_TEMP/mem.log"
+          sudo dmesg | grep -iE "oom|killed process|out of memory" | tail -n 20 || true
