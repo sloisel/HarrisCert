@@ -1,0 +1,109 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Harris's polarization constant is attained for a bilinear form on L^∞(𝕋)"
+  description: >-
+    A complete Lean 4 / Mathlib proof that for the symmetric bilinear form
+    φ(f,g) = a₀(f)a₃(g) - 2a₁(f)a₂(g) - 2a₂(f)a₁(g) + a₃(f)a₀(g) on L^∞(𝕋), where a_k(f) = f̂(-k),
+    the norm of φ on the unit ball is 2 and the norm of its quadratic form q(f) = φ(f,f) is 8/(3√3),
+    both attained. Hence ‖φ‖ = (3√3/4)‖q‖, so L. A. Harris's polarization constant 3√3/4 for symmetric
+    bilinear forms is sharp. The proof combines an analytic local theorem near the orbit of the
+    maximizer h₀ = (z̄ + 1/√3)/(z + 1/√3) with a branch-and-bound certificate in the space of the first
+    four Fourier coefficients; all certificates are checked by the Lean kernel (decide +kernel).
+  authors:
+    - "S. Loisel"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "S. Loisel"
+
+classification:
+  arxiv: ["math.FA"]
+  msc2020: ["46G25", "47A07", "65G30"]
+
+sources:
+  - title: "Harris' polarization constant is attained for a bilinear form on L^∞(T) (manuscript, 2026)"
+    authors:
+      - "S. Loisel"
+    type: original-proof
+    relationship: other
+    note: >-
+      The result and its proof (local theorem plus global branch-and-bound) first appear in the author's
+      manuscript harris_sharp.tex, which accompanies this formalization. The formalization uses cruder
+      constants in the local theorem (see fidelity.divergences).
+  - title: "Polarization constants for symmetric multilinear forms"
+    authors:
+      - "S. Loisel"
+    type: "M.Sc. thesis, McGill University"
+    location: "Department of Mathematics, McGill University, Montréal, March 2001"
+    relationship: background
+    note: >-
+      Introduces the bilinear form φ (chapter 4), proves ‖φ‖ = 2, and conjectures ‖q‖ = 8/(3√3) on the
+      basis of numerical evidence.
+    author_endorsement: participated
+  - title: "Bounds on the derivatives of holomorphic functions of vectors"
+    authors:
+      - "L. A. Harris"
+    type: article
+    location: "Analyse fonctionnelle et applications, 1972, pp. 145-163"
+    relationship: background
+    note: "Source of the polarization constant 3√3/4 for symmetric bilinear forms."
+    author_endorsement: not-contacted
+
+related_formalizations: []
+
+status:
+  scope: >-
+    The full result is formalized: both suprema and their attainment, for the bilinear form φ on the
+    unit ball of L^∞(𝕋), modelled as a.e.-strongly measurable functions bounded by 1 everywhere. The
+    statement does not formalize Harris's general theorem (the upper bound ‖φ‖ ≤ (3√3/4)‖q‖ for all
+    symmetric bilinear forms); it proves that this specific form attains equality.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: agent
+      models: ["claude-opus-5-5"]
+      framework: "Claude Code"
+      tool_setup: >-
+        AI coding agent writing Lean and Julia under the author's direction; Lean 4.36 with Mathlib,
+        Julia for exact certificate generation in ℚ(√3).
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "not tracked"
+        hardware: "local machine"
+      prompting_notes: >-
+        The author directed the overall approach and the target (a complete Palomar-ready proof without
+        native_decide); the agent wrote the proofs and the certificate generators.
+  spend_usd: "not tracked"
+  notes: >-
+    The mathematical argument (manuscript) and the formal proof were developed with an AI agent under
+    the author's supervision. Correctness rests on the Lean kernel: the final theorem depends only on
+    propext, Classical.choice and Quot.sound.
+
+fidelity:
+  divergences: >-
+    The local theorem uses ε = 7/50, the crude bound Re q(Ax) ≥ -6(X/m)² with m = 2r(1-r)² in place of
+    L₁₁⁻, and Λ₂(ε) ≤ 230 (certified by positivity of two degree-20 polynomials over ℚ(√3)), giving
+    X₀ = 7/10000 instead of 571/500000; the global certificate was regenerated for this X₀.
+
+review:
+  status: "self-assessed"
+  reviewers:
+    - "none"
+  notes: >-
+    The Challenge statement uses only Mathlib definitions (fourierCoeff on AddCircle (2π) with its
+    normalized Haar measure). The axioms of the final theorem were checked with #print axioms.
+
+alignment:
+  namespace: "Polarization"
+  statements:
+    - source: "harris_sharp.tex, abstract and equation (goal); thesis Theorem 4.3"
+      lean: "Polarization.harris_constant_attained"
+      module: "Challenge"
+      status: proved
+      note: "‖φ‖ = 2 and ‖q‖ = 8/(3√3) on the unit ball of L^∞(𝕋), both attained."
+
+acknowledgements: "Lean 4, Mathlib."
