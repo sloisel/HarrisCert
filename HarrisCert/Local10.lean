@@ -1,6 +1,6 @@
 module
 
-public import HarrisCert.Local9
+public import HarrisCert.Local9b
 
 /-!
 # Local theorem, part 10: evaluating the certificate polynomial
