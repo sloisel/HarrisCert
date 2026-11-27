@@ -2,17 +2,2236 @@ module
 
 public import HarrisCert.Data.Boxes
 
-/-! The bisection tree, with the leaves replaced by their indices. -/
+/-!
+The bisection tree, cut into 315 pieces of at most 32 leaves. The top skeleton `skelTop` has the
+pieces (boxes `topBoxes i`) as its leaves; piece `i` (`skp i`) has the leaves (boxes `boxes k`) as
+its leaves. Each piece is checked by the kernel separately, which keeps the kernel's memory use low.
+-/
 
 @[expose] public section
 
 namespace Harris
 
 set_option maxRecDepth 100000 in
-def skel : Skel := (.split 1 (0 : ℚ) (.split 0 (0 : ℚ) (.split 6 (0 : ℚ) (.split 5 (0 : ℚ) (.split 3 (0 : ℚ) (.sub 0) (.split 2 (1 / 2 : ℚ) (.split 1 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1) (.sub 2)) (.split 3 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 3) (.sub 4)) (.split 6 (-1 / 2 : ℚ) (.sub 5) (.split 1 (-1 / 4 : ℚ) (.sub 6) (.split 0 (-1 / 2 : ℚ) (.sub 7) (.split 6 (-1 / 4 : ℚ) (.sub 8) (.split 5 (-1 / 2 : ℚ) (.sub 9) (.split 0 (-1 / 4 : ℚ) (.sub 10) (.split 5 (-1 / 4 : ℚ) (.sub 11) (.sub 12)))))))))) (.split 1 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 13) (.sub 14)) (.split 3 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 15) (.split 1 (-1 / 4 : ℚ) (.sub 16) (.split 0 (-1 / 2 : ℚ) (.sub 17) (.split 5 (-1 / 2 : ℚ) (.sub 18) (.split 0 (-1 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.sub 19) (.sub 20)) (.split 6 (-1 / 4 : ℚ) (.sub 21) (.sub 22))))))) (.split 6 (-1 / 2 : ℚ) (.sub 23) (.split 1 (-1 / 4 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 24) (.split 5 (-1 / 2 : ℚ) (.sub 25) (.split 0 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 26) (.sub 27)) (.sub 28)) (.split 5 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 29) (.sub 30)) (.sub 31)) (.sub 32)) (.split 3 (3 / 4 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 6 (-1 / 4 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 33) (.sub 34)) (.sub 35)) (.split 3 (5 / 8 : ℚ) (.sub 36) (.sub 37))) (.sub 38)) (.split 2 (5 / 8 : ℚ) (.split 6 (-1 / 4 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 39) (.sub 40)) (.split 3 (5 / 8 : ℚ) (.sub 41) (.sub 42))) (.sub 43))) (.sub 44)))))) (.sub 45)) (.split 2 (3 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 46) (.split 5 (-1 / 2 : ℚ) (.sub 47) (.split 0 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 48) (.sub 49)) (.split 2 (5 / 8 : ℚ) (.split 1 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 50) (.split 6 (-1 / 8 : ℚ) (.split 1 (-3 / 16 : ℚ) (.sub 51) (.split 0 (-3 / 8 : ℚ) (.sub 52) (.split 5 (-1 / 8 : ℚ) (.sub 53) (.split 0 (-5 / 16 : ℚ) (.sub 54) (.sub 55))))) (.sub 56))) (.sub 57)) (.split 3 (5 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 58) (.split 0 (-3 / 8 : ℚ) (.sub 59) (.split 5 (-1 / 8 : ℚ) (.sub 60) (.sub 61)))) (.split 5 (-1 / 4 : ℚ) (.sub 62) (.split 0 (-3 / 8 : ℚ) (.sub 63) (.split 5 (-1 / 8 : ℚ) (.sub 64) (.split 1 (-1 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.sub 65) (.sub 66)) (.sub 67)))))) (.split 5 (-1 / 4 : ℚ) (.sub 68) (.split 6 (-1 / 8 : ℚ) (.sub 69) (.split 0 (-3 / 8 : ℚ) (.sub 70) (.split 5 (-1 / 8 : ℚ) (.sub 71) (.split 1 (-1 / 16 : ℚ) (.sub 72) (.sub 73)))))))) (.split 1 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 74) (.split 0 (-3 / 8 : ℚ) (.sub 75) (.split 5 (-1 / 8 : ℚ) (.sub 76) (.split 0 (-5 / 16 : ℚ) (.split 6 (-1 / 8 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 77) (.sub 78)) (.split 3 (9 / 16 : ℚ) (.sub 79) (.sub 80))) (.split 3 (9 / 16 : ℚ) (.sub 81) (.split 6 (-1 / 8 : ℚ) (.split 1 (-3 / 16 : ℚ) (.sub 82) (.sub 83)) (.sub 84))))))) (.sub 85)) (.sub 86)) (.split 3 (5 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 87) (.split 0 (-3 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.sub 88) (.sub 89)) (.split 5 (-1 / 8 : ℚ) (.sub 90) (.split 2 (11 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 91) (.split 2 (21 / 32 : ℚ) (.sub 92) (.sub 93))) (.split 3 (9 / 16 : ℚ) (.sub 94) (.sub 95))) (.sub 96))))) (.split 5 (-1 / 4 : ℚ) (.sub 97) (.split 0 (-3 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 98) (.split 2 (21 / 32 : ℚ) (.sub 99) (.split 6 (-1 / 16 : ℚ) (.split 1 (-3 / 32 : ℚ) (.sub 100) (.sub 101)) (.sub 102)))) (.split 3 (9 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.sub 103) (.split 1 (-1 / 32 : ℚ) (.sub 104) (.sub 105))) (.split 6 (-1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 106) (.split 3 (19 / 32 : ℚ) (.sub 107) (.sub 108))) (.split 2 (21 / 32 : ℚ) (.split 1 (-1 / 32 : ℚ) (.sub 109) (.split 6 (-1 / 32 : ℚ) (.sub 110) (.sub 111))) (.split 1 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 6 (-1 / 32 : ℚ) (.split 1 (-3 / 64 : ℚ) (.sub 112) (.split 3 (37 / 64 : ℚ) (.sub 113) (.sub 114))) (.split 3 (37 / 64 : ℚ) (.sub 115) (.sub 116))) (.sub 117)) (.sub 118)) (.split 6 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 119) (.sub 120)) (.sub 121)) (.sub 122)) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 123) (.split 2 (85 / 128 : ℚ) (.sub 124) (.sub 125))) (.split 3 (37 / 64 : ℚ) (.sub 126) (.sub 127))) (.split 1 (-1 / 64 : ℚ) (.sub 128) (.sub 129))) (.sub 130)))))))) (.split 1 (-1 / 16 : ℚ) (.sub 131) (.split 6 (-1 / 16 : ℚ) (.sub 132) (.sub 133)))) (.split 5 (-1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 134) (.split 6 (-1 / 16 : ℚ) (.sub 135) (.split 3 (9 / 16 : ℚ) (.sub 136) (.sub 137)))) (.sub 138)) (.split 2 (11 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 139) (.split 5 (-1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 140) (.sub 141)) (.split 2 (21 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.sub 142) (.sub 143)) (.split 6 (-1 / 16 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 1 (-3 / 32 : ℚ) (.sub 144) (.split 5 (-1 / 32 : ℚ) (.sub 145) (.split 3 (19 / 32 : ℚ) (.sub 146) (.sub 147)))) (.sub 148)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 149) (.sub 150)) (.sub 151)))))) (.split 3 (9 / 16 : ℚ) (.sub 152) (.split 2 (21 / 32 : ℚ) (.sub 153) (.sub 154)))) (.split 0 (-5 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.sub 155) (.split 1 (-1 / 32 : ℚ) (.sub 156) (.sub 157))) (.split 5 (-1 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 158) (.sub 159)) (.split 2 (21 / 32 : ℚ) (.split 1 (-1 / 32 : ℚ) (.sub 160) (.sub 161)) (.split 1 (-1 / 32 : ℚ) (.sub 162) (.split 3 (19 / 32 : ℚ) (.sub 163) (.sub 164))))) (.split 6 (-1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 165) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 166) (.sub 167)) (.split 3 (19 / 32 : ℚ) (.sub 168) (.sub 169))) (.sub 170))) (.split 2 (21 / 32 : ℚ) (.split 1 (-1 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 171) (.sub 172)) (.sub 173)) (.split 3 (19 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.sub 174) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 175) (.sub 176)) (.sub 177))) (.split 6 (-1 / 32 : ℚ) (.sub 178) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 179) (.sub 180)) (.sub 181))))) (.split 1 (-1 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 182) (.sub 183)) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 6 (-1 / 32 : ℚ) (.split 1 (-3 / 64 : ℚ) (.sub 184) (.split 3 (37 / 64 : ℚ) (.sub 185) (.sub 186))) (.split 3 (37 / 64 : ℚ) (.sub 187) (.sub 188))) (.sub 189)) (.sub 190))) (.split 3 (19 / 32 : ℚ) (.sub 191) (.sub 192))) (.split 3 (19 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 193) (.sub 194)) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 195) (.sub 196)) (.sub 197))) (.sub 198)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.sub 199) (.split 3 (37 / 64 : ℚ) (.sub 200) (.split 6 (-1 / 64 : ℚ) (.sub 201) (.sub 202)))) (.sub 203)) (.split 2 (43 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 204) (.split 2 (85 / 128 : ℚ) (.sub 205) (.split 6 (-1 / 64 : ℚ) (.split 0 (-23 / 64 : ℚ) (.split 5 (-1 / 64 : ℚ) (.split 1 (-3 / 128 : ℚ) (.sub 206) (.split 0 (-47 / 128 : ℚ) (.sub 207) (.sub 208))) (.sub 209)) (.sub 210)) (.sub 211)))) (.split 3 (37 / 64 : ℚ) (.sub 212) (.split 6 (-1 / 64 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 213) (.sub 214)) (.split 2 (85 / 128 : ℚ) (.sub 215) (.split 1 (-1 / 128 : ℚ) (.sub 216) (.sub 217)))))) (.split 1 (-1 / 64 : ℚ) (.sub 218) (.sub 219)))) (.sub 220))) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.sub 221) (.sub 222)) (.sub 223)) (.sub 224)))))))) (.split 6 (-1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 225) (.sub 226)) (.split 3 (9 / 16 : ℚ) (.sub 227) (.split 1 (-1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 228) (.sub 229)) (.split 2 (21 / 32 : ℚ) (.sub 230) (.sub 231))))))) (.split 1 (-1 / 16 : ℚ) (.sub 232) (.split 0 (-5 / 16 : ℚ) (.split 5 (-1 / 16 : ℚ) (.sub 233) (.split 6 (-1 / 16 : ℚ) (.sub 234) (.sub 235))) (.sub 236)))))))) (.split 6 (-1 / 8 : ℚ) (.sub 237) (.split 5 (-1 / 4 : ℚ) (.sub 238) (.split 0 (-3 / 8 : ℚ) (.sub 239) (.split 5 (-1 / 8 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 240) (.split 6 (-1 / 16 : ℚ) (.sub 241) (.sub 242))) (.split 1 (-1 / 16 : ℚ) (.sub 243) (.split 0 (-5 / 16 : ℚ) (.sub 244) (.sub 245))))))))))) (.sub 246)) (.split 5 (-1 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 247) (.sub 248)) (.sub 249)) (.sub 250)) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 1 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 251) (.split 5 (-3 / 8 : ℚ) (.sub 252) (.split 0 (-1 / 16 : ℚ) (.sub 253) (.sub 254)))) (.split 2 (9 / 16 : ℚ) (.sub 255) (.split 0 (-1 / 8 : ℚ) (.sub 256) (.split 5 (-3 / 8 : ℚ) (.sub 257) (.split 0 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 6 (-1 / 8 : ℚ) (.sub 258) (.sub 259)) (.sub 260)) (.split 5 (-5 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 261) (.sub 262)) (.split 6 (-1 / 8 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 263) (.sub 264)) (.sub 265)))))))) (.split 6 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 266) (.split 5 (-3 / 8 : ℚ) (.sub 267) (.split 0 (-1 / 16 : ℚ) (.sub 268) (.sub 269)))) (.split 2 (9 / 16 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 270) (.split 5 (-3 / 8 : ℚ) (.sub 271) (.split 0 (-1 / 16 : ℚ) (.sub 272) (.sub 273)))) (.split 0 (-1 / 8 : ℚ) (.sub 274) (.split 5 (-3 / 8 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 275) (.sub 276)) (.split 0 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 277) (.sub 278)) (.split 1 (-1 / 16 : ℚ) (.split 6 (-3 / 16 : ℚ) (.sub 279) (.split 2 (19 / 32 : ℚ) (.sub 280) (.sub 281))) (.sub 282))) (.sub 283)) (.split 1 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 6 (-3 / 16 : ℚ) (.sub 284) (.split 1 (-3 / 32 : ℚ) (.sub 285) (.sub 286))) (.sub 287)) (.split 6 (-3 / 16 : ℚ) (.sub 288) (.split 1 (-3 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 289) (.sub 290)) (.sub 291)) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 292) (.sub 293)) (.sub 294))))) (.split 6 (-3 / 16 : ℚ) (.sub 295) (.split 2 (19 / 32 : ℚ) (.sub 296) (.sub 297)))) (.sub 298)) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 0 (-1 / 32 : ℚ) (.sub 299) (.sub 300)) (.sub 301)) (.sub 302)) (.sub 303)))))))) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 304) (.split 5 (-3 / 8 : ℚ) (.sub 305) (.split 1 (-1 / 16 : ℚ) (.sub 306) (.split 0 (-1 / 16 : ℚ) (.sub 307) (.sub 308))))) (.split 0 (-1 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 309) (.split 1 (-1 / 16 : ℚ) (.sub 310) (.split 6 (-1 / 16 : ℚ) (.sub 311) (.split 3 (11 / 16 : ℚ) (.sub 312) (.sub 313))))) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 314) (.split 6 (-1 / 16 : ℚ) (.sub 315) (.split 1 (-1 / 32 : ℚ) (.sub 316) (.sub 317)))) (.split 1 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 318) (.sub 319)) (.sub 320)) (.sub 321)) (.split 6 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 322) (.split 2 (37 / 64 : ℚ) (.sub 323) (.sub 324))) (.sub 325)) (.sub 326)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 1 (-1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 327) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 328) (.sub 329)) (.split 3 (43 / 64 : ℚ) (.sub 330) (.sub 331)))) (.split 6 (-1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 332) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 6 (-3 / 64 : ℚ) (.sub 333) (.split 1 (-3 / 128 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 334) (.sub 335)) (.sub 336))) (.sub 337)) (.sub 338)) (.split 3 (43 / 64 : ℚ) (.split 2 (75 / 128 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 6 (-3 / 64 : ℚ) (.sub 339) (.split 1 (-3 / 128 : ℚ) (.split 3 (85 / 128 : ℚ) (.sub 340) (.sub 341)) (.sub 342))) (.sub 343)) (.sub 344)) (.sub 345)))) (.split 3 (21 / 32 : ℚ) (.sub 346) (.split 2 (37 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 347) (.sub 348)) (.sub 349)) (.split 1 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 350) (.sub 351)) (.sub 352)))))) (.split 1 (-1 / 32 : ℚ) (.sub 353) (.sub 354))) (.sub 355))))) (.split 2 (9 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.sub 356) (.sub 357)) (.split 6 (-1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.sub 358) (.sub 359)) (.split 0 (-1 / 16 : ℚ) (.sub 360) (.sub 361)))) (.split 1 (-1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 362) (.sub 363)) (.sub 364)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 365) (.sub 366)) (.sub 367))) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 368) (.sub 369)) (.split 3 (21 / 32 : ℚ) (.sub 370) (.sub 371))) (.split 3 (21 / 32 : ℚ) (.sub 372) (.split 6 (-1 / 16 : ℚ) (.sub 373) (.sub 374)))) (.sub 375)) (.sub 376)) (.sub 377))) (.split 6 (-1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 378) (.sub 379)) (.split 2 (19 / 32 : ℚ) (.sub 380) (.sub 381))) (.sub 382)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 383) (.sub 384)) (.split 3 (21 / 32 : ℚ) (.sub 385) (.sub 386))) (.split 3 (21 / 32 : ℚ) (.sub 387) (.split 2 (37 / 64 : ℚ) (.sub 388) (.split 1 (-1 / 32 : ℚ) (.split 6 (-3 / 32 : ℚ) (.sub 389) (.split 1 (-3 / 64 : ℚ) (.sub 390) (.sub 391))) (.sub 392))))) (.sub 393)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 394) (.sub 395)) (.sub 396)) (.sub 397))) (.sub 398))) (.split 0 (-1 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 1 (-1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 399) (.sub 400)) (.split 2 (19 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.sub 401) (.sub 402)) (.split 6 (-1 / 32 : ℚ) (.sub 403) (.split 3 (21 / 32 : ℚ) (.sub 404) (.sub 405))))) (.sub 406)) (.split 3 (11 / 16 : ℚ) (.split 1 (-1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 407) (.sub 408)) (.split 2 (19 / 32 : ℚ) (.sub 409) (.sub 410))) (.sub 411))) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 1 (-1 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 412) (.split 2 (37 / 64 : ℚ) (.sub 413) (.sub 414))) (.sub 415)) (.split 3 (21 / 32 : ℚ) (.sub 416) (.split 2 (37 / 64 : ℚ) (.sub 417) (.split 3 (43 / 64 : ℚ) (.split 6 (-1 / 32 : ℚ) (.sub 418) (.sub 419)) (.sub 420))))) (.sub 421)) (.split 6 (-1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.sub 422) (.sub 423)) (.sub 424)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 425) (.split 3 (43 / 64 : ℚ) (.sub 426) (.sub 427))) (.sub 428)) (.split 2 (37 / 64 : ℚ) (.sub 429) (.split 3 (43 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 6 (-3 / 64 : ℚ) (.sub 430) (.split 1 (-3 / 128 : ℚ) (.split 2 (75 / 128 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 0 (-1 / 64 : ℚ) (.split 5 (-23 / 64 : ℚ) (.sub 431) (.sub 432)) (.sub 433)) (.sub 434)) (.sub 435)) (.split 2 (75 / 128 : ℚ) (.sub 436) (.sub 437)))) (.sub 438)) (.sub 439)))) (.sub 440))) (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.sub 441) (.sub 442)) (.sub 443)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 444) (.split 1 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 445) (.sub 446)) (.split 6 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 447) (.sub 448)) (.split 3 (43 / 64 : ℚ) (.sub 449) (.sub 450))))) (.sub 451)) (.split 2 (37 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.sub 452) (.sub 453)) (.split 1 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 2 (75 / 128 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 0 (-1 / 64 : ℚ) (.split 5 (-23 / 64 : ℚ) (.split 0 (-3 / 128 : ℚ) (.sub 454) (.sub 455)) (.sub 456)) (.sub 457)) (.sub 458)) (.sub 459)) (.sub 460)) (.split 6 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 2 (75 / 128 : ℚ) (.sub 461) (.sub 462)) (.sub 463)) (.split 3 (43 / 64 : ℚ) (.split 1 (-1 / 128 : ℚ) (.split 2 (75 / 128 : ℚ) (.sub 464) (.sub 465)) (.split 2 (75 / 128 : ℚ) (.sub 466) (.sub 467))) (.sub 468)))))) (.sub 469))))) (.split 1 (-1 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 470) (.sub 471)) (.sub 472)) (.sub 473)) (.split 6 (-1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 474) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 475) (.sub 476)) (.sub 477)) (.sub 478))) (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 479) (.sub 480)) (.sub 481)) (.sub 482)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 483) (.sub 484)) (.sub 485)) (.sub 486)))))) (.sub 487))))))))))) (.split 1 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 488) (.sub 489)) (.split 3 (5 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 490) (.split 5 (-3 / 8 : ℚ) (.sub 491) (.sub 492))) (.split 0 (-1 / 8 : ℚ) (.sub 493) (.split 5 (-3 / 8 : ℚ) (.sub 494) (.split 1 (-1 / 16 : ℚ) (.sub 495) (.sub 496))))) (.split 0 (-1 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.sub 497) (.split 1 (-1 / 16 : ℚ) (.sub 498) (.split 6 (-1 / 16 : ℚ) (.sub 499) (.sub 500)))) (.split 6 (-1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 501) (.sub 502)) (.split 5 (-3 / 8 : ℚ) (.sub 503) (.split 1 (-1 / 16 : ℚ) (.sub 504) (.split 0 (-1 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.sub 505) (.sub 506)) (.sub 507))))))))) (.sub 508))) (.split 6 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 509) (.sub 510)) (.sub 511)) (.split 3 (5 / 8 : ℚ) (.sub 512) (.sub 513))) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 514) (.sub 515)) (.sub 516))) (.sub 517)) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 1 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.sub 518) (.sub 519)) (.sub 520)) (.sub 521)) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.sub 522) (.sub 523)) (.sub 524)) (.sub 525))) (.split 6 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 526) (.sub 527)) (.sub 528)) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 529) (.sub 530)) (.sub 531))) (.split 3 (5 / 8 : ℚ) (.sub 532) (.split 1 (-1 / 16 : ℚ) (.sub 533) (.sub 534))))) (.split 1 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.sub 535) (.sub 536)) (.sub 537)) (.sub 538)) (.sub 539)) (.split 6 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 540) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 541) (.sub 542)) (.sub 543))) (.split 3 (5 / 8 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 544) (.sub 545)) (.split 1 (-1 / 16 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 546) (.sub 547)) (.sub 548)) (.split 6 (-1 / 16 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 549) (.sub 550)) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.split 5 (-3 / 16 : ℚ) (.sub 551) (.sub 552)) (.sub 553)) (.sub 554)) (.sub 555)))))))) (.sub 556))))))) (.split 0 (-1 / 2 : ℚ) (.sub 557) (.split 5 (-1 / 2 : ℚ) (.sub 558) (.split 0 (-1 / 4 : ℚ) (.sub 559) (.sub 560))))))))))) (.split 3 (0 : ℚ) (.split 1 (-1 / 2 : ℚ) (.sub 561) (.sub 562)) (.split 2 (1 / 2 : ℚ) (.split 1 (-1 / 2 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 563) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 564) (.sub 565)) (.sub 566)) (.sub 567))) (.split 0 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 568) (.sub 569)) (.sub 570)) (.split 6 (-1 / 2 : ℚ) (.sub 571) (.split 5 (1 / 2 : ℚ) (.sub 572) (.sub 573)))) (.split 6 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 574) (.sub 575)) (.sub 576)) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 1 (-1 / 4 : ℚ) (.sub 577) (.sub 578)) (.sub 579)) (.sub 580)) (.split 1 (-1 / 4 : ℚ) (.sub 581) (.sub 582)))))) (.split 0 (-1 / 2 : ℚ) (.split 1 (-1 / 2 : ℚ) (.sub 583) (.split 3 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 584) (.split 5 (1 / 2 : ℚ) (.split 1 (-1 / 4 : ℚ) (.sub 585) (.sub 586)) (.sub 587))) (.split 2 (3 / 4 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 588) (.split 1 (-1 / 4 : ℚ) (.sub 589) (.split 5 (1 / 2 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.sub 590) (.split 2 (5 / 8 : ℚ) (.sub 591) (.sub 592))) (.sub 593)) (.sub 594)))) (.sub 595)))) (.split 1 (-1 / 2 : ℚ) (.sub 596) (.split 3 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 597) (.split 1 (-1 / 4 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 598) (.sub 599)) (.split 6 (-1 / 4 : ℚ) (.sub 600) (.split 2 (3 / 4 : ℚ) (.split 1 (-1 / 8 : ℚ) (.sub 601) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 3 (1 / 4 : ℚ) (.sub 602) (.split 5 (1 / 8 : ℚ) (.sub 603) (.sub 604))) (.sub 605)) (.sub 606)) (.sub 607)) (.sub 608))) (.sub 609))))) (.split 6 (-1 / 2 : ℚ) (.sub 610) (.split 1 (-1 / 4 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 6 (-1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.sub 611) (.sub 612)) (.sub 613)) (.sub 614)) (.sub 615)) (.split 2 (5 / 8 : ℚ) (.sub 616) (.sub 617))) (.sub 618)) (.sub 619)) (.sub 620)) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.sub 621) (.sub 622)) (.sub 623)) (.sub 624)) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.sub 625) (.sub 626)) (.sub 627)) (.sub 628)) (.sub 629))) (.split 1 (-1 / 8 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.sub 630) (.sub 631)) (.sub 632)) (.sub 633)) (.sub 634)) (.sub 635)) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 636) (.sub 637)) (.sub 638)) (.sub 639)) (.sub 640)) (.split 3 (5 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 6 (-1 / 8 : ℚ) (.split 1 (-3 / 16 : ℚ) (.sub 641) (.split 3 (9 / 16 : ℚ) (.sub 642) (.sub 643))) (.split 3 (9 / 16 : ℚ) (.sub 644) (.sub 645))) (.sub 646)) (.sub 647))) (.sub 648)) (.sub 649)) (.sub 650))) (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.sub 651) (.split 1 (-1 / 16 : ℚ) (.sub 652) (.sub 653))) (.sub 654)) (.split 6 (-1 / 8 : ℚ) (.sub 655) (.sub 656))) (.sub 657)) (.sub 658)) (.sub 659)) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 660) (.sub 661)) (.sub 662)) (.split 2 (11 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.split 0 (-7 / 16 : ℚ) (.sub 663) (.split 3 (9 / 16 : ℚ) (.split 5 (1 / 16 : ℚ) (.sub 664) (.sub 665)) (.split 5 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 666) (.split 0 (-13 / 32 : ℚ) (.sub 667) (.split 6 (-1 / 16 : ℚ) (.split 1 (-3 / 32 : ℚ) (.sub 668) (.split 6 (-3 / 32 : ℚ) (.sub 669) (.sub 670))) (.sub 671)))) (.sub 672)))) (.split 0 (-7 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 673) (.sub 674)) (.split 3 (9 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.split 5 (1 / 16 : ℚ) (.sub 675) (.sub 676)) (.split 5 (1 / 16 : ℚ) (.split 1 (-1 / 32 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 677) (.split 2 (21 / 32 : ℚ) (.sub 678) (.sub 679))) (.split 0 (-13 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 680) (.sub 681)) (.split 2 (21 / 32 : ℚ) (.sub 682) (.split 6 (-1 / 32 : ℚ) (.sub 683) (.split 1 (-1 / 64 : ℚ) (.sub 684) (.sub 685)))))) (.split 1 (-1 / 32 : ℚ) (.sub 686) (.split 2 (21 / 32 : ℚ) (.sub 687) (.sub 688))))) (.split 6 (-1 / 16 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 689) (.split 0 (-13 / 32 : ℚ) (.sub 690) (.split 3 (19 / 32 : ℚ) (.sub 691) (.sub 692)))) (.sub 693)) (.split 1 (-1 / 32 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 694) (.sub 695)) (.split 0 (-13 / 32 : ℚ) (.sub 696) (.split 3 (19 / 32 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 6 (-1 / 32 : ℚ) (.split 1 (-3 / 64 : ℚ) (.sub 697) (.split 3 (37 / 64 : ℚ) (.sub 698) (.sub 699))) (.split 3 (37 / 64 : ℚ) (.sub 700) (.sub 701))) (.split 6 (-1 / 32 : ℚ) (.split 1 (-3 / 64 : ℚ) (.sub 702) (.split 3 (37 / 64 : ℚ) (.sub 703) (.sub 704))) (.split 3 (37 / 64 : ℚ) (.sub 705) (.sub 706)))) (.sub 707)) (.sub 708)) (.sub 709)))) (.sub 710)) (.split 2 (21 / 32 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 711) (.split 6 (-1 / 32 : ℚ) (.sub 712) (.split 1 (-1 / 64 : ℚ) (.sub 713) (.sub 714)))) (.sub 715)) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.sub 716) (.split 3 (19 / 32 : ℚ) (.split 1 (-1 / 64 : ℚ) (.sub 717) (.split 2 (43 / 64 : ℚ) (.sub 718) (.sub 719))) (.sub 720))) (.split 6 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 721) (.sub 722)) (.split 3 (37 / 64 : ℚ) (.sub 723) (.sub 724))) (.sub 725)) (.sub 726)) (.sub 727)) (.split 3 (19 / 32 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 728) (.sub 729)) (.split 2 (85 / 128 : ℚ) (.sub 730) (.sub 731))) (.sub 732)) (.split 3 (37 / 64 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 733) (.sub 734)) (.sub 735))) (.sub 736)) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.sub 737) (.sub 738)) (.sub 739))) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 6 (-1 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.sub 740) (.split 2 (85 / 128 : ℚ) (.sub 741) (.sub 742))) (.sub 743)) (.split 3 (37 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.sub 744) (.split 1 (-1 / 128 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 745) (.sub 746)) (.split 2 (85 / 128 : ℚ) (.sub 747) (.sub 748)))) (.sub 749))) (.sub 750)) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 751) (.sub 752)) (.sub 753))) (.split 2 (43 / 64 : ℚ) (.sub 754) (.sub 755)))) (.sub 756)))) (.sub 757)))))))) (.split 1 (-1 / 16 : ℚ) (.sub 758) (.split 0 (-7 / 16 : ℚ) (.sub 759) (.split 3 (9 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.sub 760) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 761) (.sub 762)) (.sub 763))) (.sub 764)))))) (.split 6 (-1 / 8 : ℚ) (.sub 765) (.split 1 (-1 / 16 : ℚ) (.sub 766) (.split 2 (11 / 16 : ℚ) (.sub 767) (.sub 768))))) (.split 6 (-1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 769) (.sub 770)) (.sub 771)) (.split 2 (11 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 772) (.split 2 (21 / 32 : ℚ) (.sub 773) (.sub 774))) (.split 3 (9 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.sub 775) (.sub 776)) (.split 6 (-1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 777) (.sub 778)) (.split 1 (-1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 779) (.split 3 (19 / 32 : ℚ) (.sub 780) (.sub 781))) (.split 2 (21 / 32 : ℚ) (.sub 782) (.split 6 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 783) (.sub 784)) (.split 3 (19 / 32 : ℚ) (.sub 785) (.sub 786)))))))) (.split 1 (-1 / 16 : ℚ) (.sub 787) (.sub 788))))) (.sub 789)) (.sub 790)) (.sub 791)) (.sub 792))))) (.sub 793)) (.sub 794)))))))))) (.split 5 (0 : ℚ) (.split 3 (0 : ℚ) (.sub 795) (.split 2 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 796) (.sub 797)) (.split 3 (1 / 2 : ℚ) (.sub 798) (.split 2 (3 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 799) (.split 5 (-1 / 2 : ℚ) (.sub 800) (.split 0 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 801) (.split 0 (-3 / 8 : ℚ) (.sub 802) (.split 5 (-1 / 8 : ℚ) (.sub 803) (.sub 804)))) (.split 5 (-1 / 4 : ℚ) (.sub 805) (.split 0 (-3 / 8 : ℚ) (.sub 806) (.split 5 (-1 / 8 : ℚ) (.sub 807) (.sub 808))))) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 809) (.split 0 (-3 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 810) (.split 2 (21 / 32 : ℚ) (.sub 811) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 812) (.sub 813)) (.sub 814)))) (.sub 815)) (.split 5 (-1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.sub 816) (.sub 817)) (.split 2 (11 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.split 5 (-1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 818) (.split 2 (21 / 32 : ℚ) (.sub 819) (.split 3 (19 / 32 : ℚ) (.sub 820) (.sub 821)))) (.split 3 (9 / 16 : ℚ) (.sub 822) (.split 2 (21 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 823) (.sub 824)) (.split 3 (19 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 825) (.sub 826)) (.sub 827)) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 828) (.sub 829)) (.sub 830))) (.sub 831)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 832) (.sub 833)) (.sub 834)))))) (.split 3 (9 / 16 : ℚ) (.sub 835) (.sub 836))) (.sub 837))))) (.split 5 (-1 / 4 : ℚ) (.sub 838) (.split 0 (-3 / 8 : ℚ) (.sub 839) (.split 5 (-1 / 8 : ℚ) (.sub 840) (.sub 841)))))) (.sub 842)) (.split 5 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 843) (.split 5 (-3 / 8 : ℚ) (.sub 844) (.sub 845))) (.split 0 (-1 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 846) (.sub 847)) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 848) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 849) (.split 2 (37 / 64 : ℚ) (.sub 850) (.sub 851))) (.sub 852)) (.sub 853))) (.split 2 (9 / 16 : ℚ) (.sub 854) (.split 0 (-1 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 855) (.sub 856)) (.sub 857)) (.split 3 (11 / 16 : ℚ) (.sub 858) (.sub 859))) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 860) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 861) (.split 3 (43 / 64 : ℚ) (.sub 862) (.sub 863))) (.sub 864)) (.split 2 (37 / 64 : ℚ) (.sub 865) (.split 3 (43 / 64 : ℚ) (.sub 866) (.sub 867)))) (.sub 868))) (.split 3 (21 / 32 : ℚ) (.sub 869) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 870) (.sub 871)) (.sub 872)) (.sub 873)))) (.sub 874))))))) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 875) (.split 5 (-3 / 8 : ℚ) (.sub 876) (.sub 877))) (.split 0 (-1 / 8 : ℚ) (.sub 878) (.split 5 (-3 / 8 : ℚ) (.sub 879) (.sub 880))))) (.sub 881)) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 882) (.sub 883)) (.split 3 (5 / 8 : ℚ) (.sub 884) (.sub 885))) (.sub 886)))))) (.split 0 (-1 / 2 : ℚ) (.sub 887) (.split 5 (-1 / 2 : ℚ) (.sub 888) (.split 0 (-1 / 4 : ℚ) (.sub 889) (.sub 890)))))))) (.split 3 (0 : ℚ) (.sub 891) (.split 2 (1 / 2 : ℚ) (.split 0 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 892) (.sub 893)) (.sub 894)) (.split 5 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 895) (.sub 896)) (.sub 897))) (.split 0 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 898) (.sub 899)) (.split 5 (1 / 2 : ℚ) (.split 2 (3 / 4 : ℚ) (.sub 900) (.sub 901)) (.sub 902))) (.split 3 (1 / 2 : ℚ) (.split 2 (3 / 4 : ℚ) (.sub 903) (.sub 904)) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.sub 905) (.sub 906)) (.sub 907)) (.sub 908)) (.sub 909)) (.sub 910)) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 0 (-7 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 911) (.sub 912)) (.split 3 (9 / 16 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 913) (.sub 914)) (.split 2 (21 / 32 : ℚ) (.sub 915) (.sub 916))) (.sub 917)) (.split 2 (21 / 32 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 918) (.sub 919)) (.sub 920)) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 921) (.sub 922)) (.sub 923)) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.sub 924) (.split 2 (85 / 128 : ℚ) (.sub 925) (.sub 926))) (.sub 927)) (.sub 928)) (.sub 929)) (.sub 930)) (.sub 931))) (.sub 932))))) (.split 0 (-7 / 16 : ℚ) (.sub 933) (.split 3 (9 / 16 : ℚ) (.sub 934) (.sub 935)))) (.split 2 (11 / 16 : ℚ) (.sub 936) (.sub 937))) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 938) (.split 2 (21 / 32 : ℚ) (.sub 939) (.sub 940))) (.sub 941))) (.sub 942)) (.sub 943)) (.sub 944)) (.sub 945))) (.sub 946)) (.sub 947)))))))) (.split 6 (0 : ℚ) (.split 5 (0 : ℚ) (.split 3 (0 : ℚ) (.split 1 (-1 / 2 : ℚ) (.sub 948) (.sub 949)) (.split 2 (1 / 2 : ℚ) (.split 0 (1 / 2 : ℚ) (.split 1 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.sub 950) (.sub 951)) (.split 5 (-1 / 2 : ℚ) (.sub 952) (.sub 953))) (.sub 954)) (.split 5 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 955) (.sub 956)) (.split 6 (-1 / 2 : ℚ) (.sub 957) (.split 1 (-1 / 4 : ℚ) (.sub 958) (.split 6 (-1 / 4 : ℚ) (.sub 959) (.sub 960))))) (.split 6 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 961) (.sub 962)) (.split 3 (1 / 2 : ℚ) (.split 0 (1 / 4 : ℚ) (.sub 963) (.sub 964)) (.split 1 (-1 / 4 : ℚ) (.split 0 (1 / 4 : ℚ) (.sub 965) (.sub 966)) (.split 6 (-1 / 4 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 967) (.sub 968)) (.sub 969)) (.split 2 (1 / 4 : ℚ) (.sub 970) (.split 1 (-1 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.sub 971) (.sub 972)) (.sub 973)) (.sub 974)) (.split 3 (3 / 4 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.sub 975) (.sub 976)) (.sub 977)) (.sub 978)) (.sub 979)) (.sub 980)))))))))) (.split 1 (-1 / 2 : ℚ) (.sub 981) (.split 3 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 982) (.sub 983)) (.sub 984)))) (.split 1 (-1 / 2 : ℚ) (.split 0 (1 / 2 : ℚ) (.sub 985) (.sub 986)) (.split 0 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 987) (.sub 988)) (.split 6 (-1 / 2 : ℚ) (.sub 989) (.split 0 (1 / 4 : ℚ) (.split 1 (-1 / 4 : ℚ) (.sub 990) (.sub 991)) (.sub 992)))) (.split 5 (-1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 993) (.split 1 (-1 / 4 : ℚ) (.sub 994) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.sub 995) (.split 2 (5 / 8 : ℚ) (.split 1 (-1 / 8 : ℚ) (.sub 996) (.sub 997)) (.sub 998))) (.sub 999)) (.sub 1000)))) (.split 6 (-1 / 2 : ℚ) (.sub 1001) (.split 1 (-1 / 4 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1002) (.sub 1003)) (.sub 1004)) (.sub 1005)) (.sub 1006)) (.sub 1007)) (.sub 1008)) (.sub 1009)) (.split 2 (3 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1010) (.split 5 (-3 / 8 : ℚ) (.sub 1011) (.sub 1012))) (.sub 1013)) (.split 3 (5 / 8 : ℚ) (.sub 1014) (.sub 1015))) (.sub 1016)) (.sub 1017)) (.sub 1018)) (.split 3 (3 / 4 : ℚ) (.split 1 (-1 / 8 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1019) (.split 2 (9 / 16 : ℚ) (.sub 1020) (.sub 1021))) (.split 3 (5 / 8 : ℚ) (.sub 1022) (.split 2 (9 / 16 : ℚ) (.sub 1023) (.sub 1024)))) (.split 3 (5 / 8 : ℚ) (.sub 1025) (.sub 1026))) (.sub 1027)) (.sub 1028)) (.sub 1029)) (.split 2 (5 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 1030) (.sub 1031)) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.sub 1032) (.sub 1033)) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 1034) (.sub 1035)) (.sub 1036))) (.split 2 (9 / 16 : ℚ) (.sub 1037) (.split 3 (11 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1038) (.sub 1039)) (.sub 1040)) (.sub 1041))))) (.split 3 (5 / 8 : ℚ) (.sub 1042) (.sub 1043))) (.sub 1044)) (.sub 1045)) (.split 3 (5 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 1046) (.split 0 (1 / 16 : ℚ) (.sub 1047) (.sub 1048))) (.sub 1049)) (.sub 1050)) (.sub 1051)) (.sub 1052)) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1053) (.split 0 (1 / 32 : ℚ) (.sub 1054) (.sub 1055))) (.sub 1056)) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1057) (.sub 1058)) (.sub 1059))) (.split 0 (1 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1060) (.split 3 (11 / 16 : ℚ) (.split 0 (1 / 32 : ℚ) (.sub 1061) (.split 2 (17 / 32 : ℚ) (.sub 1062) (.split 5 (-13 / 32 : ℚ) (.sub 1063) (.sub 1064)))) (.sub 1065))) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1066) (.split 1 (-1 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.sub 1067) (.split 2 (17 / 32 : ℚ) (.sub 1068) (.split 5 (-13 / 32 : ℚ) (.sub 1069) (.sub 1070)))) (.split 0 (1 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.split 2 (17 / 32 : ℚ) (.sub 1071) (.sub 1072)) (.split 2 (17 / 32 : ℚ) (.sub 1073) (.split 1 (-1 / 64 : ℚ) (.sub 1074) (.split 3 (21 / 32 : ℚ) (.sub 1075) (.sub 1076))))) (.split 2 (17 / 32 : ℚ) (.sub 1077) (.split 6 (-1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 1078) (.sub 1079)) (.split 5 (-13 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1080) (.sub 1081)) (.split 3 (21 / 32 : ℚ) (.sub 1082) (.sub 1083)))))))) (.split 5 (-7 / 16 : ℚ) (.sub 1084) (.split 1 (-1 / 32 : ℚ) (.sub 1085) (.sub 1086))))) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.sub 1087) (.sub 1088)) (.split 6 (-1 / 16 : ℚ) (.sub 1089) (.split 1 (-1 / 32 : ℚ) (.sub 1090) (.split 2 (17 / 32 : ℚ) (.sub 1091) (.sub 1092))))) (.sub 1093)))) (.split 1 (-1 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1094) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1095) (.sub 1096)) (.sub 1097))) (.sub 1098)) (.sub 1099)) (.sub 1100)) (.split 0 (1 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1101) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1102) (.split 1 (-1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 1103) (.split 0 (1 / 64 : ℚ) (.split 6 (-3 / 32 : ℚ) (.sub 1104) (.split 2 (37 / 64 : ℚ) (.split 1 (-3 / 64 : ℚ) (.sub 1105) (.sub 1106)) (.sub 1107))) (.split 2 (37 / 64 : ℚ) (.sub 1108) (.sub 1109)))) (.split 5 (-13 / 32 : ℚ) (.sub 1110) (.split 0 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1111) (.sub 1112)) (.sub 1113))))) (.split 3 (21 / 32 : ℚ) (.sub 1114) (.sub 1115)))) (.sub 1116)) (.sub 1117)) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1118) (.split 1 (-1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1119) (.split 5 (-13 / 32 : ℚ) (.sub 1120) (.split 0 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.sub 1121) (.split 6 (-1 / 32 : ℚ) (.split 1 (-3 / 64 : ℚ) (.sub 1122) (.split 6 (-3 / 64 : ℚ) (.sub 1123) (.sub 1124))) (.sub 1125))) (.sub 1126)) (.split 5 (-25 / 64 : ℚ) (.sub 1127) (.sub 1128))) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 1129) (.sub 1130)) (.sub 1131))))) (.split 3 (21 / 32 : ℚ) (.sub 1132) (.sub 1133))) (.sub 1134)) (.split 2 (19 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 1135) (.sub 1136)) (.split 5 (-13 / 32 : ℚ) (.sub 1137) (.split 1 (-1 / 64 : ℚ) (.sub 1138) (.sub 1139)))) (.split 6 (-1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 1140) (.split 2 (37 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 6 (-3 / 64 : ℚ) (.sub 1141) (.split 1 (-3 / 128 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 1142) (.sub 1143)) (.sub 1144))) (.sub 1145)) (.split 2 (73 / 128 : ℚ) (.sub 1146) (.split 1 (-1 / 64 : ℚ) (.split 6 (-3 / 64 : ℚ) (.sub 1147) (.split 1 (-3 / 128 : ℚ) (.split 3 (85 / 128 : ℚ) (.sub 1148) (.sub 1149)) (.sub 1150))) (.sub 1151)))) (.sub 1152)) (.split 3 (43 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 6 (-3 / 64 : ℚ) (.sub 1153) (.split 2 (73 / 128 : ℚ) (.sub 1154) (.sub 1155))) (.sub 1156)) (.sub 1157))) (.split 0 (1 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.sub 1158) (.split 3 (43 / 64 : ℚ) (.sub 1159) (.sub 1160))) (.sub 1161)))) (.split 5 (-13 / 32 : ℚ) (.split 1 (-1 / 64 : ℚ) (.sub 1162) (.split 2 (37 / 64 : ℚ) (.split 6 (-1 / 64 : ℚ) (.sub 1163) (.sub 1164)) (.sub 1165))) (.split 1 (-1 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 1166) (.sub 1167)) (.sub 1168)) (.sub 1169)) (.split 5 (-25 / 64 : ℚ) (.sub 1170) (.sub 1171))) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 1172) (.sub 1173)) (.sub 1174)) (.sub 1175))) (.split 2 (37 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.sub 1176) (.split 6 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 0 (3 / 128 : ℚ) (.sub 1177) (.sub 1178)) (.sub 1179)) (.sub 1180)) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 1 (-1 / 128 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 1181) (.sub 1182)) (.split 2 (73 / 128 : ℚ) (.sub 1183) (.sub 1184))) (.sub 1185)) (.sub 1186)))) (.split 0 (1 / 64 : ℚ) (.sub 1187) (.sub 1188))))))) (.split 3 (21 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.sub 1189) (.sub 1190)) (.split 6 (-1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 1191) (.split 2 (37 / 64 : ℚ) (.sub 1192) (.sub 1193))) (.split 1 (-1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1194) (.sub 1195)) (.split 5 (-13 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 6 (-1 / 64 : ℚ) (.sub 1196) (.sub 1197)) (.sub 1198)) (.split 2 (37 / 64 : ℚ) (.split 6 (-1 / 64 : ℚ) (.sub 1199) (.split 3 (43 / 64 : ℚ) (.sub 1200) (.sub 1201))) (.sub 1202))))))) (.sub 1203)))) (.sub 1204))) (.split 6 (-1 / 16 : ℚ) (.sub 1205) (.split 3 (11 / 16 : ℚ) (.sub 1206) (.sub 1207)))))) (.split 2 (9 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 1208) (.split 6 (-1 / 16 : ℚ) (.sub 1209) (.sub 1210))) (.split 1 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1211) (.sub 1212)) (.sub 1213)) (.sub 1214)) (.split 6 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1215) (.split 1 (-1 / 32 : ℚ) (.split 6 (-3 / 32 : ℚ) (.sub 1216) (.split 1 (-3 / 64 : ℚ) (.sub 1217) (.sub 1218))) (.sub 1219))) (.sub 1220)) (.sub 1221)) (.split 3 (11 / 16 : ℚ) (.split 1 (-1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1222) (.sub 1223)) (.sub 1224)) (.split 2 (19 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1225) (.sub 1226)) (.split 3 (21 / 32 : ℚ) (.sub 1227) (.sub 1228))) (.sub 1229))) (.sub 1230)))))) (.split 2 (9 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 1231) (.sub 1232)) (.sub 1233))) (.sub 1234)) (.sub 1235)))) (.sub 1236))) (.sub 1237))) (.sub 1238)))))) (.sub 1239))))) (.split 3 (0 : ℚ) (.sub 1240) (.split 2 (1 / 2 : ℚ) (.split 1 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1241) (.sub 1242)) (.split 6 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1243) (.sub 1244)) (.split 3 (1 / 2 : ℚ) (.sub 1245) (.sub 1246)))) (.split 1 (-1 / 2 : ℚ) (.sub 1247) (.split 6 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1248) (.sub 1249)) (.split 3 (1 / 2 : ℚ) (.sub 1250) (.split 1 (-1 / 4 : ℚ) (.sub 1251) (.sub 1252)))))))) (.split 3 (0 : ℚ) (.sub 1253) (.split 5 (0 : ℚ) (.split 2 (1 / 2 : ℚ) (.split 0 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1254) (.sub 1255)) (.split 3 (1 / 2 : ℚ) (.sub 1256) (.split 2 (1 / 4 : ℚ) (.sub 1257) (.split 3 (3 / 4 : ℚ) (.sub 1258) (.sub 1259))))) (.split 3 (1 / 2 : ℚ) (.sub 1260) (.sub 1261))) (.split 0 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.sub 1262) (.sub 1263)) (.split 5 (-1 / 2 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.sub 1264) (.sub 1265)) (.sub 1266)) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 1267) (.sub 1268)) (.sub 1269)) (.sub 1270)) (.sub 1271)) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1272) (.split 0 (1 / 32 : ℚ) (.split 2 (17 / 32 : ℚ) (.sub 1273) (.sub 1274)) (.split 2 (17 / 32 : ℚ) (.sub 1275) (.split 5 (-13 / 32 : ℚ) (.sub 1276) (.sub 1277))))) (.sub 1278)) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1279) (.sub 1280)) (.sub 1281))) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1282) (.split 2 (19 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1283) (.split 5 (-13 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1284) (.sub 1285)) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.sub 1286) (.split 2 (73 / 128 : ℚ) (.sub 1287) (.sub 1288))) (.sub 1289)) (.sub 1290)))) (.split 3 (21 / 32 : ℚ) (.sub 1291) (.split 5 (-13 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1292) (.sub 1293)) (.split 2 (37 / 64 : ℚ) (.sub 1294) (.sub 1295))))) (.sub 1296))) (.sub 1297)) (.split 3 (11 / 16 : ℚ) (.sub 1298) (.sub 1299)))) (.split 2 (9 / 16 : ℚ) (.sub 1300) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1301) (.sub 1302)) (.sub 1303)) (.sub 1304)))) (.split 2 (9 / 16 : ℚ) (.sub 1305) (.sub 1306))) (.sub 1307)) (.sub 1308))) (.sub 1309)) (.sub 1310)) (.sub 1311)))) (.sub 1312))) (.split 2 (1 / 2 : ℚ) (.sub 1313) (.split 3 (1 / 2 : ℚ) (.sub 1314) (.sub 1315))))))) (.split 0 (0 : ℚ) (.split 5 (0 : ℚ) (.split 3 (0 : ℚ) (.sub 1316) (.split 6 (0 : ℚ) (.split 2 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1317) (.sub 1318)) (.split 3 (1 / 2 : ℚ) (.sub 1319) (.split 2 (3 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 1320) (.split 5 (-1 / 2 : ℚ) (.sub 1321) (.split 0 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1322) (.split 0 (-3 / 8 : ℚ) (.sub 1323) (.split 5 (-1 / 8 : ℚ) (.sub 1324) (.sub 1325)))) (.split 5 (-1 / 4 : ℚ) (.sub 1326) (.split 0 (-3 / 8 : ℚ) (.sub 1327) (.split 5 (-1 / 8 : ℚ) (.sub 1328) (.sub 1329))))) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1330) (.split 0 (-3 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1331) (.split 2 (21 / 32 : ℚ) (.sub 1332) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 1333) (.sub 1334)) (.sub 1335)))) (.sub 1336)) (.split 5 (-1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.sub 1337) (.sub 1338)) (.split 2 (11 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.split 5 (-1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1339) (.split 2 (21 / 32 : ℚ) (.sub 1340) (.split 3 (19 / 32 : ℚ) (.sub 1341) (.sub 1342)))) (.split 3 (9 / 16 : ℚ) (.sub 1343) (.split 2 (21 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 1344) (.sub 1345)) (.split 3 (19 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1346) (.sub 1347)) (.sub 1348)) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1349) (.sub 1350)) (.sub 1351))) (.sub 1352)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 1353) (.sub 1354)) (.sub 1355)))))) (.split 3 (9 / 16 : ℚ) (.sub 1356) (.sub 1357))) (.sub 1358))))) (.split 5 (-1 / 4 : ℚ) (.sub 1359) (.split 0 (-3 / 8 : ℚ) (.sub 1360) (.split 5 (-1 / 8 : ℚ) (.sub 1361) (.sub 1362)))))) (.sub 1363)) (.split 5 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 1364) (.split 5 (-3 / 8 : ℚ) (.sub 1365) (.sub 1366))) (.split 0 (-1 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 1367) (.sub 1368)) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 1369) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1370) (.split 2 (37 / 64 : ℚ) (.sub 1371) (.sub 1372))) (.sub 1373)) (.sub 1374))) (.split 2 (9 / 16 : ℚ) (.sub 1375) (.split 0 (-1 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1376) (.sub 1377)) (.sub 1378)) (.split 3 (11 / 16 : ℚ) (.sub 1379) (.sub 1380))) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1381) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1382) (.split 3 (43 / 64 : ℚ) (.sub 1383) (.sub 1384))) (.sub 1385)) (.split 2 (37 / 64 : ℚ) (.sub 1386) (.split 3 (43 / 64 : ℚ) (.sub 1387) (.sub 1388)))) (.sub 1389))) (.split 3 (21 / 32 : ℚ) (.sub 1390) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 1391) (.sub 1392)) (.sub 1393)) (.sub 1394)))) (.sub 1395))))))) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 1396) (.split 5 (-3 / 8 : ℚ) (.sub 1397) (.sub 1398))) (.split 0 (-1 / 8 : ℚ) (.sub 1399) (.split 5 (-3 / 8 : ℚ) (.sub 1400) (.sub 1401))))) (.sub 1402)) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1403) (.sub 1404)) (.split 3 (5 / 8 : ℚ) (.sub 1405) (.sub 1406))) (.sub 1407)))))) (.split 0 (-1 / 2 : ℚ) (.sub 1408) (.split 5 (-1 / 2 : ℚ) (.sub 1409) (.split 0 (-1 / 4 : ℚ) (.sub 1410) (.sub 1411))))))) (.split 2 (1 / 2 : ℚ) (.split 1 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1412) (.split 1 (1 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 1413) (.split 6 (1 / 4 : ℚ) (.split 5 (-1 / 2 : ℚ) (.sub 1414) (.split 0 (-1 / 4 : ℚ) (.sub 1415) (.split 5 (-1 / 4 : ℚ) (.sub 1416) (.sub 1417)))) (.sub 1418))) (.sub 1419))) (.split 3 (1 / 2 : ℚ) (.sub 1420) (.sub 1421))) (.split 3 (1 / 2 : ℚ) (.sub 1422) (.sub 1423))) (.split 1 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 1424) (.split 5 (-1 / 2 : ℚ) (.sub 1425) (.split 0 (-1 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.sub 1426) (.sub 1427)) (.split 6 (1 / 4 : ℚ) (.sub 1428) (.sub 1429))))) (.sub 1430)) (.sub 1431)) (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 1432) (.split 5 (-1 / 2 : ℚ) (.sub 1433) (.split 0 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1434) (.split 0 (-3 / 8 : ℚ) (.sub 1435) (.split 5 (-1 / 8 : ℚ) (.sub 1436) (.split 1 (1 / 16 : ℚ) (.sub 1437) (.split 0 (-5 / 16 : ℚ) (.sub 1438) (.sub 1439)))))) (.split 5 (-1 / 4 : ℚ) (.sub 1440) (.split 0 (-3 / 8 : ℚ) (.sub 1441) (.split 5 (-1 / 8 : ℚ) (.sub 1442) (.sub 1443))))) (.split 6 (1 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1444) (.split 0 (-3 / 8 : ℚ) (.sub 1445) (.split 5 (-1 / 8 : ℚ) (.sub 1446) (.split 1 (1 / 16 : ℚ) (.sub 1447) (.sub 1448))))) (.sub 1449))) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1450) (.split 0 (-3 / 8 : ℚ) (.sub 1451) (.split 5 (-1 / 8 : ℚ) (.sub 1452) (.split 6 (1 / 8 : ℚ) (.sub 1453) (.split 1 (3 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.sub 1454) (.sub 1455)) (.sub 1456)))))) (.sub 1457))) (.split 1 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1458) (.split 0 (-3 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.sub 1459) (.sub 1460)) (.sub 1461)) (.split 6 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.sub 1462) (.sub 1463)) (.sub 1464)) (.split 1 (1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1465) (.sub 1466)) (.split 3 (37 / 64 : ℚ) (.sub 1467) (.split 2 (85 / 128 : ℚ) (.sub 1468) (.sub 1469)))) (.split 1 (1 / 64 : ℚ) (.sub 1470) (.sub 1471))) (.sub 1472)) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1473) (.sub 1474)) (.sub 1475)) (.sub 1476))) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1477) (.sub 1478)) (.sub 1479)) (.sub 1480)))) (.split 2 (21 / 32 : ℚ) (.sub 1481) (.split 3 (19 / 32 : ℚ) (.sub 1482) (.sub 1483))))) (.split 3 (9 / 16 : ℚ) (.sub 1484) (.split 2 (21 / 32 : ℚ) (.sub 1485) (.split 6 (1 / 16 : ℚ) (.sub 1486) (.split 1 (3 / 32 : ℚ) (.sub 1487) (.sub 1488)))))) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 1489) (.sub 1490)) (.sub 1491))) (.split 5 (-1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1492) (.sub 1493)) (.sub 1494)) (.sub 1495)) (.sub 1496)) (.split 2 (11 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.split 5 (-1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1497) (.split 6 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.split 1 (1 / 32 : ℚ) (.sub 1498) (.sub 1499)) (.split 1 (1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 1500) (.sub 1501)) (.sub 1502))) (.split 2 (21 / 32 : ℚ) (.sub 1503) (.sub 1504)))) (.split 3 (9 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 1505) (.sub 1506)) (.split 6 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 1507) (.sub 1508)) (.split 6 (1 / 32 : ℚ) (.sub 1509) (.sub 1510))) (.sub 1511)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 1512) (.sub 1513)) (.sub 1514))) (.split 1 (1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 6 (1 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1515) (.sub 1516)) (.sub 1517)) (.sub 1518)) (.sub 1519)) (.split 2 (43 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1520) (.split 6 (1 / 64 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 1521) (.split 1 (1 / 128 : ℚ) (.sub 1522) (.sub 1523))) (.split 2 (85 / 128 : ℚ) (.sub 1524) (.sub 1525)))) (.split 3 (37 / 64 : ℚ) (.sub 1526) (.split 2 (85 / 128 : ℚ) (.sub 1527) (.split 6 (1 / 64 : ℚ) (.sub 1528) (.split 1 (3 / 128 : ℚ) (.split 0 (-23 / 64 : ℚ) (.split 5 (-1 / 64 : ℚ) (.split 0 (-47 / 128 : ℚ) (.sub 1529) (.sub 1530)) (.sub 1531)) (.sub 1532)) (.sub 1533)))))) (.split 1 (1 / 64 : ℚ) (.sub 1534) (.sub 1535)))) (.sub 1536)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 1537) (.sub 1538)) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1539) (.sub 1540)) (.sub 1541))) (.sub 1542))) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.sub 1543) (.sub 1544)) (.sub 1545)) (.sub 1546))) (.split 3 (19 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 1547) (.sub 1548)) (.split 2 (43 / 64 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1549) (.sub 1550)) (.split 1 (3 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1551) (.sub 1552)) (.sub 1553))) (.sub 1554))) (.sub 1555)) (.sub 1556)))) (.split 2 (21 / 32 : ℚ) (.sub 1557) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 1558) (.sub 1559)) (.split 3 (19 / 32 : ℚ) (.sub 1560) (.sub 1561))) (.sub 1562)))))) (.split 6 (1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1563) (.split 1 (1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 1564) (.sub 1565)) (.split 2 (21 / 32 : ℚ) (.sub 1566) (.sub 1567)))) (.split 3 (9 / 16 : ℚ) (.sub 1568) (.sub 1569)))) (.split 0 (-5 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1570) (.split 5 (-1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 1571) (.sub 1572)) (.split 2 (21 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.sub 1573) (.sub 1574)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 1575) (.split 1 (3 / 32 : ℚ) (.sub 1576) (.sub 1577))) (.split 6 (1 / 16 : ℚ) (.sub 1578) (.split 1 (3 / 32 : ℚ) (.split 6 (3 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 1579) (.sub 1580)) (.sub 1581)) (.sub 1582)))) (.sub 1583))))) (.split 3 (9 / 16 : ℚ) (.sub 1584) (.split 2 (21 / 32 : ℚ) (.sub 1585) (.sub 1586))))) (.split 1 (1 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 5 (-1 / 16 : ℚ) (.sub 1587) (.sub 1588)) (.sub 1589)) (.sub 1590)) (.sub 1591)))))) (.split 5 (-1 / 4 : ℚ) (.sub 1592) (.split 0 (-3 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.sub 1593) (.sub 1594)) (.split 5 (-1 / 8 : ℚ) (.sub 1595) (.split 2 (11 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1596) (.split 5 (-1 / 16 : ℚ) (.sub 1597) (.split 0 (-11 / 32 : ℚ) (.sub 1598) (.sub 1599)))) (.split 3 (9 / 16 : ℚ) (.sub 1600) (.sub 1601))) (.sub 1602)))))) (.split 6 (1 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1603) (.split 0 (-3 / 8 : ℚ) (.sub 1604) (.split 5 (-1 / 8 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 1605) (.sub 1606)) (.sub 1607)) (.split 1 (1 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.sub 1608) (.sub 1609)) (.sub 1610))))) (.sub 1611))) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1612) (.split 2 (11 / 16 : ℚ) (.split 0 (-3 / 8 : ℚ) (.sub 1613) (.split 5 (-1 / 8 : ℚ) (.sub 1614) (.split 0 (-5 / 16 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1615) (.sub 1616)) (.split 1 (3 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1617) (.sub 1618)) (.sub 1619))) (.split 6 (1 / 8 : ℚ) (.sub 1620) (.split 1 (3 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1621) (.sub 1622)) (.sub 1623)))))) (.sub 1624))) (.sub 1625)))) (.split 2 (5 / 8 : ℚ) (.sub 1626) (.sub 1627))) (.sub 1628)) (.split 5 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 1629) (.split 5 (-3 / 8 : ℚ) (.sub 1630) (.split 1 (1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.sub 1631) (.sub 1632)) (.sub 1633)))) (.split 0 (-1 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 1634) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 1635) (.sub 1636)) (.sub 1637)) (.sub 1638))) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.sub 1639) (.sub 1640)) (.sub 1641)) (.sub 1642)) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1643) (.split 2 (37 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 1644) (.split 3 (43 / 64 : ℚ) (.sub 1645) (.sub 1646))) (.split 1 (1 / 64 : ℚ) (.sub 1647) (.split 3 (43 / 64 : ℚ) (.sub 1648) (.sub 1649))))) (.split 3 (21 / 32 : ℚ) (.sub 1650) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 1651) (.split 6 (3 / 64 : ℚ) (.split 1 (3 / 128 : ℚ) (.sub 1652) (.split 2 (73 / 128 : ℚ) (.sub 1653) (.sub 1654))) (.sub 1655))) (.sub 1656)) (.split 3 (43 / 64 : ℚ) (.split 2 (75 / 128 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 1657) (.split 6 (3 / 64 : ℚ) (.split 1 (3 / 128 : ℚ) (.sub 1658) (.split 3 (85 / 128 : ℚ) (.sub 1659) (.sub 1660))) (.sub 1661))) (.sub 1662)) (.sub 1663))))) (.split 3 (21 / 32 : ℚ) (.sub 1664) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 1665) (.sub 1666)) (.split 3 (43 / 64 : ℚ) (.sub 1667) (.sub 1668))))) (.split 1 (1 / 32 : ℚ) (.sub 1669) (.sub 1670))) (.sub 1671)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1672) (.split 2 (37 / 64 : ℚ) (.sub 1673) (.sub 1674))) (.sub 1675)) (.sub 1676))) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1677) (.sub 1678)) (.sub 1679)) (.sub 1680)))) (.split 2 (9 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.sub 1681) (.sub 1682)) (.split 0 (-1 / 16 : ℚ) (.sub 1683) (.sub 1684))) (.split 0 (-1 / 16 : ℚ) (.sub 1685) (.sub 1686))) (.split 1 (1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.sub 1687) (.sub 1688)) (.split 3 (21 / 32 : ℚ) (.sub 1689) (.sub 1690))) (.split 2 (19 / 32 : ℚ) (.sub 1691) (.sub 1692))) (.sub 1693)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1694) (.sub 1695)) (.sub 1696))) (.split 6 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1697) (.sub 1698)) (.split 2 (19 / 32 : ℚ) (.sub 1699) (.sub 1700))) (.sub 1701)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1702) (.sub 1703)) (.sub 1704)))) (.split 3 (11 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.sub 1705) (.sub 1706)) (.sub 1707)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1708) (.split 6 (1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 1709) (.sub 1710)) (.split 3 (43 / 64 : ℚ) (.sub 1711) (.sub 1712)))) (.split 2 (37 / 64 : ℚ) (.sub 1713) (.split 3 (43 / 64 : ℚ) (.sub 1714) (.sub 1715)))) (.sub 1716)) (.split 2 (37 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 1717) (.sub 1718)) (.split 1 (1 / 64 : ℚ) (.split 6 (1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 1 (1 / 128 : ℚ) (.split 2 (75 / 128 : ℚ) (.sub 1719) (.sub 1720)) (.split 2 (75 / 128 : ℚ) (.sub 1721) (.sub 1722))) (.sub 1723)) (.split 3 (43 / 64 : ℚ) (.split 2 (75 / 128 : ℚ) (.sub 1724) (.sub 1725)) (.sub 1726))) (.split 3 (43 / 64 : ℚ) (.split 2 (75 / 128 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 0 (-1 / 64 : ℚ) (.split 5 (-23 / 64 : ℚ) (.split 0 (-3 / 128 : ℚ) (.sub 1727) (.sub 1728)) (.sub 1729)) (.sub 1730)) (.sub 1731)) (.sub 1732)) (.sub 1733))))) (.sub 1734))) (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.sub 1735) (.sub 1736)) (.sub 1737)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1738) (.split 3 (43 / 64 : ℚ) (.sub 1739) (.sub 1740))) (.sub 1741)) (.split 2 (37 / 64 : ℚ) (.sub 1742) (.split 3 (43 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 1743) (.split 6 (3 / 64 : ℚ) (.split 1 (3 / 128 : ℚ) (.split 2 (75 / 128 : ℚ) (.sub 1744) (.sub 1745)) (.split 2 (75 / 128 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 0 (-1 / 64 : ℚ) (.split 5 (-23 / 64 : ℚ) (.sub 1746) (.sub 1747)) (.sub 1748)) (.sub 1749)) (.sub 1750))) (.sub 1751))) (.sub 1752)))) (.sub 1753)))) (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.sub 1754) (.sub 1755)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1756) (.sub 1757)) (.sub 1758)) (.split 2 (37 / 64 : ℚ) (.sub 1759) (.split 3 (43 / 64 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.sub 1760) (.sub 1761)) (.sub 1762)) (.sub 1763)))) (.sub 1764)))) (.split 1 (1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 1765) (.sub 1766)) (.sub 1767)) (.sub 1768)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 1769) (.sub 1770)) (.sub 1771)) (.sub 1772))) (.split 5 (-5 / 16 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1773) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 1774) (.sub 1775)) (.sub 1776))) (.sub 1777))) (.split 3 (21 / 32 : ℚ) (.sub 1778) (.sub 1779)))) (.split 2 (19 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1780) (.sub 1781)) (.split 3 (21 / 32 : ℚ) (.sub 1782) (.sub 1783))) (.split 3 (21 / 32 : ℚ) (.sub 1784) (.split 1 (1 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1785) (.sub 1786)) (.split 6 (3 / 32 : ℚ) (.split 1 (3 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1787) (.sub 1788)) (.split 2 (37 / 64 : ℚ) (.sub 1789) (.sub 1790))) (.sub 1791))))) (.sub 1792)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 1793) (.sub 1794)) (.sub 1795)) (.sub 1796)))) (.split 6 (1 / 16 : ℚ) (.sub 1797) (.sub 1798)))) (.split 0 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1799) (.sub 1800)) (.split 2 (19 / 32 : ℚ) (.sub 1801) (.sub 1802))) (.sub 1803)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1804) (.sub 1805)) (.split 3 (21 / 32 : ℚ) (.sub 1806) (.sub 1807))) (.split 3 (21 / 32 : ℚ) (.sub 1808) (.split 6 (1 / 16 : ℚ) (.sub 1809) (.sub 1810)))) (.sub 1811)) (.sub 1812)) (.sub 1813)))))))) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 1814) (.split 5 (-3 / 8 : ℚ) (.sub 1815) (.split 0 (-1 / 16 : ℚ) (.sub 1816) (.sub 1817)))) (.split 0 (-1 / 8 : ℚ) (.sub 1818) (.split 2 (9 / 16 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 1819) (.split 0 (-1 / 16 : ℚ) (.sub 1820) (.sub 1821))) (.split 5 (-3 / 8 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 1822) (.sub 1823)) (.split 0 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1824) (.sub 1825)) (.split 1 (1 / 16 : ℚ) (.sub 1826) (.split 6 (3 / 16 : ℚ) (.split 1 (3 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1827) (.sub 1828)) (.split 2 (19 / 32 : ℚ) (.sub 1829) (.sub 1830))) (.sub 1831)))) (.sub 1832)) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 1 (1 / 16 : ℚ) (.sub 1833) (.split 6 (3 / 16 : ℚ) (.split 1 (3 / 32 : ℚ) (.sub 1834) (.sub 1835)) (.sub 1836))) (.sub 1837)) (.split 2 (19 / 32 : ℚ) (.split 1 (1 / 16 : ℚ) (.sub 1838) (.split 6 (3 / 16 : ℚ) (.split 1 (3 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1839) (.sub 1840)) (.split 3 (21 / 32 : ℚ) (.sub 1841) (.sub 1842))) (.sub 1843))) (.sub 1844))) (.split 1 (1 / 16 : ℚ) (.sub 1845) (.split 6 (3 / 16 : ℚ) (.split 1 (3 / 32 : ℚ) (.sub 1846) (.split 2 (19 / 32 : ℚ) (.sub 1847) (.sub 1848))) (.sub 1849)))) (.sub 1850)))))))) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 1851) (.split 5 (-3 / 8 : ℚ) (.sub 1852) (.split 0 (-1 / 16 : ℚ) (.sub 1853) (.sub 1854)))) (.split 0 (-1 / 8 : ℚ) (.sub 1855) (.split 2 (9 / 16 : ℚ) (.sub 1856) (.split 5 (-3 / 8 : ℚ) (.sub 1857) (.split 0 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 6 (1 / 8 : ℚ) (.sub 1858) (.sub 1859)) (.sub 1860)) (.split 5 (-5 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 1861) (.sub 1862)) (.split 3 (11 / 16 : ℚ) (.sub 1863) (.sub 1864))))))))) (.split 1 (1 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 1865) (.split 5 (-3 / 8 : ℚ) (.sub 1866) (.split 1 (1 / 16 : ℚ) (.sub 1867) (.sub 1868)))) (.split 0 (-1 / 8 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 1869) (.sub 1870)) (.sub 1871)) (.split 5 (-3 / 8 : ℚ) (.sub 1872) (.split 1 (1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.sub 1873) (.sub 1874)) (.sub 1875)) (.sub 1876))))) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 1877) (.split 5 (-3 / 8 : ℚ) (.sub 1878) (.sub 1879))) (.split 0 (-1 / 8 : ℚ) (.sub 1880) (.split 5 (-3 / 8 : ℚ) (.sub 1881) (.sub 1882))))) (.sub 1883))) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1884) (.sub 1885)) (.sub 1886))) (.split 6 (1 / 4 : ℚ) (.sub 1887) (.sub 1888))) (.split 6 (1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1889) (.split 1 (1 / 16 : ℚ) (.sub 1890) (.sub 1891))) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 1892) (.sub 1893)) (.sub 1894)) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 1895) (.sub 1896)) (.sub 1897)))) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.sub 1898) (.sub 1899)) (.sub 1900)) (.sub 1901)) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.sub 1902) (.sub 1903)) (.sub 1904)) (.sub 1905)))) (.split 1 (1 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 1 (1 / 16 : ℚ) (.sub 1906) (.sub 1907)) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.split 5 (-3 / 16 : ℚ) (.sub 1908) (.sub 1909)) (.sub 1910)) (.sub 1911)) (.sub 1912)) (.split 0 (-1 / 8 : ℚ) (.sub 1913) (.sub 1914))) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 1915) (.sub 1916)) (.sub 1917)))) (.split 3 (5 / 8 : ℚ) (.sub 1918) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 1919) (.sub 1920)) (.sub 1921)))) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.sub 1922) (.sub 1923)) (.sub 1924)) (.sub 1925)) (.sub 1926)))) (.sub 1927)) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1928) (.sub 1929)) (.split 3 (5 / 8 : ℚ) (.sub 1930) (.sub 1931))) (.split 3 (5 / 8 : ℚ) (.sub 1932) (.sub 1933))) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 1934) (.sub 1935)) (.sub 1936))) (.sub 1937))))))) (.split 0 (-1 / 2 : ℚ) (.sub 1938) (.split 5 (-1 / 2 : ℚ) (.sub 1939) (.split 0 (-1 / 4 : ℚ) (.sub 1940) (.sub 1941))))) (.split 2 (3 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 1942) (.split 5 (-1 / 2 : ℚ) (.sub 1943) (.split 0 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 1944) (.sub 1945)) (.sub 1946)) (.split 5 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1947) (.sub 1948)) (.sub 1949)) (.sub 1950)) (.split 3 (3 / 4 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1951) (.sub 1952)) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 1953) (.sub 1954)) (.sub 1955))) (.sub 1956)) (.split 2 (5 / 8 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1957) (.sub 1958)) (.split 3 (5 / 8 : ℚ) (.sub 1959) (.sub 1960))) (.sub 1961))) (.sub 1962)))))) (.sub 1963))) (.sub 1964))) (.split 3 (1 / 2 : ℚ) (.sub 1965) (.sub 1966)))))) (.split 3 (0 : ℚ) (.split 6 (0 : ℚ) (.sub 1967) (.split 0 (-1 / 2 : ℚ) (.sub 1968) (.sub 1969))) (.split 6 (0 : ℚ) (.split 2 (1 / 2 : ℚ) (.split 0 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 1970) (.sub 1971)) (.sub 1972)) (.split 5 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1973) (.sub 1974)) (.sub 1975))) (.split 0 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 1976) (.sub 1977)) (.split 2 (3 / 4 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 1978) (.sub 1979)) (.sub 1980))) (.split 3 (1 / 2 : ℚ) (.split 2 (3 / 4 : ℚ) (.sub 1981) (.sub 1982)) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.sub 1983) (.sub 1984)) (.sub 1985)) (.sub 1986)) (.sub 1987)) (.sub 1988)) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 0 (-7 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1989) (.sub 1990)) (.split 3 (9 / 16 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 1991) (.sub 1992)) (.split 2 (21 / 32 : ℚ) (.sub 1993) (.sub 1994))) (.sub 1995)) (.split 2 (21 / 32 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 1996) (.sub 1997)) (.sub 1998)) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 1999) (.sub 2000)) (.sub 2001)) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.sub 2002) (.split 2 (85 / 128 : ℚ) (.sub 2003) (.sub 2004))) (.sub 2005)) (.sub 2006)) (.sub 2007)) (.sub 2008)) (.sub 2009))) (.sub 2010))))) (.split 0 (-7 / 16 : ℚ) (.sub 2011) (.split 3 (9 / 16 : ℚ) (.sub 2012) (.sub 2013)))) (.split 2 (11 / 16 : ℚ) (.sub 2014) (.sub 2015))) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 2016) (.split 2 (21 / 32 : ℚ) (.sub 2017) (.sub 2018))) (.sub 2019))) (.sub 2020)) (.sub 2021)) (.sub 2022)) (.sub 2023))) (.sub 2024)) (.sub 2025))))) (.split 2 (1 / 2 : ℚ) (.split 1 (1 / 2 : ℚ) (.split 0 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.sub 2026) (.sub 2027)) (.sub 2028)) (.split 6 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 2029) (.sub 2030)) (.sub 2031))) (.split 6 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 1 (1 / 4 : ℚ) (.sub 2032) (.sub 2033)) (.sub 2034)) (.sub 2035)) (.split 1 (1 / 4 : ℚ) (.sub 2036) (.sub 2037))) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 2038) (.sub 2039)) (.sub 2040)))) (.split 0 (-1 / 2 : ℚ) (.sub 2041) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.sub 2042) (.sub 2043)) (.sub 2044)) (.sub 2045)))) (.split 0 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 1 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.sub 2046) (.sub 2047)) (.sub 2048)) (.sub 2049)) (.sub 2050)) (.split 1 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 2051) (.sub 2052)) (.sub 2053)) (.sub 2054)) (.sub 2055)) (.sub 2056)) (.sub 2057)) (.sub 2058)) (.sub 2059))) (.split 1 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.sub 2060) (.sub 2061)) (.sub 2062)) (.sub 2063)) (.sub 2064)) (.sub 2065)) (.sub 2066)) (.sub 2067)) (.sub 2068)) (.split 5 (1 / 2 : ℚ) (.sub 2069) (.sub 2070))) (.sub 2071)) (.split 6 (1 / 2 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 1 (1 / 16 : ℚ) (.sub 2072) (.sub 2073)) (.sub 2074)) (.sub 2075)) (.split 6 (1 / 8 : ℚ) (.sub 2076) (.sub 2077))) (.sub 2078)) (.sub 2079)) (.sub 2080)) (.split 6 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 0 (-7 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 2081) (.sub 2082)) (.split 3 (9 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 0 (-13 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 2083) (.sub 2084)) (.split 6 (1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 2085) (.split 1 (1 / 64 : ℚ) (.sub 2086) (.sub 2087))) (.sub 2088))) (.split 0 (-13 / 32 : ℚ) (.sub 2089) (.split 2 (21 / 32 : ℚ) (.sub 2090) (.sub 2091)))) (.split 1 (1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 2092) (.sub 2093)) (.sub 2094))) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 2095) (.sub 2096)) (.sub 2097))) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 2098) (.split 6 (1 / 32 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 2099) (.sub 2100)) (.sub 2101))) (.sub 2102)) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 2103) (.sub 2104)) (.sub 2105)) (.sub 2106)) (.sub 2107)) (.split 6 (1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.split 6 (1 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.sub 2108) (.split 1 (1 / 128 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 2109) (.sub 2110)) (.split 0 (-51 / 128 : ℚ) (.sub 2111) (.sub 2112)))) (.split 5 (1 / 64 : ℚ) (.sub 2113) (.split 2 (85 / 128 : ℚ) (.sub 2114) (.sub 2115)))) (.sub 2116)) (.sub 2117)) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 2118) (.sub 2119)) (.sub 2120))) (.split 2 (43 / 64 : ℚ) (.sub 2121) (.sub 2122))) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 2123) (.sub 2124)) (.split 2 (85 / 128 : ℚ) (.sub 2125) (.sub 2126))) (.sub 2127)) (.split 3 (37 / 64 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 2128) (.sub 2129)) (.sub 2130))) (.sub 2131)) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.sub 2132) (.sub 2133)) (.sub 2134)))) (.sub 2135)) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 2136) (.sub 2137)) (.split 3 (37 / 64 : ℚ) (.sub 2138) (.sub 2139))) (.sub 2140)) (.sub 2141)) (.sub 2142)))) (.sub 2143))) (.split 2 (21 / 32 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 2144) (.sub 2145)) (.sub 2146)) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 2147) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 2148) (.sub 2149)) (.split 6 (1 / 32 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 2150) (.sub 2151)) (.split 1 (3 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 2152) (.sub 2153)) (.sub 2154)))) (.sub 2155)) (.sub 2156)) (.sub 2157))) (.sub 2158)))) (.split 5 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 2159) (.split 0 (-13 / 32 : ℚ) (.sub 2160) (.split 3 (19 / 32 : ℚ) (.sub 2161) (.sub 2162)))) (.sub 2163))))) (.split 0 (-7 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 2164) (.sub 2165)) (.split 3 (9 / 16 : ℚ) (.split 5 (1 / 16 : ℚ) (.sub 2166) (.sub 2167)) (.split 5 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 2168) (.split 6 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 2169) (.sub 2170)) (.split 0 (-13 / 32 : ℚ) (.sub 2171) (.split 1 (3 / 32 : ℚ) (.split 6 (3 / 32 : ℚ) (.sub 2172) (.sub 2173)) (.sub 2174))))) (.sub 2175))))) (.split 1 (1 / 16 : ℚ) (.split 0 (-7 / 16 : ℚ) (.sub 2176) (.split 5 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 2177) (.sub 2178)) (.sub 2179)) (.sub 2180)) (.sub 2181))) (.sub 2182))) (.split 1 (1 / 16 : ℚ) (.split 2 (11 / 16 : ℚ) (.sub 2183) (.sub 2184)) (.sub 2185))) (.split 2 (11 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 2186) (.sub 2187)) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 2188) (.split 6 (1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 2189) (.sub 2190)) (.split 3 (19 / 32 : ℚ) (.sub 2191) (.sub 2192)))) (.split 2 (21 / 32 : ℚ) (.sub 2193) (.split 3 (19 / 32 : ℚ) (.sub 2194) (.sub 2195)))) (.split 2 (21 / 32 : ℚ) (.sub 2196) (.sub 2197)))) (.split 3 (9 / 16 : ℚ) (.sub 2198) (.split 2 (21 / 32 : ℚ) (.sub 2199) (.sub 2200)))) (.split 1 (1 / 16 : ℚ) (.sub 2201) (.sub 2202)))) (.sub 2203)) (.sub 2204)) (.sub 2205)) (.sub 2206)) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 2207) (.sub 2208)) (.sub 2209)) (.sub 2210)) (.sub 2211)) (.split 3 (5 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 2212) (.sub 2213)) (.sub 2214)) (.sub 2215))) (.sub 2216)) (.sub 2217)) (.sub 2218)))) (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.sub 2219) (.sub 2220)) (.sub 2221)) (.sub 2222)) (.sub 2223)) (.sub 2224)) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 2225) (.sub 2226)) (.sub 2227)) (.sub 2228)) (.sub 2229)) (.split 3 (5 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 2230) (.sub 2231)) (.split 3 (9 / 16 : ℚ) (.sub 2232) (.sub 2233))) (.sub 2234)) (.sub 2235))) (.sub 2236)) (.sub 2237)) (.sub 2238)))) (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.sub 2239) (.sub 2240)) (.sub 2241)) (.sub 2242)) (.sub 2243)) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.sub 2244) (.sub 2245)) (.sub 2246)) (.sub 2247)) (.sub 2248)))) (.sub 2249)) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.sub 2250) (.split 0 (-3 / 8 : ℚ) (.sub 2251) (.sub 2252))) (.sub 2253)) (.sub 2254)) (.sub 2255)) (.sub 2256)) (.sub 2257))) (.sub 2258)) (.sub 2259))) (.sub 2260))))))) (.split 3 (0 : ℚ) (.split 5 (0 : ℚ) (.split 6 (0 : ℚ) (.sub 2261) (.split 0 (1 / 2 : ℚ) (.sub 2262) (.sub 2263))) (.sub 2264)) (.split 6 (0 : ℚ) (.split 5 (0 : ℚ) (.split 2 (1 / 2 : ℚ) (.split 0 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 2265) (.sub 2266)) (.split 3 (1 / 2 : ℚ) (.sub 2267) (.split 2 (1 / 4 : ℚ) (.sub 2268) (.split 3 (3 / 4 : ℚ) (.sub 2269) (.sub 2270))))) (.split 3 (1 / 2 : ℚ) (.sub 2271) (.sub 2272))) (.split 3 (1 / 2 : ℚ) (.split 0 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.sub 2273) (.sub 2274)) (.sub 2275)) (.split 0 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.sub 2276) (.sub 2277)) (.sub 2278)) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 2279) (.sub 2280)) (.sub 2281)) (.sub 2282)) (.sub 2283)) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2284) (.split 0 (1 / 32 : ℚ) (.split 2 (17 / 32 : ℚ) (.sub 2285) (.sub 2286)) (.split 2 (17 / 32 : ℚ) (.sub 2287) (.split 5 (-13 / 32 : ℚ) (.sub 2288) (.sub 2289))))) (.sub 2290)) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2291) (.sub 2292)) (.sub 2293))) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2294) (.split 2 (19 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2295) (.split 5 (-13 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 2296) (.sub 2297)) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.sub 2298) (.split 2 (73 / 128 : ℚ) (.sub 2299) (.sub 2300))) (.sub 2301)) (.sub 2302)))) (.split 3 (21 / 32 : ℚ) (.sub 2303) (.split 2 (37 / 64 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 2304) (.sub 2305)) (.sub 2306)))) (.sub 2307))) (.sub 2308)) (.split 3 (11 / 16 : ℚ) (.sub 2309) (.sub 2310)))) (.split 2 (9 / 16 : ℚ) (.sub 2311) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2312) (.sub 2313)) (.sub 2314)) (.sub 2315)))) (.split 2 (9 / 16 : ℚ) (.sub 2316) (.sub 2317))) (.sub 2318)) (.sub 2319))) (.sub 2320)) (.sub 2321)) (.sub 2322))) (.sub 2323)))) (.split 2 (1 / 2 : ℚ) (.sub 2324) (.split 3 (1 / 2 : ℚ) (.sub 2325) (.sub 2326)))) (.split 5 (0 : ℚ) (.split 2 (1 / 2 : ℚ) (.split 1 (1 / 2 : ℚ) (.split 0 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.sub 2327) (.sub 2328)) (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.sub 2329) (.sub 2330)) (.sub 2331)) (.sub 2332))) (.split 6 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 0 (1 / 4 : ℚ) (.sub 2333) (.sub 2334)) (.split 1 (1 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 2 (1 / 4 : ℚ) (.sub 2335) (.split 3 (3 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.sub 2336) (.sub 2337)) (.sub 2338)) (.sub 2339)) (.sub 2340))) (.sub 2341)) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.sub 2342) (.sub 2343)) (.sub 2344)) (.sub 2345))) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 2346) (.sub 2347)) (.sub 2348))) (.split 0 (1 / 4 : ℚ) (.sub 2349) (.sub 2350)))) (.split 3 (1 / 2 : ℚ) (.sub 2351) (.sub 2352)))) (.split 3 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.sub 2353) (.sub 2354)) (.split 6 (1 / 2 : ℚ) (.sub 2355) (.sub 2356))) (.sub 2357))) (.split 0 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.sub 2358) (.split 6 (1 / 2 : ℚ) (.sub 2359) (.sub 2360))) (.sub 2361)) (.sub 2362))) (.split 0 (1 / 2 : ℚ) (.split 1 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.sub 2363) (.sub 2364)) (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.sub 2365) (.sub 2366)) (.sub 2367))) (.split 5 (-1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 2368) (.sub 2369)) (.sub 2370)) (.sub 2371)) (.sub 2372)) (.sub 2373)) (.sub 2374)) (.sub 2375)) (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.sub 2376) (.sub 2377)) (.sub 2378)) (.sub 2379)) (.sub 2380)) (.sub 2381)) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2382) (.split 1 (1 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 2 (17 / 32 : ℚ) (.sub 2383) (.split 1 (1 / 64 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2384) (.sub 2385)) (.sub 2386))) (.split 2 (17 / 32 : ℚ) (.sub 2387) (.sub 2388))) (.split 2 (17 / 32 : ℚ) (.sub 2389) (.split 6 (1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2390) (.sub 2391)) (.split 3 (21 / 32 : ℚ) (.sub 2392) (.sub 2393))) (.split 5 (-13 / 32 : ℚ) (.sub 2394) (.sub 2395))))) (.split 0 (1 / 32 : ℚ) (.sub 2396) (.split 2 (17 / 32 : ℚ) (.sub 2397) (.split 5 (-13 / 32 : ℚ) (.sub 2398) (.sub 2399)))))) (.split 2 (17 / 32 : ℚ) (.sub 2400) (.split 5 (-7 / 16 : ℚ) (.sub 2401) (.split 0 (1 / 32 : ℚ) (.sub 2402) (.split 5 (-13 / 32 : ℚ) (.sub 2403) (.sub 2404)))))) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2405) (.sub 2406)) (.sub 2407)) (.sub 2408))) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 2409) (.sub 2410)) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 2 (17 / 32 : ℚ) (.sub 2411) (.sub 2412)) (.sub 2413)) (.sub 2414))) (.sub 2415))) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2416) (.split 0 (1 / 32 : ℚ) (.sub 2417) (.sub 2418))) (.sub 2419)) (.split 3 (11 / 16 : ℚ) (.sub 2420) (.sub 2421)))) (.split 1 (1 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2422) (.split 1 (1 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 2423) (.split 1 (1 / 64 : ℚ) (.sub 2424) (.sub 2425))) (.split 5 (-13 / 32 : ℚ) (.sub 2426) (.sub 2427))) (.split 6 (1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 6 (1 / 64 : ℚ) (.sub 2428) (.sub 2429)) (.sub 2430)) (.sub 2431)) (.split 1 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.sub 2432) (.split 6 (1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 1 (1 / 128 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 2433) (.sub 2434)) (.split 2 (73 / 128 : ℚ) (.sub 2435) (.sub 2436))) (.sub 2437)) (.sub 2438)) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 0 (3 / 128 : ℚ) (.sub 2439) (.sub 2440)) (.sub 2441)) (.sub 2442)))) (.split 0 (1 / 64 : ℚ) (.sub 2443) (.sub 2444))) (.split 0 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 2445) (.sub 2446)) (.sub 2447)) (.sub 2448)) (.split 5 (-25 / 64 : ℚ) (.sub 2449) (.sub 2450))) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 2451) (.sub 2452)) (.sub 2453)) (.sub 2454))))) (.split 5 (-13 / 32 : ℚ) (.sub 2455) (.split 0 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 2456) (.split 6 (3 / 64 : ℚ) (.split 1 (3 / 128 : ℚ) (.sub 2457) (.split 2 (73 / 128 : ℚ) (.sub 2458) (.sub 2459))) (.sub 2460))) (.split 2 (73 / 128 : ℚ) (.sub 2461) (.split 1 (1 / 64 : ℚ) (.sub 2462) (.split 6 (3 / 64 : ℚ) (.split 1 (3 / 128 : ℚ) (.sub 2463) (.split 3 (85 / 128 : ℚ) (.sub 2464) (.sub 2465))) (.sub 2466))))) (.sub 2467)) (.split 5 (-25 / 64 : ℚ) (.sub 2468) (.split 3 (43 / 64 : ℚ) (.sub 2469) (.sub 2470)))) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 2471) (.split 2 (73 / 128 : ℚ) (.sub 2472) (.sub 2473))) (.sub 2474)) (.sub 2475)))))) (.split 3 (21 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.sub 2476) (.sub 2477)) (.split 6 (1 / 32 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 5 (-13 / 32 : ℚ) (.split 6 (1 / 64 : ℚ) (.sub 2478) (.sub 2479)) (.split 6 (1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 2480) (.sub 2481)) (.sub 2482))) (.sub 2483)) (.split 2 (37 / 64 : ℚ) (.sub 2484) (.sub 2485))) (.split 5 (-13 / 32 : ℚ) (.sub 2486) (.split 2 (37 / 64 : ℚ) (.sub 2487) (.sub 2488)))))) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2489) (.split 5 (-13 / 32 : ℚ) (.sub 2490) (.split 2 (37 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.sub 2491) (.split 6 (1 / 32 : ℚ) (.sub 2492) (.split 1 (3 / 64 : ℚ) (.split 6 (3 / 64 : ℚ) (.sub 2493) (.sub 2494)) (.sub 2495)))) (.sub 2496)) (.split 3 (43 / 64 : ℚ) (.sub 2497) (.sub 2498))) (.split 0 (1 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.sub 2499) (.sub 2500)) (.sub 2501))))) (.split 3 (21 / 32 : ℚ) (.sub 2502) (.sub 2503))))) (.split 1 (1 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2504) (.sub 2505)) (.sub 2506))) (.sub 2507)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2508) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2509) (.split 1 (1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 2510) (.split 0 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 2511) (.sub 2512)) (.sub 2513))) (.split 5 (-13 / 32 : ℚ) (.sub 2514) (.split 0 (1 / 64 : ℚ) (.split 6 (3 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 1 (3 / 64 : ℚ) (.sub 2515) (.sub 2516)) (.sub 2517)) (.sub 2518)) (.split 6 (3 / 32 : ℚ) (.split 1 (3 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 2519) (.sub 2520)) (.sub 2521)) (.sub 2522)))))) (.split 3 (21 / 32 : ℚ) (.sub 2523) (.sub 2524)))) (.sub 2525)) (.sub 2526))) (.split 6 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 2527) (.sub 2528)) (.sub 2529))) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2530) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2531) (.sub 2532)) (.sub 2533))) (.sub 2534)) (.sub 2535)) (.sub 2536)))) (.split 2 (9 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 2537) (.sub 2538)) (.sub 2539)) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2540) (.sub 2541)) (.split 3 (21 / 32 : ℚ) (.sub 2542) (.sub 2543))) (.sub 2544)) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2545) (.sub 2546)) (.sub 2547))) (.sub 2548)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2549) (.split 1 (1 / 32 : ℚ) (.sub 2550) (.split 6 (3 / 32 : ℚ) (.split 1 (3 / 64 : ℚ) (.sub 2551) (.sub 2552)) (.sub 2553)))) (.sub 2554)) (.sub 2555))) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2556) (.sub 2557)) (.sub 2558)) (.sub 2559))))) (.split 1 (1 / 16 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 2560) (.sub 2561)) (.sub 2562))) (.sub 2563))) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 2564) (.sub 2565)) (.sub 2566)) (.sub 2567)) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.sub 2568) (.sub 2569)) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 2570) (.sub 2571)) (.sub 2572))) (.split 2 (9 / 16 : ℚ) (.sub 2573) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 2574) (.sub 2575)) (.sub 2576)))) (.sub 2577)) (.sub 2578)))) (.sub 2579)) (.split 0 (1 / 4 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 2580) (.sub 2581)) (.sub 2582)) (.sub 2583)) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 2584) (.sub 2585)) (.split 2 (9 / 16 : ℚ) (.sub 2586) (.sub 2587))) (.sub 2588)) (.sub 2589))) (.sub 2590))) (.split 1 (1 / 8 : ℚ) (.sub 2591) (.sub 2592))) (.sub 2593)) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 2594) (.split 5 (-3 / 8 : ℚ) (.sub 2595) (.sub 2596))) (.sub 2597)) (.split 3 (5 / 8 : ℚ) (.sub 2598) (.sub 2599))) (.sub 2600)) (.sub 2601)) (.sub 2602))) (.sub 2603)) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 2604) (.sub 2605)) (.sub 2606)) (.sub 2607)) (.sub 2608)) (.sub 2609)) (.sub 2610)) (.sub 2611))) (.sub 2612)))) (.sub 2613)) (.sub 2614))) (.split 2 (1 / 2 : ℚ) (.split 1 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 2615) (.sub 2616)) (.split 3 (1 / 2 : ℚ) (.sub 2617) (.sub 2618))) (.split 3 (1 / 2 : ℚ) (.sub 2619) (.sub 2620))) (.split 1 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 2621) (.split 1 (1 / 4 : ℚ) (.sub 2622) (.sub 2623))) (.split 3 (1 / 2 : ℚ) (.sub 2624) (.sub 2625))) (.sub 2626))))))))
+set_option maxHeartbeats 0 in
+def topBoxList : List ((Fin 7 → ℚ) × (Fin 7 → ℚ)) := [
+  (![(-1 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (-1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (-1 / 2 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (-1 / 2 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (-1 / 2 : ℚ)]),
+  (![(-1 : ℚ), (-1 / 2 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ)], ![(0 : ℚ), (-1 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ)], ![(-1 / 2 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 2 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (-1 / 4 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 4 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(-1 / 4 : ℚ), (-1 / 8 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (-1 / 8 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (-1 / 8 : ℚ)], ![(-3 / 8 : ℚ), (-1 / 16 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 16 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (-1 / 8 : ℚ)], ![(-3 / 8 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 8 : ℚ), (11 / 16 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (-1 / 8 : ℚ)], ![(-3 / 8 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-3 / 8 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (-1 / 8 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (-1 / 8 : ℚ), (0 : ℚ)]),
+  (![(-3 / 8 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 8 : ℚ), (-1 / 8 : ℚ)], ![(-1 / 4 : ℚ), (-1 / 16 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-3 / 8 : ℚ), (-1 / 16 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 8 : ℚ), (-1 / 8 : ℚ)], ![(-5 / 16 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (9 / 16 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-3 / 8 : ℚ), (-1 / 16 : ℚ), (5 / 8 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (-1 / 8 : ℚ), (-1 / 8 : ℚ)], ![(-5 / 16 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (-1 / 16 : ℚ), (0 : ℚ)]),
+  (![(-3 / 8 : ℚ), (-1 / 16 : ℚ), (5 / 8 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (-1 / 16 : ℚ), (-1 / 8 : ℚ)], ![(-5 / 16 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (-1 / 16 : ℚ)]),
+  (![(-3 / 8 : ℚ), (-1 / 16 : ℚ), (5 / 8 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (-1 / 16 : ℚ), (-1 / 16 : ℚ)], ![(-5 / 16 : ℚ), (0 : ℚ), (21 / 32 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-3 / 8 : ℚ), (-1 / 16 : ℚ), (21 / 32 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (-1 / 16 : ℚ), (-1 / 16 : ℚ)], ![(-5 / 16 : ℚ), (-1 / 32 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-3 / 8 : ℚ), (-1 / 32 : ℚ), (21 / 32 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (-1 / 16 : ℚ), (-1 / 16 : ℚ)], ![(-5 / 16 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-5 / 16 : ℚ), (-1 / 16 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 8 : ℚ), (-1 / 8 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-3 / 8 : ℚ), (-1 / 8 : ℚ), (11 / 16 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 8 : ℚ), (-1 / 8 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 2 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 2 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (-1 / 4 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (-1 / 8 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (-1 / 8 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 8 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (-1 / 8 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(-1 / 8 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 8 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(0 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(-1 / 8 : ℚ), (-1 / 8 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(0 : ℚ), (-1 / 16 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(-1 / 8 : ℚ), (-1 / 16 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (-1 / 16 : ℚ)]),
+  (![(-1 / 8 : ℚ), (-1 / 16 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 16 : ℚ)], ![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(-1 / 8 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (-1 / 8 : ℚ)], ![(0 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 8 : ℚ), (-1 / 8 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (-1 / 8 : ℚ)], ![(0 : ℚ), (-1 / 16 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 8 : ℚ), (-1 / 16 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (-1 / 8 : ℚ)], ![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (-1 / 16 : ℚ)]),
+  (![(-1 / 8 : ℚ), (-1 / 16 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (-1 / 16 : ℚ)], ![(-1 / 16 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 16 : ℚ), (-1 / 16 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (-1 / 16 : ℚ)], ![(0 : ℚ), (-1 / 32 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 16 : ℚ), (-1 / 32 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (-1 / 16 : ℚ)], ![(0 : ℚ), (0 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (-1 / 32 : ℚ)]),
+  (![(-1 / 16 : ℚ), (-1 / 32 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (-1 / 32 : ℚ)], ![(0 : ℚ), (0 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 16 : ℚ), (-1 / 16 : ℚ), (19 / 32 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (-1 / 16 : ℚ)], ![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 16 : ℚ), (-1 / 16 : ℚ), (9 / 16 : ℚ), (11 / 16 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (-1 / 16 : ℚ)], ![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 4 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (-1 / 2 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (-1 / 4 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 4 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (-1 / 4 : ℚ), (3 / 4 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(-1 / 2 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (-1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 2 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 2 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 2 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 2 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 2 : ℚ)], ![(0 : ℚ), (-1 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 2 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 4 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (-1 / 8 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 4 : ℚ)], ![(-3 / 8 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (-1 / 8 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 8 : ℚ)], ![(-3 / 8 : ℚ), (-1 / 16 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 16 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 8 : ℚ)], ![(-7 / 16 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (0 : ℚ)]),
+  (![(-7 / 16 : ℚ), (-1 / 16 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 8 : ℚ)], ![(-3 / 8 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (9 / 16 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (0 : ℚ)]),
+  (![(-7 / 16 : ℚ), (-1 / 16 : ℚ), (5 / 8 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 8 : ℚ)], ![(-3 / 8 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (-1 / 16 : ℚ)]),
+  (![(-7 / 16 : ℚ), (-1 / 16 : ℚ), (5 / 8 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 16 : ℚ)], ![(-3 / 8 : ℚ), (-1 / 32 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (0 : ℚ)]),
+  (![(-7 / 16 : ℚ), (-1 / 32 : ℚ), (5 / 8 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 16 : ℚ)], ![(-3 / 8 : ℚ), (0 : ℚ), (21 / 32 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (0 : ℚ)]),
+  (![(-7 / 16 : ℚ), (-1 / 32 : ℚ), (21 / 32 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 16 : ℚ)], ![(-13 / 32 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 16 : ℚ), (0 : ℚ)]),
+  (![(-13 / 32 : ℚ), (-1 / 32 : ℚ), (21 / 32 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 16 : ℚ)], ![(-3 / 8 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 16 : ℚ), (-1 / 32 : ℚ)]),
+  (![(-13 / 32 : ℚ), (-1 / 32 : ℚ), (21 / 32 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 32 : ℚ)], ![(-3 / 8 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 16 : ℚ), (0 : ℚ)]),
+  (![(-7 / 16 : ℚ), (-1 / 32 : ℚ), (21 / 32 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (1 / 16 : ℚ), (-1 / 16 : ℚ)], ![(-3 / 8 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 8 : ℚ), (11 / 16 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 8 : ℚ)], ![(-3 / 8 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (1 / 8 : ℚ), (-1 / 4 : ℚ)], ![(-3 / 8 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-3 / 8 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 4 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (1 / 4 : ℚ), (-1 / 4 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 4 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 2 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 / 4 : ℚ), (3 / 4 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 / 2 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(-1 / 2 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 2 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (-1 : ℚ), (3 / 4 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(-1 / 2 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ)]),
+  (![(-1 / 4 : ℚ), (-1 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (-1 : ℚ), (3 / 4 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(1 : ℚ), (0 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(1 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(1 : ℚ), (-1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 2 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 2 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 2 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (-1 / 2 : ℚ)]),
+  (![(0 : ℚ), (-1 / 2 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 2 : ℚ)], ![(1 / 2 : ℚ), (-1 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 2 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (-1 / 4 : ℚ)]),
+  (![(0 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(1 / 2 : ℚ), (-1 / 8 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (-1 / 8 : ℚ)]),
+  (![(0 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(1 / 8 : ℚ), (-1 / 16 : ℚ), (9 / 16 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 16 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(1 / 16 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(1 / 16 : ℚ), (-1 / 16 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(1 / 8 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 8 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(1 / 8 : ℚ), (-1 / 16 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 16 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(1 / 16 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (-1 / 16 : ℚ)]),
+  (![(0 : ℚ), (-1 / 16 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 16 : ℚ)], ![(1 / 16 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-7 / 16 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 16 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-7 / 16 : ℚ), (-1 / 16 : ℚ)], ![(1 / 16 : ℚ), (-1 / 32 : ℚ), (5 / 8 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 32 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-7 / 16 : ℚ), (-1 / 16 : ℚ)], ![(1 / 32 : ℚ), (0 : ℚ), (19 / 32 : ℚ), (21 / 32 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 32 : ℚ), (9 / 16 : ℚ), (21 / 32 : ℚ), (-1 : ℚ), (-7 / 16 : ℚ), (-1 / 16 : ℚ)], ![(1 / 32 : ℚ), (0 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (-1 / 32 : ℚ)]),
+  (![(0 : ℚ), (-1 / 32 : ℚ), (9 / 16 : ℚ), (21 / 32 : ℚ), (-1 : ℚ), (-7 / 16 : ℚ), (-1 / 32 : ℚ)], ![(1 / 32 : ℚ), (0 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(1 / 32 : ℚ), (-1 / 32 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-7 / 16 : ℚ), (-1 / 16 : ℚ)], ![(1 / 16 : ℚ), (0 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 32 : ℚ), (19 / 32 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-7 / 16 : ℚ), (-1 / 16 : ℚ)], ![(1 / 16 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 16 : ℚ), (9 / 16 : ℚ), (11 / 16 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 16 : ℚ)], ![(1 / 16 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(1 / 16 : ℚ), (-1 / 16 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(1 / 8 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (-1 / 8 : ℚ)], ![(1 / 8 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(1 / 8 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(1 / 4 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (-1 / 8 : ℚ)], ![(1 / 4 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(1 / 4 : ℚ), (-1 / 8 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 8 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 4 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 / 4 : ℚ), (3 / 4 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 / 2 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(1 / 2 : ℚ), (-1 / 2 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(1 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(1 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(1 : ℚ), (0 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(1 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 2 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 8 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)], ![(1 / 8 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 : ℚ)]),
+  (![(1 / 8 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 4 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)], ![(1 / 4 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(1 / 4 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (3 / 4 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(1 / 2 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(1 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(1 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(-1 / 2 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(-1 / 4 : ℚ), (1 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(-1 / 4 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(-1 / 4 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(-1 / 4 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(-1 / 2 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 2 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 2 : ℚ), (1 / 2 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (1 / 4 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)], ![(-3 / 8 : ℚ), (1 / 8 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)], ![(-3 / 8 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 8 : ℚ)]),
+  (![(-3 / 8 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (-1 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(-3 / 8 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 8 : ℚ), (0 : ℚ)], ![(-5 / 16 : ℚ), (1 / 16 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (-1 / 16 : ℚ), (1 / 8 : ℚ)]),
+  (![(-3 / 8 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 16 : ℚ), (0 : ℚ)], ![(-5 / 16 : ℚ), (1 / 16 : ℚ), (11 / 16 : ℚ), (9 / 16 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 8 : ℚ)]),
+  (![(-3 / 8 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (-1 / 16 : ℚ), (0 : ℚ)], ![(-5 / 16 : ℚ), (1 / 16 : ℚ), (21 / 32 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 16 : ℚ)]),
+  (![(-3 / 8 : ℚ), (0 : ℚ), (21 / 32 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (-1 / 16 : ℚ), (0 : ℚ)], ![(-5 / 16 : ℚ), (1 / 32 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 16 : ℚ)]),
+  (![(-3 / 8 : ℚ), (1 / 32 : ℚ), (21 / 32 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (-1 / 16 : ℚ), (0 : ℚ)], ![(-5 / 16 : ℚ), (1 / 16 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 16 : ℚ)]),
+  (![(-3 / 8 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (-1 / 16 : ℚ), (1 / 16 : ℚ)], ![(-5 / 16 : ℚ), (1 / 16 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 8 : ℚ)]),
+  (![(-5 / 16 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 8 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (1 / 16 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 8 : ℚ)]),
+  (![(-3 / 8 : ℚ), (1 / 16 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 8 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (1 / 8 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 8 : ℚ)]),
+  (![(-3 / 8 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 8 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (1 / 8 : ℚ)], ![(-1 / 4 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 2 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (1 / 4 : ℚ)], ![(-1 / 4 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 2 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 2 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(-1 / 8 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 8 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 8 : ℚ), (9 / 16 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 8 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 16 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 16 : ℚ)]),
+  (![(-1 / 8 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (1 / 16 : ℚ)], ![(0 : ℚ), (1 / 16 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 8 : ℚ), (1 / 16 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 8 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 8 : ℚ), (9 / 16 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 8 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)], ![(-1 / 16 : ℚ), (1 / 16 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 16 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 32 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 32 : ℚ)]),
+  (![(-1 / 16 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (1 / 32 : ℚ)], ![(0 : ℚ), (1 / 32 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 16 : ℚ)]),
+  (![(-1 / 16 : ℚ), (1 / 32 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 16 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 16 : ℚ)]),
+  (![(-1 / 16 : ℚ), (0 : ℚ), (19 / 32 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 16 : ℚ), (5 / 8 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 16 : ℚ)]),
+  (![(-1 / 16 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (1 / 16 : ℚ)], ![(0 : ℚ), (1 / 16 : ℚ), (5 / 8 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 16 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (11 / 16 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 16 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 8 : ℚ), (1 / 16 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (1 / 8 : ℚ)], ![(0 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (1 / 8 : ℚ)], ![(-1 / 8 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 8 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (1 / 8 : ℚ)], ![(0 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 4 : ℚ), (1 / 8 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 4 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (1 / 4 : ℚ)], ![(0 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 2 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 4 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (1 / 4 : ℚ)], ![(0 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 2 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 2 : ℚ)]),
+  (![(-1 : ℚ), (1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 2 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (1 / 2 : ℚ)], ![(0 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(-1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(-1 / 4 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (0 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(-1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(-7 / 16 : ℚ), (1 / 16 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(-7 / 16 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(-3 / 8 : ℚ), (1 / 16 : ℚ), (11 / 16 : ℚ), (9 / 16 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(-7 / 16 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(-3 / 8 : ℚ), (1 / 32 : ℚ), (21 / 32 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (1 / 16 : ℚ)]),
+  (![(-7 / 16 : ℚ), (0 : ℚ), (21 / 32 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(-13 / 32 : ℚ), (1 / 32 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 16 : ℚ), (1 / 16 : ℚ)]),
+  (![(-13 / 32 : ℚ), (0 : ℚ), (21 / 32 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(-3 / 8 : ℚ), (1 / 32 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 16 : ℚ), (1 / 32 : ℚ)]),
+  (![(-13 / 32 : ℚ), (0 : ℚ), (21 / 32 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (0 : ℚ), (1 / 32 : ℚ)], ![(-3 / 8 : ℚ), (1 / 32 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 16 : ℚ), (1 / 16 : ℚ)]),
+  (![(-7 / 16 : ℚ), (0 : ℚ), (21 / 32 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (1 / 16 : ℚ), (0 : ℚ)], ![(-3 / 8 : ℚ), (1 / 32 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (1 / 16 : ℚ)]),
+  (![(-7 / 16 : ℚ), (1 / 32 : ℚ), (5 / 8 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(-3 / 8 : ℚ), (1 / 16 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (1 / 16 : ℚ)]),
+  (![(-7 / 16 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (9 / 16 : ℚ), (-1 : ℚ), (0 : ℚ), (1 / 16 : ℚ)], ![(-3 / 8 : ℚ), (1 / 16 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 2 : ℚ), (1 / 16 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(-3 / 8 : ℚ), (1 / 8 : ℚ), (11 / 16 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (11 / 16 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(-3 / 8 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (1 / 8 : ℚ), (0 : ℚ)], ![(-3 / 8 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 4 : ℚ), (1 / 8 : ℚ)]),
+  (![(-3 / 8 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 4 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (1 / 4 : ℚ), (0 : ℚ)], ![(-1 / 4 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 4 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (1 / 2 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (1 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 / 8 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (1 / 8 : ℚ)], ![(0 : ℚ), (1 / 8 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 2 : ℚ), (1 / 8 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 / 4 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (1 / 4 : ℚ)], ![(0 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 / 2 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 / 2 : ℚ)]),
+  (![(-1 / 2 : ℚ), (1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 / 2 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 / 2 : ℚ)]),
+  (![(-1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (0 : ℚ), (1 / 2 : ℚ)], ![(0 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(-1 / 2 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(1 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(1 : ℚ), (1 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(1 / 2 : ℚ), (1 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(1 / 8 : ℚ), (1 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(1 / 8 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(1 / 4 : ℚ), (1 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (-1 : ℚ)], ![(1 / 4 : ℚ), (1 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(1 / 2 : ℚ), (1 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(1 / 2 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(1 / 2 : ℚ), (1 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (-1 : ℚ)], ![(1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (-1 : ℚ)], ![(1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (-1 : ℚ)], ![(1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(1 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(1 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (-1 / 2 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 4 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (5 / 8 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 8 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 16 : ℚ), (1 / 16 : ℚ), (9 / 16 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(1 / 16 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 8 : ℚ), (1 / 16 : ℚ), (9 / 16 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(0 : ℚ), (1 / 16 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 8 : ℚ), (1 / 8 : ℚ), (9 / 16 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 16 : ℚ), (1 / 16 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-7 / 16 : ℚ), (1 / 16 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-7 / 16 : ℚ), (0 : ℚ)], ![(1 / 32 : ℚ), (1 / 32 : ℚ), (19 / 32 : ℚ), (21 / 32 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 16 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (21 / 32 : ℚ), (-1 : ℚ), (-7 / 16 : ℚ), (0 : ℚ)], ![(1 / 32 : ℚ), (1 / 32 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 32 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (21 / 32 : ℚ), (-1 : ℚ), (-7 / 16 : ℚ), (1 / 32 : ℚ)], ![(1 / 32 : ℚ), (1 / 32 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 16 : ℚ)]),
+  (![(1 / 32 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-7 / 16 : ℚ), (0 : ℚ)], ![(1 / 16 : ℚ), (1 / 32 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 16 : ℚ)]),
+  (![(0 : ℚ), (1 / 32 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-7 / 16 : ℚ), (0 : ℚ)], ![(1 / 16 : ℚ), (1 / 16 : ℚ), (19 / 32 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 16 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (19 / 32 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 16 : ℚ), (1 / 16 : ℚ), (5 / 8 : ℚ), (11 / 16 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 16 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (11 / 16 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 16 : ℚ), (1 / 16 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 16 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (1 / 16 : ℚ)], ![(1 / 16 : ℚ), (1 / 16 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(1 / 16 : ℚ), (0 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 8 : ℚ), (1 / 16 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(0 : ℚ), (1 / 16 : ℚ), (9 / 16 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 8 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-3 / 8 : ℚ), (1 / 8 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-3 / 8 : ℚ), (0 : ℚ)], ![(1 / 8 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 8 : ℚ)]),
+  (![(1 / 8 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 4 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (-1 / 4 : ℚ), (1 / 8 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (5 / 8 : ℚ), (-1 : ℚ), (-1 / 4 : ℚ), (0 : ℚ)], ![(1 / 4 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 8 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (1 / 8 : ℚ)], ![(1 / 4 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 4 : ℚ)]),
+  (![(1 / 4 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (1 / 8 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 4 : ℚ)]),
+  (![(0 : ℚ), (1 / 8 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (1 / 4 : ℚ), (5 / 8 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 4 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (5 / 8 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 4 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (3 / 4 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 4 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (1 / 4 : ℚ)], ![(1 / 2 : ℚ), (1 / 4 : ℚ), (3 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 2 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (3 / 4 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (1 / 4 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 2 : ℚ)]),
+  (![(0 : ℚ), (1 / 4 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 / 2 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (-1 : ℚ), (-1 / 2 : ℚ), (1 / 2 : ℚ)], ![(1 / 2 : ℚ), (1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (1 / 2 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(1 / 2 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(1 / 2 : ℚ), (0 : ℚ), (1 / 2 : ℚ), (0 : ℚ), (-1 : ℚ), (-1 : ℚ), (0 : ℚ)], ![(1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (0 : ℚ), (1 : ℚ)]),
+  (![(0 : ℚ), (0 : ℚ), (0 : ℚ), (0 : ℚ), (-1 : ℚ), (0 : ℚ), (0 : ℚ)], ![(1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ), (1 : ℚ)])
+]
+
+def topBoxes (i : ℕ) : (Fin 7 → ℚ) × (Fin 7 → ℚ) := topBoxList.getD i (fun _ => 1, fun _ => 0)
+
+set_option maxRecDepth 100000 in
+theorem topBoxList_length : topBoxList.length = 315 := by decide +kernel
+
+set_option maxRecDepth 100000 in
+def skelTop : Skel := (.split 1 (0 : ℚ) (.split 0 (0 : ℚ) (.split 6 (0 : ℚ) (.split 5 (0 : ℚ) (.split 3 (0 : ℚ) (.sub 0) (.split 2 (1 / 2 : ℚ) (.sub 1) (.split 1 (-1 / 2 : ℚ) (.sub 2) (.split 3 (1 / 2 : ℚ) (.sub 3) (.split 6 (-1 / 2 : ℚ) (.sub 4) (.split 1 (-1 / 4 : ℚ) (.sub 5) (.split 2 (3 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 6) (.split 5 (-1 / 2 : ℚ) (.sub 7) (.split 0 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.sub 8) (.split 2 (5 / 8 : ℚ) (.sub 9) (.split 1 (-1 / 8 : ℚ) (.sub 10) (.split 3 (5 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.sub 11) (.split 5 (-1 / 4 : ℚ) (.sub 12) (.split 0 (-3 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 13) (.sub 14)) (.sub 15)) (.split 5 (-1 / 8 : ℚ) (.sub 16) (.split 2 (11 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 17) (.split 0 (-5 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 18) (.split 5 (-1 / 16 : ℚ) (.sub 19) (.split 6 (-1 / 16 : ℚ) (.sub 20) (.split 2 (21 / 32 : ℚ) (.sub 21) (.split 1 (-1 / 32 : ℚ) (.sub 22) (.sub 23)))))) (.sub 24))) (.sub 25)))))) (.sub 26))))) (.sub 27)) (.split 5 (-1 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.sub 28) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 1 (-1 / 8 : ℚ) (.sub 29) (.split 6 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 30) (.split 2 (9 / 16 : ℚ) (.sub 31) (.sub 32))) (.split 3 (5 / 8 : ℚ) (.sub 33) (.split 0 (-1 / 8 : ℚ) (.sub 34) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 35) (.split 1 (-1 / 16 : ℚ) (.sub 36) (.split 6 (-1 / 16 : ℚ) (.sub 37) (.sub 38)))) (.split 2 (9 / 16 : ℚ) (.sub 39) (.split 1 (-1 / 16 : ℚ) (.sub 40) (.split 6 (-1 / 16 : ℚ) (.sub 41) (.split 0 (-1 / 16 : ℚ) (.sub 42) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 1 (-1 / 32 : ℚ) (.sub 43) (.split 6 (-1 / 32 : ℚ) (.sub 44) (.sub 45))) (.sub 46)) (.sub 47))))))))))) (.sub 48)) (.sub 49))) (.split 6 (-1 / 4 : ℚ) (.sub 50) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 51) (.sub 52)) (.sub 53))))))) (.sub 54)))))))) (.split 3 (0 : ℚ) (.sub 55) (.split 2 (1 / 2 : ℚ) (.sub 56) (.split 0 (-1 / 2 : ℚ) (.sub 57) (.split 1 (-1 / 2 : ℚ) (.sub 58) (.split 3 (1 / 2 : ℚ) (.sub 59) (.split 6 (-1 / 2 : ℚ) (.sub 60) (.split 1 (-1 / 4 : ℚ) (.sub 61) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.sub 62) (.split 1 (-1 / 8 : ℚ) (.sub 63) (.split 2 (5 / 8 : ℚ) (.sub 64) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.sub 65) (.split 2 (11 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 66) (.split 0 (-7 / 16 : ℚ) (.sub 67) (.split 3 (9 / 16 : ℚ) (.sub 68) (.split 6 (-1 / 16 : ℚ) (.sub 69) (.split 1 (-1 / 32 : ℚ) (.sub 70) (.split 2 (21 / 32 : ℚ) (.sub 71) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 72) (.split 6 (-1 / 32 : ℚ) (.sub 73) (.sub 74))) (.sub 75)))))))) (.sub 76))) (.sub 77)) (.sub 78)) (.sub 79)) (.sub 80)) (.sub 81)) (.sub 82))))) (.sub 83)) (.sub 84)))))))))) (.split 5 (0 : ℚ) (.split 3 (0 : ℚ) (.sub 85) (.split 2 (1 / 2 : ℚ) (.sub 86) (.split 3 (1 / 2 : ℚ) (.sub 87) (.split 2 (3 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 88) (.split 5 (-1 / 2 : ℚ) (.sub 89) (.split 0 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 90) (.split 3 (5 / 8 : ℚ) (.sub 91) (.sub 92))) (.sub 93)) (.split 5 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 94) (.sub 95)) (.sub 96)) (.sub 97))))) (.sub 98))))) (.split 3 (0 : ℚ) (.sub 99) (.split 2 (1 / 2 : ℚ) (.sub 100) (.split 0 (-1 / 2 : ℚ) (.sub 101) (.split 3 (1 / 2 : ℚ) (.sub 102) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 103) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.sub 104) (.sub 105)) (.sub 106)) (.sub 107))) (.sub 108)) (.sub 109)))))))) (.split 6 (0 : ℚ) (.split 5 (0 : ℚ) (.split 3 (0 : ℚ) (.sub 110) (.split 2 (1 / 2 : ℚ) (.split 0 (1 / 2 : ℚ) (.sub 111) (.sub 112)) (.split 1 (-1 / 2 : ℚ) (.sub 113) (.split 0 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 114) (.split 5 (-1 / 2 : ℚ) (.sub 115) (.split 6 (-1 / 2 : ℚ) (.sub 116) (.split 1 (-1 / 4 : ℚ) (.sub 117) (.split 2 (3 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.sub 118) (.split 3 (3 / 4 : ℚ) (.split 1 (-1 / 8 : ℚ) (.sub 119) (.split 2 (5 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.sub 120) (.split 3 (5 / 8 : ℚ) (.sub 121) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 122) (.split 0 (1 / 16 : ℚ) (.sub 123) (.sub 124))) (.split 1 (-1 / 16 : ℚ) (.sub 125) (.split 0 (1 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.sub 126) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 127) (.split 1 (-1 / 32 : ℚ) (.sub 128) (.split 2 (19 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 129) (.split 6 (-1 / 32 : ℚ) (.sub 130) (.sub 131))) (.sub 132)) (.sub 133)))) (.sub 134))) (.sub 135)))) (.sub 136)) (.sub 137)) (.sub 138)) (.sub 139)))) (.sub 140))) (.sub 141))) (.sub 142)))))) (.sub 143))))) (.sub 144)) (.split 3 (0 : ℚ) (.sub 145) (.split 5 (0 : ℚ) (.split 2 (1 / 2 : ℚ) (.sub 146) (.split 0 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 147) (.split 5 (-1 / 2 : ℚ) (.sub 148) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 149) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 150) (.sub 151)) (.sub 152)) (.sub 153)) (.sub 154))) (.sub 155)) (.sub 156)) (.sub 157)))) (.sub 158))) (.sub 159))))) (.split 0 (0 : ℚ) (.split 5 (0 : ℚ) (.split 3 (0 : ℚ) (.sub 160) (.split 6 (0 : ℚ) (.split 2 (1 / 2 : ℚ) (.sub 161) (.split 3 (1 / 2 : ℚ) (.sub 162) (.split 2 (3 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 163) (.split 5 (-1 / 2 : ℚ) (.sub 164) (.split 0 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 165) (.split 3 (5 / 8 : ℚ) (.sub 166) (.sub 167))) (.sub 168)) (.split 5 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 169) (.sub 170)) (.sub 171)) (.sub 172))))) (.sub 173)))) (.split 2 (1 / 2 : ℚ) (.sub 174) (.split 1 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 175) (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 176) (.split 5 (-1 / 2 : ℚ) (.sub 177) (.split 0 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 178) (.split 1 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 179) (.split 0 (-3 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.sub 180) (.sub 181)) (.split 5 (-1 / 8 : ℚ) (.sub 182) (.split 2 (11 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.split 5 (-1 / 16 : ℚ) (.sub 183) (.split 3 (9 / 16 : ℚ) (.sub 184) (.split 6 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 185) (.split 1 (1 / 32 : ℚ) (.sub 186) (.sub 187))) (.sub 188)))) (.sub 189)) (.sub 190)) (.sub 191))))) (.sub 192)) (.sub 193)) (.sub 194))) (.sub 195)) (.sub 196)) (.split 5 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 197) (.split 0 (-1 / 8 : ℚ) (.sub 198) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 199) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 200) (.sub 201)) (.sub 202))) (.split 2 (9 / 16 : ℚ) (.sub 203) (.split 1 (1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.sub 204) (.split 3 (11 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.sub 205) (.sub 206)) (.sub 207)) (.sub 208)) (.sub 209)) (.sub 210))) (.sub 211)))))) (.split 3 (5 / 8 : ℚ) (.sub 212) (.split 0 (-1 / 8 : ℚ) (.sub 213) (.sub 214)))) (.sub 215)) (.sub 216)) (.sub 217)) (.sub 218)) (.split 6 (1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 219) (.sub 220)) (.sub 221)) (.sub 222)))))) (.sub 223)) (.sub 224)) (.sub 225))) (.sub 226))))) (.split 3 (0 : ℚ) (.sub 227) (.split 6 (0 : ℚ) (.split 2 (1 / 2 : ℚ) (.sub 228) (.split 0 (-1 / 2 : ℚ) (.sub 229) (.split 3 (1 / 2 : ℚ) (.sub 230) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 231) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.sub 232) (.sub 233)) (.sub 234)) (.sub 235))) (.sub 236)) (.sub 237))))) (.split 2 (1 / 2 : ℚ) (.sub 238) (.split 0 (-1 / 2 : ℚ) (.sub 239) (.split 1 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 240) (.split 6 (1 / 2 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 241) (.split 6 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 0 (-7 / 16 : ℚ) (.sub 242) (.split 3 (9 / 16 : ℚ) (.sub 243) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 244) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 245) (.split 6 (1 / 32 : ℚ) (.sub 246) (.sub 247))) (.sub 248))) (.sub 249)) (.sub 250)))) (.sub 251)) (.sub 252)) (.sub 253)) (.sub 254)) (.sub 255)) (.sub 256)) (.sub 257)) (.sub 258)) (.sub 259))) (.sub 260)) (.sub 261)) (.sub 262)) (.sub 263)) (.sub 264)) (.sub 265))) (.sub 266))))))) (.split 3 (0 : ℚ) (.sub 267) (.split 6 (0 : ℚ) (.split 5 (0 : ℚ) (.split 2 (1 / 2 : ℚ) (.sub 268) (.split 3 (1 / 2 : ℚ) (.sub 269) (.split 0 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.sub 270) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 271) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.sub 272) (.sub 273)) (.sub 274)) (.sub 275))) (.sub 276)) (.sub 277)) (.sub 278))) (.sub 279)))) (.sub 280)) (.split 5 (0 : ℚ) (.split 2 (1 / 2 : ℚ) (.split 1 (1 / 2 : ℚ) (.sub 281) (.sub 282)) (.split 0 (1 / 2 : ℚ) (.split 1 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 283) (.split 5 (-1 / 2 : ℚ) (.sub 284) (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 285) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.sub 286) (.sub 287)) (.sub 288)) (.split 1 (1 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 289) (.split 1 (1 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 290) (.split 6 (1 / 32 : ℚ) (.sub 291) (.sub 292))) (.sub 293)) (.sub 294))) (.sub 295)) (.sub 296)) (.sub 297)) (.sub 298)) (.sub 299))) (.sub 300)) (.sub 301)) (.sub 302))) (.sub 303)) (.sub 304)) (.sub 305)) (.sub 306)) (.sub 307)) (.sub 308)) (.sub 309)) (.sub 310)) (.sub 311)))) (.sub 312)) (.sub 313))) (.sub 314))))))
 
 set_option maxRecDepth 100000 in
 set_option maxHeartbeats 0 in
-theorem skel_ok : skel.check boxes rootLo rootHi = true := by decide +kernel
+theorem skelTop_ok : skelTop.check topBoxes rootLo rootHi = true := by decide +kernel
+
+def skp0 : Skel := (.sub 0)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp0_ok : skp0.check boxes (topBoxes 0).1 (topBoxes 0).2 = true := by
+  decide +kernel
+
+def skp1 : Skel := (.split 1 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1) (.sub 2)) (.split 3 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 3) (.sub 4)) (.split 6 (-1 / 2 : ℚ) (.sub 5) (.split 1 (-1 / 4 : ℚ) (.sub 6) (.split 0 (-1 / 2 : ℚ) (.sub 7) (.split 6 (-1 / 4 : ℚ) (.sub 8) (.split 5 (-1 / 2 : ℚ) (.sub 9) (.split 0 (-1 / 4 : ℚ) (.sub 10) (.split 5 (-1 / 4 : ℚ) (.sub 11) (.sub 12))))))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp1_ok : skp1.check boxes (topBoxes 1).1 (topBoxes 1).2 = true := by
+  decide +kernel
+
+def skp2 : Skel := (.split 3 (1 / 2 : ℚ) (.sub 13) (.sub 14))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp2_ok : skp2.check boxes (topBoxes 2).1 (topBoxes 2).2 = true := by
+  decide +kernel
+
+def skp3 : Skel := (.split 6 (-1 / 2 : ℚ) (.sub 15) (.split 1 (-1 / 4 : ℚ) (.sub 16) (.split 0 (-1 / 2 : ℚ) (.sub 17) (.split 5 (-1 / 2 : ℚ) (.sub 18) (.split 0 (-1 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.sub 19) (.sub 20)) (.split 6 (-1 / 4 : ℚ) (.sub 21) (.sub 22)))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp3_ok : skp3.check boxes (topBoxes 3).1 (topBoxes 3).2 = true := by
+  decide +kernel
+
+def skp4 : Skel := (.sub 23)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp4_ok : skp4.check boxes (topBoxes 4).1 (topBoxes 4).2 = true := by
+  decide +kernel
+
+def skp5 : Skel := (.split 2 (3 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 24) (.split 5 (-1 / 2 : ℚ) (.sub 25) (.split 0 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 26) (.sub 27)) (.sub 28)) (.split 5 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 29) (.sub 30)) (.sub 31)) (.sub 32)) (.split 3 (3 / 4 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 6 (-1 / 4 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 33) (.sub 34)) (.sub 35)) (.split 3 (5 / 8 : ℚ) (.sub 36) (.sub 37))) (.sub 38)) (.split 2 (5 / 8 : ℚ) (.split 6 (-1 / 4 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 39) (.sub 40)) (.split 3 (5 / 8 : ℚ) (.sub 41) (.sub 42))) (.sub 43))) (.sub 44)))))) (.sub 45))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp5_ok : skp5.check boxes (topBoxes 5).1 (topBoxes 5).2 = true := by
+  decide +kernel
+
+def skp6 : Skel := (.sub 46)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp6_ok : skp6.check boxes (topBoxes 6).1 (topBoxes 6).2 = true := by
+  decide +kernel
+
+def skp7 : Skel := (.sub 47)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp7_ok : skp7.check boxes (topBoxes 7).1 (topBoxes 7).2 = true := by
+  decide +kernel
+
+def skp8 : Skel := (.split 2 (5 / 8 : ℚ) (.sub 48) (.sub 49))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp8_ok : skp8.check boxes (topBoxes 8).1 (topBoxes 8).2 = true := by
+  decide +kernel
+
+def skp9 : Skel := (.split 1 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 50) (.split 6 (-1 / 8 : ℚ) (.split 1 (-3 / 16 : ℚ) (.sub 51) (.split 0 (-3 / 8 : ℚ) (.sub 52) (.split 5 (-1 / 8 : ℚ) (.sub 53) (.split 0 (-5 / 16 : ℚ) (.sub 54) (.sub 55))))) (.sub 56))) (.sub 57)) (.split 3 (5 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 58) (.split 0 (-3 / 8 : ℚ) (.sub 59) (.split 5 (-1 / 8 : ℚ) (.sub 60) (.sub 61)))) (.split 5 (-1 / 4 : ℚ) (.sub 62) (.split 0 (-3 / 8 : ℚ) (.sub 63) (.split 5 (-1 / 8 : ℚ) (.sub 64) (.split 1 (-1 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.sub 65) (.sub 66)) (.sub 67)))))) (.split 5 (-1 / 4 : ℚ) (.sub 68) (.split 6 (-1 / 8 : ℚ) (.sub 69) (.split 0 (-3 / 8 : ℚ) (.sub 70) (.split 5 (-1 / 8 : ℚ) (.sub 71) (.split 1 (-1 / 16 : ℚ) (.sub 72) (.sub 73))))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp9_ok : skp9.check boxes (topBoxes 9).1 (topBoxes 9).2 = true := by
+  decide +kernel
+
+def skp10 : Skel := (.split 3 (5 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 74) (.split 0 (-3 / 8 : ℚ) (.sub 75) (.split 5 (-1 / 8 : ℚ) (.sub 76) (.split 0 (-5 / 16 : ℚ) (.split 6 (-1 / 8 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 77) (.sub 78)) (.split 3 (9 / 16 : ℚ) (.sub 79) (.sub 80))) (.split 3 (9 / 16 : ℚ) (.sub 81) (.split 6 (-1 / 8 : ℚ) (.split 1 (-3 / 16 : ℚ) (.sub 82) (.sub 83)) (.sub 84))))))) (.sub 85)) (.sub 86))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp10_ok : skp10.check boxes (topBoxes 10).1 (topBoxes 10).2 = true := by
+  decide +kernel
+
+def skp11 : Skel := (.split 5 (-1 / 4 : ℚ) (.sub 87) (.split 0 (-3 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.sub 88) (.sub 89)) (.split 5 (-1 / 8 : ℚ) (.sub 90) (.split 2 (11 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 91) (.split 2 (21 / 32 : ℚ) (.sub 92) (.sub 93))) (.split 3 (9 / 16 : ℚ) (.sub 94) (.sub 95))) (.sub 96)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp11_ok : skp11.check boxes (topBoxes 11).1 (topBoxes 11).2 = true := by
+  decide +kernel
+
+def skp12 : Skel := (.sub 97)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp12_ok : skp12.check boxes (topBoxes 12).1 (topBoxes 12).2 = true := by
+  decide +kernel
+
+def skp13 : Skel := (.split 3 (9 / 16 : ℚ) (.sub 98) (.split 2 (21 / 32 : ℚ) (.sub 99) (.split 6 (-1 / 16 : ℚ) (.split 1 (-3 / 32 : ℚ) (.sub 100) (.sub 101)) (.sub 102))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp13_ok : skp13.check boxes (topBoxes 13).1 (topBoxes 13).2 = true := by
+  decide +kernel
+
+def skp14 : Skel := (.split 3 (9 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.sub 103) (.split 1 (-1 / 32 : ℚ) (.sub 104) (.sub 105))) (.split 6 (-1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 106) (.split 3 (19 / 32 : ℚ) (.sub 107) (.sub 108))) (.split 2 (21 / 32 : ℚ) (.split 1 (-1 / 32 : ℚ) (.sub 109) (.split 6 (-1 / 32 : ℚ) (.sub 110) (.sub 111))) (.split 1 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 6 (-1 / 32 : ℚ) (.split 1 (-3 / 64 : ℚ) (.sub 112) (.split 3 (37 / 64 : ℚ) (.sub 113) (.sub 114))) (.split 3 (37 / 64 : ℚ) (.sub 115) (.sub 116))) (.sub 117)) (.sub 118)) (.split 6 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 119) (.sub 120)) (.sub 121)) (.sub 122)) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 123) (.split 2 (85 / 128 : ℚ) (.sub 124) (.sub 125))) (.split 3 (37 / 64 : ℚ) (.sub 126) (.sub 127))) (.split 1 (-1 / 64 : ℚ) (.sub 128) (.sub 129))) (.sub 130)))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp14_ok : skp14.check boxes (topBoxes 14).1 (topBoxes 14).2 = true := by
+  decide +kernel
+
+def skp15 : Skel := (.split 1 (-1 / 16 : ℚ) (.sub 131) (.split 6 (-1 / 16 : ℚ) (.sub 132) (.sub 133)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp15_ok : skp15.check boxes (topBoxes 15).1 (topBoxes 15).2 = true := by
+  decide +kernel
+
+def skp16 : Skel := (.split 2 (11 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 134) (.split 6 (-1 / 16 : ℚ) (.sub 135) (.split 3 (9 / 16 : ℚ) (.sub 136) (.sub 137)))) (.sub 138))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp16_ok : skp16.check boxes (topBoxes 16).1 (topBoxes 16).2 = true := by
+  decide +kernel
+
+def skp17 : Skel := (.split 0 (-5 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 139) (.split 5 (-1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 140) (.sub 141)) (.split 2 (21 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.sub 142) (.sub 143)) (.split 6 (-1 / 16 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 1 (-3 / 32 : ℚ) (.sub 144) (.split 5 (-1 / 32 : ℚ) (.sub 145) (.split 3 (19 / 32 : ℚ) (.sub 146) (.sub 147)))) (.sub 148)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 149) (.sub 150)) (.sub 151)))))) (.split 3 (9 / 16 : ℚ) (.sub 152) (.split 2 (21 / 32 : ℚ) (.sub 153) (.sub 154))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp17_ok : skp17.check boxes (topBoxes 17).1 (topBoxes 17).2 = true := by
+  decide +kernel
+
+def skp18 : Skel := (.split 6 (-1 / 16 : ℚ) (.sub 155) (.split 1 (-1 / 32 : ℚ) (.sub 156) (.sub 157)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp18_ok : skp18.check boxes (topBoxes 18).1 (topBoxes 18).2 = true := by
+  decide +kernel
+
+def skp19 : Skel := (.split 6 (-1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 158) (.sub 159)) (.split 2 (21 / 32 : ℚ) (.split 1 (-1 / 32 : ℚ) (.sub 160) (.sub 161)) (.split 1 (-1 / 32 : ℚ) (.sub 162) (.split 3 (19 / 32 : ℚ) (.sub 163) (.sub 164)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp19_ok : skp19.check boxes (topBoxes 19).1 (topBoxes 19).2 = true := by
+  decide +kernel
+
+def skp20 : Skel := (.split 2 (21 / 32 : ℚ) (.sub 165) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 166) (.sub 167)) (.split 3 (19 / 32 : ℚ) (.sub 168) (.sub 169))) (.sub 170)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp20_ok : skp20.check boxes (topBoxes 20).1 (topBoxes 20).2 = true := by
+  decide +kernel
+
+def skp21 : Skel := (.split 1 (-1 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 171) (.sub 172)) (.sub 173)) (.split 3 (19 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.sub 174) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 175) (.sub 176)) (.sub 177))) (.split 6 (-1 / 32 : ℚ) (.sub 178) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 179) (.sub 180)) (.sub 181)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp21_ok : skp21.check boxes (topBoxes 21).1 (topBoxes 21).2 = true := by
+  decide +kernel
+
+def skp22 : Skel := (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 182) (.sub 183)) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 6 (-1 / 32 : ℚ) (.split 1 (-3 / 64 : ℚ) (.sub 184) (.split 3 (37 / 64 : ℚ) (.sub 185) (.sub 186))) (.split 3 (37 / 64 : ℚ) (.sub 187) (.sub 188))) (.sub 189)) (.sub 190))) (.split 3 (19 / 32 : ℚ) (.sub 191) (.sub 192)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp22_ok : skp22.check boxes (topBoxes 22).1 (topBoxes 22).2 = true := by
+  decide +kernel
+
+def skp23 : Skel := (.split 3 (19 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 193) (.sub 194)) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 195) (.sub 196)) (.sub 197))) (.sub 198)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.sub 199) (.split 3 (37 / 64 : ℚ) (.sub 200) (.split 6 (-1 / 64 : ℚ) (.sub 201) (.sub 202)))) (.sub 203)) (.split 2 (43 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 204) (.split 2 (85 / 128 : ℚ) (.sub 205) (.split 6 (-1 / 64 : ℚ) (.split 0 (-23 / 64 : ℚ) (.split 5 (-1 / 64 : ℚ) (.split 1 (-3 / 128 : ℚ) (.sub 206) (.split 0 (-47 / 128 : ℚ) (.sub 207) (.sub 208))) (.sub 209)) (.sub 210)) (.sub 211)))) (.split 3 (37 / 64 : ℚ) (.sub 212) (.split 6 (-1 / 64 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 213) (.sub 214)) (.split 2 (85 / 128 : ℚ) (.sub 215) (.split 1 (-1 / 128 : ℚ) (.sub 216) (.sub 217)))))) (.split 1 (-1 / 64 : ℚ) (.sub 218) (.sub 219)))) (.sub 220))) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.sub 221) (.sub 222)) (.sub 223)) (.sub 224)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp23_ok : skp23.check boxes (topBoxes 23).1 (topBoxes 23).2 = true := by
+  decide +kernel
+
+def skp24 : Skel := (.split 6 (-1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 225) (.sub 226)) (.split 3 (9 / 16 : ℚ) (.sub 227) (.split 1 (-1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 228) (.sub 229)) (.split 2 (21 / 32 : ℚ) (.sub 230) (.sub 231)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp24_ok : skp24.check boxes (topBoxes 24).1 (topBoxes 24).2 = true := by
+  decide +kernel
+
+def skp25 : Skel := (.split 1 (-1 / 16 : ℚ) (.sub 232) (.split 0 (-5 / 16 : ℚ) (.split 5 (-1 / 16 : ℚ) (.sub 233) (.split 6 (-1 / 16 : ℚ) (.sub 234) (.sub 235))) (.sub 236)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp25_ok : skp25.check boxes (topBoxes 25).1 (topBoxes 25).2 = true := by
+  decide +kernel
+
+def skp26 : Skel := (.split 6 (-1 / 8 : ℚ) (.sub 237) (.split 5 (-1 / 4 : ℚ) (.sub 238) (.split 0 (-3 / 8 : ℚ) (.sub 239) (.split 5 (-1 / 8 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 240) (.split 6 (-1 / 16 : ℚ) (.sub 241) (.sub 242))) (.split 1 (-1 / 16 : ℚ) (.sub 243) (.split 0 (-5 / 16 : ℚ) (.sub 244) (.sub 245)))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp26_ok : skp26.check boxes (topBoxes 26).1 (topBoxes 26).2 = true := by
+  decide +kernel
+
+def skp27 : Skel := (.sub 246)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp27_ok : skp27.check boxes (topBoxes 27).1 (topBoxes 27).2 = true := by
+  decide +kernel
+
+def skp28 : Skel := (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 247) (.sub 248)) (.sub 249)) (.sub 250))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp28_ok : skp28.check boxes (topBoxes 28).1 (topBoxes 28).2 = true := by
+  decide +kernel
+
+def skp29 : Skel := (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 251) (.split 5 (-3 / 8 : ℚ) (.sub 252) (.split 0 (-1 / 16 : ℚ) (.sub 253) (.sub 254)))) (.split 2 (9 / 16 : ℚ) (.sub 255) (.split 0 (-1 / 8 : ℚ) (.sub 256) (.split 5 (-3 / 8 : ℚ) (.sub 257) (.split 0 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 6 (-1 / 8 : ℚ) (.sub 258) (.sub 259)) (.sub 260)) (.split 5 (-5 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 261) (.sub 262)) (.split 6 (-1 / 8 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 263) (.sub 264)) (.sub 265))))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp29_ok : skp29.check boxes (topBoxes 29).1 (topBoxes 29).2 = true := by
+  decide +kernel
+
+def skp30 : Skel := (.split 0 (-1 / 8 : ℚ) (.sub 266) (.split 5 (-3 / 8 : ℚ) (.sub 267) (.split 0 (-1 / 16 : ℚ) (.sub 268) (.sub 269))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp30_ok : skp30.check boxes (topBoxes 30).1 (topBoxes 30).2 = true := by
+  decide +kernel
+
+def skp31 : Skel := (.split 0 (-1 / 8 : ℚ) (.sub 270) (.split 5 (-3 / 8 : ℚ) (.sub 271) (.split 0 (-1 / 16 : ℚ) (.sub 272) (.sub 273))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp31_ok : skp31.check boxes (topBoxes 31).1 (topBoxes 31).2 = true := by
+  decide +kernel
+
+def skp32 : Skel := (.split 0 (-1 / 8 : ℚ) (.sub 274) (.split 5 (-3 / 8 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 275) (.sub 276)) (.split 0 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 277) (.sub 278)) (.split 1 (-1 / 16 : ℚ) (.split 6 (-3 / 16 : ℚ) (.sub 279) (.split 2 (19 / 32 : ℚ) (.sub 280) (.sub 281))) (.sub 282))) (.sub 283)) (.split 1 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 6 (-3 / 16 : ℚ) (.sub 284) (.split 1 (-3 / 32 : ℚ) (.sub 285) (.sub 286))) (.sub 287)) (.split 6 (-3 / 16 : ℚ) (.sub 288) (.split 1 (-3 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 289) (.sub 290)) (.sub 291)) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 292) (.sub 293)) (.sub 294))))) (.split 6 (-3 / 16 : ℚ) (.sub 295) (.split 2 (19 / 32 : ℚ) (.sub 296) (.sub 297)))) (.sub 298)) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 0 (-1 / 32 : ℚ) (.sub 299) (.sub 300)) (.sub 301)) (.sub 302)) (.sub 303))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp32_ok : skp32.check boxes (topBoxes 32).1 (topBoxes 32).2 = true := by
+  decide +kernel
+
+def skp33 : Skel := (.split 0 (-1 / 8 : ℚ) (.sub 304) (.split 5 (-3 / 8 : ℚ) (.sub 305) (.split 1 (-1 / 16 : ℚ) (.sub 306) (.split 0 (-1 / 16 : ℚ) (.sub 307) (.sub 308)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp33_ok : skp33.check boxes (topBoxes 33).1 (topBoxes 33).2 = true := by
+  decide +kernel
+
+def skp34 : Skel := (.split 2 (9 / 16 : ℚ) (.sub 309) (.split 1 (-1 / 16 : ℚ) (.sub 310) (.split 6 (-1 / 16 : ℚ) (.sub 311) (.split 3 (11 / 16 : ℚ) (.sub 312) (.sub 313)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp34_ok : skp34.check boxes (topBoxes 34).1 (topBoxes 34).2 = true := by
+  decide +kernel
+
+def skp35 : Skel := (.split 1 (-1 / 16 : ℚ) (.sub 314) (.split 6 (-1 / 16 : ℚ) (.sub 315) (.split 1 (-1 / 32 : ℚ) (.sub 316) (.sub 317))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp35_ok : skp35.check boxes (topBoxes 35).1 (topBoxes 35).2 = true := by
+  decide +kernel
+
+def skp36 : Skel := (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 318) (.sub 319)) (.sub 320)) (.sub 321))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp36_ok : skp36.check boxes (topBoxes 36).1 (topBoxes 36).2 = true := by
+  decide +kernel
+
+def skp37 : Skel := (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 322) (.split 2 (37 / 64 : ℚ) (.sub 323) (.sub 324))) (.sub 325)) (.sub 326))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp37_ok : skp37.check boxes (topBoxes 37).1 (topBoxes 37).2 = true := by
+  decide +kernel
+
+def skp38 : Skel := (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 1 (-1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 327) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 328) (.sub 329)) (.split 3 (43 / 64 : ℚ) (.sub 330) (.sub 331)))) (.split 6 (-1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 332) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 6 (-3 / 64 : ℚ) (.sub 333) (.split 1 (-3 / 128 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 334) (.sub 335)) (.sub 336))) (.sub 337)) (.sub 338)) (.split 3 (43 / 64 : ℚ) (.split 2 (75 / 128 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 6 (-3 / 64 : ℚ) (.sub 339) (.split 1 (-3 / 128 : ℚ) (.split 3 (85 / 128 : ℚ) (.sub 340) (.sub 341)) (.sub 342))) (.sub 343)) (.sub 344)) (.sub 345)))) (.split 3 (21 / 32 : ℚ) (.sub 346) (.split 2 (37 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 347) (.sub 348)) (.sub 349)) (.split 1 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 350) (.sub 351)) (.sub 352)))))) (.split 1 (-1 / 32 : ℚ) (.sub 353) (.sub 354))) (.sub 355))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp38_ok : skp38.check boxes (topBoxes 38).1 (topBoxes 38).2 = true := by
+  decide +kernel
+
+def skp39 : Skel := (.split 1 (-1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.sub 356) (.sub 357)) (.split 6 (-1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.sub 358) (.sub 359)) (.split 0 (-1 / 16 : ℚ) (.sub 360) (.sub 361))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp39_ok : skp39.check boxes (topBoxes 39).1 (topBoxes 39).2 = true := by
+  decide +kernel
+
+def skp40 : Skel := (.split 0 (-1 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 362) (.sub 363)) (.sub 364)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 365) (.sub 366)) (.sub 367))) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 368) (.sub 369)) (.split 3 (21 / 32 : ℚ) (.sub 370) (.sub 371))) (.split 3 (21 / 32 : ℚ) (.sub 372) (.split 6 (-1 / 16 : ℚ) (.sub 373) (.sub 374)))) (.sub 375)) (.sub 376)) (.sub 377)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp40_ok : skp40.check boxes (topBoxes 40).1 (topBoxes 40).2 = true := by
+  decide +kernel
+
+def skp41 : Skel := (.split 0 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 378) (.sub 379)) (.split 2 (19 / 32 : ℚ) (.sub 380) (.sub 381))) (.sub 382)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 383) (.sub 384)) (.split 3 (21 / 32 : ℚ) (.sub 385) (.sub 386))) (.split 3 (21 / 32 : ℚ) (.sub 387) (.split 2 (37 / 64 : ℚ) (.sub 388) (.split 1 (-1 / 32 : ℚ) (.split 6 (-3 / 32 : ℚ) (.sub 389) (.split 1 (-3 / 64 : ℚ) (.sub 390) (.sub 391))) (.sub 392))))) (.sub 393)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 394) (.sub 395)) (.sub 396)) (.sub 397))) (.sub 398)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp41_ok : skp41.check boxes (topBoxes 41).1 (topBoxes 41).2 = true := by
+  decide +kernel
+
+def skp42 : Skel := (.split 5 (-5 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 1 (-1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 399) (.sub 400)) (.split 2 (19 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.sub 401) (.sub 402)) (.split 6 (-1 / 32 : ℚ) (.sub 403) (.split 3 (21 / 32 : ℚ) (.sub 404) (.sub 405))))) (.sub 406)) (.split 3 (11 / 16 : ℚ) (.split 1 (-1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 407) (.sub 408)) (.split 2 (19 / 32 : ℚ) (.sub 409) (.sub 410))) (.sub 411)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp42_ok : skp42.check boxes (topBoxes 42).1 (topBoxes 42).2 = true := by
+  decide +kernel
+
+def skp43 : Skel := (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 412) (.split 2 (37 / 64 : ℚ) (.sub 413) (.sub 414))) (.sub 415)) (.split 3 (21 / 32 : ℚ) (.sub 416) (.split 2 (37 / 64 : ℚ) (.sub 417) (.split 3 (43 / 64 : ℚ) (.split 6 (-1 / 32 : ℚ) (.sub 418) (.sub 419)) (.sub 420))))) (.sub 421))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp43_ok : skp43.check boxes (topBoxes 43).1 (topBoxes 43).2 = true := by
+  decide +kernel
+
+def skp44 : Skel := (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.sub 422) (.sub 423)) (.sub 424)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 425) (.split 3 (43 / 64 : ℚ) (.sub 426) (.sub 427))) (.sub 428)) (.split 2 (37 / 64 : ℚ) (.sub 429) (.split 3 (43 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 6 (-3 / 64 : ℚ) (.sub 430) (.split 1 (-3 / 128 : ℚ) (.split 2 (75 / 128 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 0 (-1 / 64 : ℚ) (.split 5 (-23 / 64 : ℚ) (.sub 431) (.sub 432)) (.sub 433)) (.sub 434)) (.sub 435)) (.split 2 (75 / 128 : ℚ) (.sub 436) (.sub 437)))) (.sub 438)) (.sub 439)))) (.sub 440)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp44_ok : skp44.check boxes (topBoxes 44).1 (topBoxes 44).2 = true := by
+  decide +kernel
+
+def skp45 : Skel := (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.sub 441) (.sub 442)) (.sub 443)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 444) (.split 1 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 445) (.sub 446)) (.split 6 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 447) (.sub 448)) (.split 3 (43 / 64 : ℚ) (.sub 449) (.sub 450))))) (.sub 451)) (.split 2 (37 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.sub 452) (.sub 453)) (.split 1 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 2 (75 / 128 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 0 (-1 / 64 : ℚ) (.split 5 (-23 / 64 : ℚ) (.split 0 (-3 / 128 : ℚ) (.sub 454) (.sub 455)) (.sub 456)) (.sub 457)) (.sub 458)) (.sub 459)) (.sub 460)) (.split 6 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 2 (75 / 128 : ℚ) (.sub 461) (.sub 462)) (.sub 463)) (.split 3 (43 / 64 : ℚ) (.split 1 (-1 / 128 : ℚ) (.split 2 (75 / 128 : ℚ) (.sub 464) (.sub 465)) (.split 2 (75 / 128 : ℚ) (.sub 466) (.sub 467))) (.sub 468)))))) (.sub 469)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp45_ok : skp45.check boxes (topBoxes 45).1 (topBoxes 45).2 = true := by
+  decide +kernel
+
+def skp46 : Skel := (.split 1 (-1 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 470) (.sub 471)) (.sub 472)) (.sub 473)) (.split 6 (-1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 474) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 475) (.sub 476)) (.sub 477)) (.sub 478))) (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 479) (.sub 480)) (.sub 481)) (.sub 482)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 483) (.sub 484)) (.sub 485)) (.sub 486)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp46_ok : skp46.check boxes (topBoxes 46).1 (topBoxes 46).2 = true := by
+  decide +kernel
+
+def skp47 : Skel := (.sub 487)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp47_ok : skp47.check boxes (topBoxes 47).1 (topBoxes 47).2 = true := by
+  decide +kernel
+
+def skp48 : Skel := (.split 1 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 488) (.sub 489)) (.split 3 (5 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 490) (.split 5 (-3 / 8 : ℚ) (.sub 491) (.sub 492))) (.split 0 (-1 / 8 : ℚ) (.sub 493) (.split 5 (-3 / 8 : ℚ) (.sub 494) (.split 1 (-1 / 16 : ℚ) (.sub 495) (.sub 496))))) (.split 0 (-1 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.sub 497) (.split 1 (-1 / 16 : ℚ) (.sub 498) (.split 6 (-1 / 16 : ℚ) (.sub 499) (.sub 500)))) (.split 6 (-1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 501) (.sub 502)) (.split 5 (-3 / 8 : ℚ) (.sub 503) (.split 1 (-1 / 16 : ℚ) (.sub 504) (.split 0 (-1 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.sub 505) (.sub 506)) (.sub 507))))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp48_ok : skp48.check boxes (topBoxes 48).1 (topBoxes 48).2 = true := by
+  decide +kernel
+
+def skp49 : Skel := (.sub 508)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp49_ok : skp49.check boxes (topBoxes 49).1 (topBoxes 49).2 = true := by
+  decide +kernel
+
+def skp50 : Skel := (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 509) (.sub 510)) (.sub 511)) (.split 3 (5 / 8 : ℚ) (.sub 512) (.sub 513))) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 514) (.sub 515)) (.sub 516))) (.sub 517))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp50_ok : skp50.check boxes (topBoxes 50).1 (topBoxes 50).2 = true := by
+  decide +kernel
+
+def skp51 : Skel := (.split 1 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.sub 518) (.sub 519)) (.sub 520)) (.sub 521)) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.sub 522) (.sub 523)) (.sub 524)) (.sub 525))) (.split 6 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 526) (.sub 527)) (.sub 528)) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 529) (.sub 530)) (.sub 531))) (.split 3 (5 / 8 : ℚ) (.sub 532) (.split 1 (-1 / 16 : ℚ) (.sub 533) (.sub 534)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp51_ok : skp51.check boxes (topBoxes 51).1 (topBoxes 51).2 = true := by
+  decide +kernel
+
+def skp52 : Skel := (.split 1 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.sub 535) (.sub 536)) (.sub 537)) (.sub 538)) (.sub 539)) (.split 6 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 540) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 541) (.sub 542)) (.sub 543))) (.split 3 (5 / 8 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 544) (.sub 545)) (.split 1 (-1 / 16 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 546) (.sub 547)) (.sub 548)) (.split 6 (-1 / 16 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 549) (.sub 550)) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.split 5 (-3 / 16 : ℚ) (.sub 551) (.sub 552)) (.sub 553)) (.sub 554)) (.sub 555)))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp52_ok : skp52.check boxes (topBoxes 52).1 (topBoxes 52).2 = true := by
+  decide +kernel
+
+def skp53 : Skel := (.sub 556)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp53_ok : skp53.check boxes (topBoxes 53).1 (topBoxes 53).2 = true := by
+  decide +kernel
+
+def skp54 : Skel := (.split 0 (-1 / 2 : ℚ) (.sub 557) (.split 5 (-1 / 2 : ℚ) (.sub 558) (.split 0 (-1 / 4 : ℚ) (.sub 559) (.sub 560))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp54_ok : skp54.check boxes (topBoxes 54).1 (topBoxes 54).2 = true := by
+  decide +kernel
+
+def skp55 : Skel := (.split 1 (-1 / 2 : ℚ) (.sub 561) (.sub 562))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp55_ok : skp55.check boxes (topBoxes 55).1 (topBoxes 55).2 = true := by
+  decide +kernel
+
+def skp56 : Skel := (.split 1 (-1 / 2 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 563) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 564) (.sub 565)) (.sub 566)) (.sub 567))) (.split 0 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 568) (.sub 569)) (.sub 570)) (.split 6 (-1 / 2 : ℚ) (.sub 571) (.split 5 (1 / 2 : ℚ) (.sub 572) (.sub 573)))) (.split 6 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 574) (.sub 575)) (.sub 576)) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 1 (-1 / 4 : ℚ) (.sub 577) (.sub 578)) (.sub 579)) (.sub 580)) (.split 1 (-1 / 4 : ℚ) (.sub 581) (.sub 582))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp56_ok : skp56.check boxes (topBoxes 56).1 (topBoxes 56).2 = true := by
+  decide +kernel
+
+def skp57 : Skel := (.split 1 (-1 / 2 : ℚ) (.sub 583) (.split 3 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 584) (.split 5 (1 / 2 : ℚ) (.split 1 (-1 / 4 : ℚ) (.sub 585) (.sub 586)) (.sub 587))) (.split 2 (3 / 4 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 588) (.split 1 (-1 / 4 : ℚ) (.sub 589) (.split 5 (1 / 2 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.sub 590) (.split 2 (5 / 8 : ℚ) (.sub 591) (.sub 592))) (.sub 593)) (.sub 594)))) (.sub 595))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp57_ok : skp57.check boxes (topBoxes 57).1 (topBoxes 57).2 = true := by
+  decide +kernel
+
+def skp58 : Skel := (.sub 596)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp58_ok : skp58.check boxes (topBoxes 58).1 (topBoxes 58).2 = true := by
+  decide +kernel
+
+def skp59 : Skel := (.split 6 (-1 / 2 : ℚ) (.sub 597) (.split 1 (-1 / 4 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 598) (.sub 599)) (.split 6 (-1 / 4 : ℚ) (.sub 600) (.split 2 (3 / 4 : ℚ) (.split 1 (-1 / 8 : ℚ) (.sub 601) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 3 (1 / 4 : ℚ) (.sub 602) (.split 5 (1 / 8 : ℚ) (.sub 603) (.sub 604))) (.sub 605)) (.sub 606)) (.sub 607)) (.sub 608))) (.sub 609)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp59_ok : skp59.check boxes (topBoxes 59).1 (topBoxes 59).2 = true := by
+  decide +kernel
+
+def skp60 : Skel := (.sub 610)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp60_ok : skp60.check boxes (topBoxes 60).1 (topBoxes 60).2 = true := by
+  decide +kernel
+
+def skp61 : Skel := (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 6 (-1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.sub 611) (.sub 612)) (.sub 613)) (.sub 614)) (.sub 615)) (.split 2 (5 / 8 : ℚ) (.sub 616) (.sub 617))) (.sub 618)) (.sub 619)) (.sub 620))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp61_ok : skp61.check boxes (topBoxes 61).1 (topBoxes 61).2 = true := by
+  decide +kernel
+
+def skp62 : Skel := (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.sub 621) (.sub 622)) (.sub 623)) (.sub 624)) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.sub 625) (.sub 626)) (.sub 627)) (.sub 628)) (.sub 629)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp62_ok : skp62.check boxes (topBoxes 62).1 (topBoxes 62).2 = true := by
+  decide +kernel
+
+def skp63 : Skel := (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.sub 630) (.sub 631)) (.sub 632)) (.sub 633)) (.sub 634)) (.sub 635)) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 636) (.sub 637)) (.sub 638)) (.sub 639)) (.sub 640)) (.split 3 (5 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 6 (-1 / 8 : ℚ) (.split 1 (-3 / 16 : ℚ) (.sub 641) (.split 3 (9 / 16 : ℚ) (.sub 642) (.sub 643))) (.split 3 (9 / 16 : ℚ) (.sub 644) (.sub 645))) (.sub 646)) (.sub 647))) (.sub 648)) (.sub 649)) (.sub 650)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp63_ok : skp63.check boxes (topBoxes 63).1 (topBoxes 63).2 = true := by
+  decide +kernel
+
+def skp64 : Skel := (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.sub 651) (.split 1 (-1 / 16 : ℚ) (.sub 652) (.sub 653))) (.sub 654)) (.split 6 (-1 / 8 : ℚ) (.sub 655) (.sub 656))) (.sub 657)) (.sub 658)) (.sub 659))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp64_ok : skp64.check boxes (topBoxes 64).1 (topBoxes 64).2 = true := by
+  decide +kernel
+
+def skp65 : Skel := (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 660) (.sub 661)) (.sub 662))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp65_ok : skp65.check boxes (topBoxes 65).1 (topBoxes 65).2 = true := by
+  decide +kernel
+
+def skp66 : Skel := (.split 0 (-7 / 16 : ℚ) (.sub 663) (.split 3 (9 / 16 : ℚ) (.split 5 (1 / 16 : ℚ) (.sub 664) (.sub 665)) (.split 5 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 666) (.split 0 (-13 / 32 : ℚ) (.sub 667) (.split 6 (-1 / 16 : ℚ) (.split 1 (-3 / 32 : ℚ) (.sub 668) (.split 6 (-3 / 32 : ℚ) (.sub 669) (.sub 670))) (.sub 671)))) (.sub 672))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp66_ok : skp66.check boxes (topBoxes 66).1 (topBoxes 66).2 = true := by
+  decide +kernel
+
+def skp67 : Skel := (.split 3 (9 / 16 : ℚ) (.sub 673) (.sub 674))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp67_ok : skp67.check boxes (topBoxes 67).1 (topBoxes 67).2 = true := by
+  decide +kernel
+
+def skp68 : Skel := (.split 6 (-1 / 16 : ℚ) (.split 5 (1 / 16 : ℚ) (.sub 675) (.sub 676)) (.split 5 (1 / 16 : ℚ) (.split 1 (-1 / 32 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 677) (.split 2 (21 / 32 : ℚ) (.sub 678) (.sub 679))) (.split 0 (-13 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 680) (.sub 681)) (.split 2 (21 / 32 : ℚ) (.sub 682) (.split 6 (-1 / 32 : ℚ) (.sub 683) (.split 1 (-1 / 64 : ℚ) (.sub 684) (.sub 685)))))) (.split 1 (-1 / 32 : ℚ) (.sub 686) (.split 2 (21 / 32 : ℚ) (.sub 687) (.sub 688)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp68_ok : skp68.check boxes (topBoxes 68).1 (topBoxes 68).2 = true := by
+  decide +kernel
+
+def skp69 : Skel := (.split 5 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 689) (.split 0 (-13 / 32 : ℚ) (.sub 690) (.split 3 (19 / 32 : ℚ) (.sub 691) (.sub 692)))) (.sub 693))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp69_ok : skp69.check boxes (topBoxes 69).1 (topBoxes 69).2 = true := by
+  decide +kernel
+
+def skp70 : Skel := (.split 5 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 694) (.sub 695)) (.split 0 (-13 / 32 : ℚ) (.sub 696) (.split 3 (19 / 32 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 6 (-1 / 32 : ℚ) (.split 1 (-3 / 64 : ℚ) (.sub 697) (.split 3 (37 / 64 : ℚ) (.sub 698) (.sub 699))) (.split 3 (37 / 64 : ℚ) (.sub 700) (.sub 701))) (.split 6 (-1 / 32 : ℚ) (.split 1 (-3 / 64 : ℚ) (.sub 702) (.split 3 (37 / 64 : ℚ) (.sub 703) (.sub 704))) (.split 3 (37 / 64 : ℚ) (.sub 705) (.sub 706)))) (.sub 707)) (.sub 708)) (.sub 709)))) (.sub 710))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp70_ok : skp70.check boxes (topBoxes 70).1 (topBoxes 70).2 = true := by
+  decide +kernel
+
+def skp71 : Skel := (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 711) (.split 6 (-1 / 32 : ℚ) (.sub 712) (.split 1 (-1 / 64 : ℚ) (.sub 713) (.sub 714)))) (.sub 715))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp71_ok : skp71.check boxes (topBoxes 71).1 (topBoxes 71).2 = true := by
+  decide +kernel
+
+def skp72 : Skel := (.split 6 (-1 / 32 : ℚ) (.sub 716) (.split 3 (19 / 32 : ℚ) (.split 1 (-1 / 64 : ℚ) (.sub 717) (.split 2 (43 / 64 : ℚ) (.sub 718) (.sub 719))) (.sub 720)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp72_ok : skp72.check boxes (topBoxes 72).1 (topBoxes 72).2 = true := by
+  decide +kernel
+
+def skp73 : Skel := (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 721) (.sub 722)) (.split 3 (37 / 64 : ℚ) (.sub 723) (.sub 724))) (.sub 725)) (.sub 726)) (.sub 727))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp73_ok : skp73.check boxes (topBoxes 73).1 (topBoxes 73).2 = true := by
+  decide +kernel
+
+def skp74 : Skel := (.split 3 (19 / 32 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 728) (.sub 729)) (.split 2 (85 / 128 : ℚ) (.sub 730) (.sub 731))) (.sub 732)) (.split 3 (37 / 64 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 733) (.sub 734)) (.sub 735))) (.sub 736)) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.sub 737) (.sub 738)) (.sub 739))) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 6 (-1 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.sub 740) (.split 2 (85 / 128 : ℚ) (.sub 741) (.sub 742))) (.sub 743)) (.split 3 (37 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.sub 744) (.split 1 (-1 / 128 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 745) (.sub 746)) (.split 2 (85 / 128 : ℚ) (.sub 747) (.sub 748)))) (.sub 749))) (.sub 750)) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 751) (.sub 752)) (.sub 753))) (.split 2 (43 / 64 : ℚ) (.sub 754) (.sub 755)))) (.sub 756))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp74_ok : skp74.check boxes (topBoxes 74).1 (topBoxes 74).2 = true := by
+  decide +kernel
+
+def skp75 : Skel := (.sub 757)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp75_ok : skp75.check boxes (topBoxes 75).1 (topBoxes 75).2 = true := by
+  decide +kernel
+
+def skp76 : Skel := (.split 1 (-1 / 16 : ℚ) (.sub 758) (.split 0 (-7 / 16 : ℚ) (.sub 759) (.split 3 (9 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.sub 760) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 761) (.sub 762)) (.sub 763))) (.sub 764))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp76_ok : skp76.check boxes (topBoxes 76).1 (topBoxes 76).2 = true := by
+  decide +kernel
+
+def skp77 : Skel := (.split 6 (-1 / 8 : ℚ) (.sub 765) (.split 1 (-1 / 16 : ℚ) (.sub 766) (.split 2 (11 / 16 : ℚ) (.sub 767) (.sub 768))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp77_ok : skp77.check boxes (topBoxes 77).1 (topBoxes 77).2 = true := by
+  decide +kernel
+
+def skp78 : Skel := (.split 6 (-1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 769) (.sub 770)) (.sub 771)) (.split 2 (11 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 772) (.split 2 (21 / 32 : ℚ) (.sub 773) (.sub 774))) (.split 3 (9 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.sub 775) (.sub 776)) (.split 6 (-1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 777) (.sub 778)) (.split 1 (-1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 779) (.split 3 (19 / 32 : ℚ) (.sub 780) (.sub 781))) (.split 2 (21 / 32 : ℚ) (.sub 782) (.split 6 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 783) (.sub 784)) (.split 3 (19 / 32 : ℚ) (.sub 785) (.sub 786)))))))) (.split 1 (-1 / 16 : ℚ) (.sub 787) (.sub 788))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp78_ok : skp78.check boxes (topBoxes 78).1 (topBoxes 78).2 = true := by
+  decide +kernel
+
+def skp79 : Skel := (.sub 789)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp79_ok : skp79.check boxes (topBoxes 79).1 (topBoxes 79).2 = true := by
+  decide +kernel
+
+def skp80 : Skel := (.sub 790)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp80_ok : skp80.check boxes (topBoxes 80).1 (topBoxes 80).2 = true := by
+  decide +kernel
+
+def skp81 : Skel := (.sub 791)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp81_ok : skp81.check boxes (topBoxes 81).1 (topBoxes 81).2 = true := by
+  decide +kernel
+
+def skp82 : Skel := (.sub 792)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp82_ok : skp82.check boxes (topBoxes 82).1 (topBoxes 82).2 = true := by
+  decide +kernel
+
+def skp83 : Skel := (.sub 793)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp83_ok : skp83.check boxes (topBoxes 83).1 (topBoxes 83).2 = true := by
+  decide +kernel
+
+def skp84 : Skel := (.sub 794)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp84_ok : skp84.check boxes (topBoxes 84).1 (topBoxes 84).2 = true := by
+  decide +kernel
+
+def skp85 : Skel := (.sub 795)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp85_ok : skp85.check boxes (topBoxes 85).1 (topBoxes 85).2 = true := by
+  decide +kernel
+
+def skp86 : Skel := (.split 3 (1 / 2 : ℚ) (.sub 796) (.sub 797))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp86_ok : skp86.check boxes (topBoxes 86).1 (topBoxes 86).2 = true := by
+  decide +kernel
+
+def skp87 : Skel := (.sub 798)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp87_ok : skp87.check boxes (topBoxes 87).1 (topBoxes 87).2 = true := by
+  decide +kernel
+
+def skp88 : Skel := (.sub 799)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp88_ok : skp88.check boxes (topBoxes 88).1 (topBoxes 88).2 = true := by
+  decide +kernel
+
+def skp89 : Skel := (.sub 800)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp89_ok : skp89.check boxes (topBoxes 89).1 (topBoxes 89).2 = true := by
+  decide +kernel
+
+def skp90 : Skel := (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 801) (.split 0 (-3 / 8 : ℚ) (.sub 802) (.split 5 (-1 / 8 : ℚ) (.sub 803) (.sub 804)))) (.split 5 (-1 / 4 : ℚ) (.sub 805) (.split 0 (-3 / 8 : ℚ) (.sub 806) (.split 5 (-1 / 8 : ℚ) (.sub 807) (.sub 808)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp90_ok : skp90.check boxes (topBoxes 90).1 (topBoxes 90).2 = true := by
+  decide +kernel
+
+def skp91 : Skel := (.split 5 (-1 / 4 : ℚ) (.sub 809) (.split 0 (-3 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 810) (.split 2 (21 / 32 : ℚ) (.sub 811) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 812) (.sub 813)) (.sub 814)))) (.sub 815)) (.split 5 (-1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.sub 816) (.sub 817)) (.split 2 (11 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.split 5 (-1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 818) (.split 2 (21 / 32 : ℚ) (.sub 819) (.split 3 (19 / 32 : ℚ) (.sub 820) (.sub 821)))) (.split 3 (9 / 16 : ℚ) (.sub 822) (.split 2 (21 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 823) (.sub 824)) (.split 3 (19 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 825) (.sub 826)) (.sub 827)) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 828) (.sub 829)) (.sub 830))) (.sub 831)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 832) (.sub 833)) (.sub 834)))))) (.split 3 (9 / 16 : ℚ) (.sub 835) (.sub 836))) (.sub 837)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp91_ok : skp91.check boxes (topBoxes 91).1 (topBoxes 91).2 = true := by
+  decide +kernel
+
+def skp92 : Skel := (.split 5 (-1 / 4 : ℚ) (.sub 838) (.split 0 (-3 / 8 : ℚ) (.sub 839) (.split 5 (-1 / 8 : ℚ) (.sub 840) (.sub 841))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp92_ok : skp92.check boxes (topBoxes 92).1 (topBoxes 92).2 = true := by
+  decide +kernel
+
+def skp93 : Skel := (.sub 842)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp93_ok : skp93.check boxes (topBoxes 93).1 (topBoxes 93).2 = true := by
+  decide +kernel
+
+def skp94 : Skel := (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 843) (.split 5 (-3 / 8 : ℚ) (.sub 844) (.sub 845))) (.split 0 (-1 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 846) (.sub 847)) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 848) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 849) (.split 2 (37 / 64 : ℚ) (.sub 850) (.sub 851))) (.sub 852)) (.sub 853))) (.split 2 (9 / 16 : ℚ) (.sub 854) (.split 0 (-1 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 855) (.sub 856)) (.sub 857)) (.split 3 (11 / 16 : ℚ) (.sub 858) (.sub 859))) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 860) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 861) (.split 3 (43 / 64 : ℚ) (.sub 862) (.sub 863))) (.sub 864)) (.split 2 (37 / 64 : ℚ) (.sub 865) (.split 3 (43 / 64 : ℚ) (.sub 866) (.sub 867)))) (.sub 868))) (.split 3 (21 / 32 : ℚ) (.sub 869) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 870) (.sub 871)) (.sub 872)) (.sub 873)))) (.sub 874)))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp94_ok : skp94.check boxes (topBoxes 94).1 (topBoxes 94).2 = true := by
+  decide +kernel
+
+def skp95 : Skel := (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 875) (.split 5 (-3 / 8 : ℚ) (.sub 876) (.sub 877))) (.split 0 (-1 / 8 : ℚ) (.sub 878) (.split 5 (-3 / 8 : ℚ) (.sub 879) (.sub 880))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp95_ok : skp95.check boxes (topBoxes 95).1 (topBoxes 95).2 = true := by
+  decide +kernel
+
+def skp96 : Skel := (.sub 881)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp96_ok : skp96.check boxes (topBoxes 96).1 (topBoxes 96).2 = true := by
+  decide +kernel
+
+def skp97 : Skel := (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 882) (.sub 883)) (.split 3 (5 / 8 : ℚ) (.sub 884) (.sub 885))) (.sub 886))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp97_ok : skp97.check boxes (topBoxes 97).1 (topBoxes 97).2 = true := by
+  decide +kernel
+
+def skp98 : Skel := (.split 0 (-1 / 2 : ℚ) (.sub 887) (.split 5 (-1 / 2 : ℚ) (.sub 888) (.split 0 (-1 / 4 : ℚ) (.sub 889) (.sub 890))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp98_ok : skp98.check boxes (topBoxes 98).1 (topBoxes 98).2 = true := by
+  decide +kernel
+
+def skp99 : Skel := (.sub 891)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp99_ok : skp99.check boxes (topBoxes 99).1 (topBoxes 99).2 = true := by
+  decide +kernel
+
+def skp100 : Skel := (.split 0 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 892) (.sub 893)) (.sub 894)) (.split 5 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 895) (.sub 896)) (.sub 897)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp100_ok : skp100.check boxes (topBoxes 100).1 (topBoxes 100).2 = true := by
+  decide +kernel
+
+def skp101 : Skel := (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 898) (.sub 899)) (.split 5 (1 / 2 : ℚ) (.split 2 (3 / 4 : ℚ) (.sub 900) (.sub 901)) (.sub 902)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp101_ok : skp101.check boxes (topBoxes 101).1 (topBoxes 101).2 = true := by
+  decide +kernel
+
+def skp102 : Skel := (.split 2 (3 / 4 : ℚ) (.sub 903) (.sub 904))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp102_ok : skp102.check boxes (topBoxes 102).1 (topBoxes 102).2 = true := by
+  decide +kernel
+
+def skp103 : Skel := (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.sub 905) (.sub 906)) (.sub 907)) (.sub 908)) (.sub 909)) (.sub 910))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp103_ok : skp103.check boxes (topBoxes 103).1 (topBoxes 103).2 = true := by
+  decide +kernel
+
+def skp104 : Skel := (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 0 (-7 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 911) (.sub 912)) (.split 3 (9 / 16 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 913) (.sub 914)) (.split 2 (21 / 32 : ℚ) (.sub 915) (.sub 916))) (.sub 917)) (.split 2 (21 / 32 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 918) (.sub 919)) (.sub 920)) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 921) (.sub 922)) (.sub 923)) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.sub 924) (.split 2 (85 / 128 : ℚ) (.sub 925) (.sub 926))) (.sub 927)) (.sub 928)) (.sub 929)) (.sub 930)) (.sub 931))) (.sub 932))))) (.split 0 (-7 / 16 : ℚ) (.sub 933) (.split 3 (9 / 16 : ℚ) (.sub 934) (.sub 935)))) (.split 2 (11 / 16 : ℚ) (.sub 936) (.sub 937))) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 938) (.split 2 (21 / 32 : ℚ) (.sub 939) (.sub 940))) (.sub 941))) (.sub 942))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp104_ok : skp104.check boxes (topBoxes 104).1 (topBoxes 104).2 = true := by
+  decide +kernel
+
+def skp105 : Skel := (.sub 943)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp105_ok : skp105.check boxes (topBoxes 105).1 (topBoxes 105).2 = true := by
+  decide +kernel
+
+def skp106 : Skel := (.sub 944)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp106_ok : skp106.check boxes (topBoxes 106).1 (topBoxes 106).2 = true := by
+  decide +kernel
+
+def skp107 : Skel := (.sub 945)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp107_ok : skp107.check boxes (topBoxes 107).1 (topBoxes 107).2 = true := by
+  decide +kernel
+
+def skp108 : Skel := (.sub 946)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp108_ok : skp108.check boxes (topBoxes 108).1 (topBoxes 108).2 = true := by
+  decide +kernel
+
+def skp109 : Skel := (.sub 947)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp109_ok : skp109.check boxes (topBoxes 109).1 (topBoxes 109).2 = true := by
+  decide +kernel
+
+def skp110 : Skel := (.split 1 (-1 / 2 : ℚ) (.sub 948) (.sub 949))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp110_ok : skp110.check boxes (topBoxes 110).1 (topBoxes 110).2 = true := by
+  decide +kernel
+
+def skp111 : Skel := (.split 1 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.sub 950) (.sub 951)) (.split 5 (-1 / 2 : ℚ) (.sub 952) (.sub 953))) (.sub 954)) (.split 5 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 955) (.sub 956)) (.split 6 (-1 / 2 : ℚ) (.sub 957) (.split 1 (-1 / 4 : ℚ) (.sub 958) (.split 6 (-1 / 4 : ℚ) (.sub 959) (.sub 960))))) (.split 6 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 961) (.sub 962)) (.split 3 (1 / 2 : ℚ) (.split 0 (1 / 4 : ℚ) (.sub 963) (.sub 964)) (.split 1 (-1 / 4 : ℚ) (.split 0 (1 / 4 : ℚ) (.sub 965) (.sub 966)) (.split 6 (-1 / 4 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 967) (.sub 968)) (.sub 969)) (.split 2 (1 / 4 : ℚ) (.sub 970) (.split 1 (-1 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.sub 971) (.sub 972)) (.sub 973)) (.sub 974)) (.split 3 (3 / 4 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 6 (-1 / 8 : ℚ) (.sub 975) (.sub 976)) (.sub 977)) (.sub 978)) (.sub 979)) (.sub 980))))))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp111_ok : skp111.check boxes (topBoxes 111).1 (topBoxes 111).2 = true := by
+  decide +kernel
+
+def skp112 : Skel := (.split 1 (-1 / 2 : ℚ) (.sub 981) (.split 3 (1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 982) (.sub 983)) (.sub 984)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp112_ok : skp112.check boxes (topBoxes 112).1 (topBoxes 112).2 = true := by
+  decide +kernel
+
+def skp113 : Skel := (.split 0 (1 / 2 : ℚ) (.sub 985) (.sub 986))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp113_ok : skp113.check boxes (topBoxes 113).1 (topBoxes 113).2 = true := by
+  decide +kernel
+
+def skp114 : Skel := (.split 5 (-1 / 2 : ℚ) (.split 6 (-1 / 2 : ℚ) (.sub 987) (.sub 988)) (.split 6 (-1 / 2 : ℚ) (.sub 989) (.split 0 (1 / 4 : ℚ) (.split 1 (-1 / 4 : ℚ) (.sub 990) (.sub 991)) (.sub 992))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp114_ok : skp114.check boxes (topBoxes 114).1 (topBoxes 114).2 = true := by
+  decide +kernel
+
+def skp115 : Skel := (.split 6 (-1 / 2 : ℚ) (.sub 993) (.split 1 (-1 / 4 : ℚ) (.sub 994) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (-1 / 4 : ℚ) (.sub 995) (.split 2 (5 / 8 : ℚ) (.split 1 (-1 / 8 : ℚ) (.sub 996) (.sub 997)) (.sub 998))) (.sub 999)) (.sub 1000))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp115_ok : skp115.check boxes (topBoxes 115).1 (topBoxes 115).2 = true := by
+  decide +kernel
+
+def skp116 : Skel := (.sub 1001)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp116_ok : skp116.check boxes (topBoxes 116).1 (topBoxes 116).2 = true := by
+  decide +kernel
+
+def skp117 : Skel := (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1002) (.sub 1003)) (.sub 1004)) (.sub 1005)) (.sub 1006)) (.sub 1007)) (.sub 1008)) (.sub 1009))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp117_ok : skp117.check boxes (topBoxes 117).1 (topBoxes 117).2 = true := by
+  decide +kernel
+
+def skp118 : Skel := (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1010) (.split 5 (-3 / 8 : ℚ) (.sub 1011) (.sub 1012))) (.sub 1013)) (.split 3 (5 / 8 : ℚ) (.sub 1014) (.sub 1015))) (.sub 1016)) (.sub 1017)) (.sub 1018))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp118_ok : skp118.check boxes (topBoxes 118).1 (topBoxes 118).2 = true := by
+  decide +kernel
+
+def skp119 : Skel := (.split 2 (5 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1019) (.split 2 (9 / 16 : ℚ) (.sub 1020) (.sub 1021))) (.split 3 (5 / 8 : ℚ) (.sub 1022) (.split 2 (9 / 16 : ℚ) (.sub 1023) (.sub 1024)))) (.split 3 (5 / 8 : ℚ) (.sub 1025) (.sub 1026))) (.sub 1027)) (.sub 1028)) (.sub 1029))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp119_ok : skp119.check boxes (topBoxes 119).1 (topBoxes 119).2 = true := by
+  decide +kernel
+
+def skp120 : Skel := (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 1030) (.sub 1031)) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.sub 1032) (.sub 1033)) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 1034) (.sub 1035)) (.sub 1036))) (.split 2 (9 / 16 : ℚ) (.sub 1037) (.split 3 (11 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1038) (.sub 1039)) (.sub 1040)) (.sub 1041))))) (.split 3 (5 / 8 : ℚ) (.sub 1042) (.sub 1043))) (.sub 1044)) (.sub 1045))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp120_ok : skp120.check boxes (topBoxes 120).1 (topBoxes 120).2 = true := by
+  decide +kernel
+
+def skp121 : Skel := (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 1046) (.split 0 (1 / 16 : ℚ) (.sub 1047) (.sub 1048))) (.sub 1049)) (.sub 1050)) (.sub 1051)) (.sub 1052))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp121_ok : skp121.check boxes (topBoxes 121).1 (topBoxes 121).2 = true := by
+  decide +kernel
+
+def skp122 : Skel := (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1053) (.split 0 (1 / 32 : ℚ) (.sub 1054) (.sub 1055))) (.sub 1056)) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1057) (.sub 1058)) (.sub 1059)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp122_ok : skp122.check boxes (topBoxes 122).1 (topBoxes 122).2 = true := by
+  decide +kernel
+
+def skp123 : Skel := (.split 6 (-1 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1060) (.split 3 (11 / 16 : ℚ) (.split 0 (1 / 32 : ℚ) (.sub 1061) (.split 2 (17 / 32 : ℚ) (.sub 1062) (.split 5 (-13 / 32 : ℚ) (.sub 1063) (.sub 1064)))) (.sub 1065))) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1066) (.split 1 (-1 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.sub 1067) (.split 2 (17 / 32 : ℚ) (.sub 1068) (.split 5 (-13 / 32 : ℚ) (.sub 1069) (.sub 1070)))) (.split 0 (1 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.split 2 (17 / 32 : ℚ) (.sub 1071) (.sub 1072)) (.split 2 (17 / 32 : ℚ) (.sub 1073) (.split 1 (-1 / 64 : ℚ) (.sub 1074) (.split 3 (21 / 32 : ℚ) (.sub 1075) (.sub 1076))))) (.split 2 (17 / 32 : ℚ) (.sub 1077) (.split 6 (-1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 1078) (.sub 1079)) (.split 5 (-13 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1080) (.sub 1081)) (.split 3 (21 / 32 : ℚ) (.sub 1082) (.sub 1083)))))))) (.split 5 (-7 / 16 : ℚ) (.sub 1084) (.split 1 (-1 / 32 : ℚ) (.sub 1085) (.sub 1086)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp123_ok : skp123.check boxes (topBoxes 123).1 (topBoxes 123).2 = true := by
+  decide +kernel
+
+def skp124 : Skel := (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.split 6 (-1 / 16 : ℚ) (.sub 1087) (.sub 1088)) (.split 6 (-1 / 16 : ℚ) (.sub 1089) (.split 1 (-1 / 32 : ℚ) (.sub 1090) (.split 2 (17 / 32 : ℚ) (.sub 1091) (.sub 1092))))) (.sub 1093))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp124_ok : skp124.check boxes (topBoxes 124).1 (topBoxes 124).2 = true := by
+  decide +kernel
+
+def skp125 : Skel := (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1094) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1095) (.sub 1096)) (.sub 1097))) (.sub 1098)) (.sub 1099)) (.sub 1100))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp125_ok : skp125.check boxes (topBoxes 125).1 (topBoxes 125).2 = true := by
+  decide +kernel
+
+def skp126 : Skel := (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1101) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1102) (.split 1 (-1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 1103) (.split 0 (1 / 64 : ℚ) (.split 6 (-3 / 32 : ℚ) (.sub 1104) (.split 2 (37 / 64 : ℚ) (.split 1 (-3 / 64 : ℚ) (.sub 1105) (.sub 1106)) (.sub 1107))) (.split 2 (37 / 64 : ℚ) (.sub 1108) (.sub 1109)))) (.split 5 (-13 / 32 : ℚ) (.sub 1110) (.split 0 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1111) (.sub 1112)) (.sub 1113))))) (.split 3 (21 / 32 : ℚ) (.sub 1114) (.sub 1115)))) (.sub 1116)) (.sub 1117))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp126_ok : skp126.check boxes (topBoxes 126).1 (topBoxes 126).2 = true := by
+  decide +kernel
+
+def skp127 : Skel := (.sub 1118)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp127_ok : skp127.check boxes (topBoxes 127).1 (topBoxes 127).2 = true := by
+  decide +kernel
+
+def skp128 : Skel := (.split 2 (19 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1119) (.split 5 (-13 / 32 : ℚ) (.sub 1120) (.split 0 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.sub 1121) (.split 6 (-1 / 32 : ℚ) (.split 1 (-3 / 64 : ℚ) (.sub 1122) (.split 6 (-3 / 64 : ℚ) (.sub 1123) (.sub 1124))) (.sub 1125))) (.sub 1126)) (.split 5 (-25 / 64 : ℚ) (.sub 1127) (.sub 1128))) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 1129) (.sub 1130)) (.sub 1131))))) (.split 3 (21 / 32 : ℚ) (.sub 1132) (.sub 1133))) (.sub 1134))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp128_ok : skp128.check boxes (topBoxes 128).1 (topBoxes 128).2 = true := by
+  decide +kernel
+
+def skp129 : Skel := (.split 6 (-1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 1135) (.sub 1136)) (.split 5 (-13 / 32 : ℚ) (.sub 1137) (.split 1 (-1 / 64 : ℚ) (.sub 1138) (.sub 1139))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp129_ok : skp129.check boxes (topBoxes 129).1 (topBoxes 129).2 = true := by
+  decide +kernel
+
+def skp130 : Skel := (.split 5 (-13 / 32 : ℚ) (.sub 1140) (.split 2 (37 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 6 (-3 / 64 : ℚ) (.sub 1141) (.split 1 (-3 / 128 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 1142) (.sub 1143)) (.sub 1144))) (.sub 1145)) (.split 2 (73 / 128 : ℚ) (.sub 1146) (.split 1 (-1 / 64 : ℚ) (.split 6 (-3 / 64 : ℚ) (.sub 1147) (.split 1 (-3 / 128 : ℚ) (.split 3 (85 / 128 : ℚ) (.sub 1148) (.sub 1149)) (.sub 1150))) (.sub 1151)))) (.sub 1152)) (.split 3 (43 / 64 : ℚ) (.split 1 (-1 / 64 : ℚ) (.split 6 (-3 / 64 : ℚ) (.sub 1153) (.split 2 (73 / 128 : ℚ) (.sub 1154) (.sub 1155))) (.sub 1156)) (.sub 1157))) (.split 0 (1 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.sub 1158) (.split 3 (43 / 64 : ℚ) (.sub 1159) (.sub 1160))) (.sub 1161))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp130_ok : skp130.check boxes (topBoxes 130).1 (topBoxes 130).2 = true := by
+  decide +kernel
+
+def skp131 : Skel := (.split 5 (-13 / 32 : ℚ) (.split 1 (-1 / 64 : ℚ) (.sub 1162) (.split 2 (37 / 64 : ℚ) (.split 6 (-1 / 64 : ℚ) (.sub 1163) (.sub 1164)) (.sub 1165))) (.split 1 (-1 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 1166) (.sub 1167)) (.sub 1168)) (.sub 1169)) (.split 5 (-25 / 64 : ℚ) (.sub 1170) (.sub 1171))) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 1172) (.sub 1173)) (.sub 1174)) (.sub 1175))) (.split 2 (37 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.sub 1176) (.split 6 (-1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 0 (3 / 128 : ℚ) (.sub 1177) (.sub 1178)) (.sub 1179)) (.sub 1180)) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 1 (-1 / 128 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 1181) (.sub 1182)) (.split 2 (73 / 128 : ℚ) (.sub 1183) (.sub 1184))) (.sub 1185)) (.sub 1186)))) (.split 0 (1 / 64 : ℚ) (.sub 1187) (.sub 1188)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp131_ok : skp131.check boxes (topBoxes 131).1 (topBoxes 131).2 = true := by
+  decide +kernel
+
+def skp132 : Skel := (.split 3 (21 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.sub 1189) (.sub 1190)) (.split 6 (-1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 1191) (.split 2 (37 / 64 : ℚ) (.sub 1192) (.sub 1193))) (.split 1 (-1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1194) (.sub 1195)) (.split 5 (-13 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 6 (-1 / 64 : ℚ) (.sub 1196) (.sub 1197)) (.sub 1198)) (.split 2 (37 / 64 : ℚ) (.split 6 (-1 / 64 : ℚ) (.sub 1199) (.split 3 (43 / 64 : ℚ) (.sub 1200) (.sub 1201))) (.sub 1202))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp132_ok : skp132.check boxes (topBoxes 132).1 (topBoxes 132).2 = true := by
+  decide +kernel
+
+def skp133 : Skel := (.sub 1203)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp133_ok : skp133.check boxes (topBoxes 133).1 (topBoxes 133).2 = true := by
+  decide +kernel
+
+def skp134 : Skel := (.sub 1204)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp134_ok : skp134.check boxes (topBoxes 134).1 (topBoxes 134).2 = true := by
+  decide +kernel
+
+def skp135 : Skel := (.split 6 (-1 / 16 : ℚ) (.sub 1205) (.split 3 (11 / 16 : ℚ) (.sub 1206) (.sub 1207)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp135_ok : skp135.check boxes (topBoxes 135).1 (topBoxes 135).2 = true := by
+  decide +kernel
+
+def skp136 : Skel := (.split 2 (9 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 1208) (.split 6 (-1 / 16 : ℚ) (.sub 1209) (.sub 1210))) (.split 1 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1211) (.sub 1212)) (.sub 1213)) (.sub 1214)) (.split 6 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1215) (.split 1 (-1 / 32 : ℚ) (.split 6 (-3 / 32 : ℚ) (.sub 1216) (.split 1 (-3 / 64 : ℚ) (.sub 1217) (.sub 1218))) (.sub 1219))) (.sub 1220)) (.sub 1221)) (.split 3 (11 / 16 : ℚ) (.split 1 (-1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1222) (.sub 1223)) (.sub 1224)) (.split 2 (19 / 32 : ℚ) (.split 6 (-1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1225) (.sub 1226)) (.split 3 (21 / 32 : ℚ) (.sub 1227) (.sub 1228))) (.sub 1229))) (.sub 1230)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp136_ok : skp136.check boxes (topBoxes 136).1 (topBoxes 136).2 = true := by
+  decide +kernel
+
+def skp137 : Skel := (.split 2 (9 / 16 : ℚ) (.split 1 (-1 / 16 : ℚ) (.sub 1231) (.sub 1232)) (.sub 1233))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp137_ok : skp137.check boxes (topBoxes 137).1 (topBoxes 137).2 = true := by
+  decide +kernel
+
+def skp138 : Skel := (.sub 1234)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp138_ok : skp138.check boxes (topBoxes 138).1 (topBoxes 138).2 = true := by
+  decide +kernel
+
+def skp139 : Skel := (.sub 1235)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp139_ok : skp139.check boxes (topBoxes 139).1 (topBoxes 139).2 = true := by
+  decide +kernel
+
+def skp140 : Skel := (.sub 1236)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp140_ok : skp140.check boxes (topBoxes 140).1 (topBoxes 140).2 = true := by
+  decide +kernel
+
+def skp141 : Skel := (.sub 1237)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp141_ok : skp141.check boxes (topBoxes 141).1 (topBoxes 141).2 = true := by
+  decide +kernel
+
+def skp142 : Skel := (.sub 1238)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp142_ok : skp142.check boxes (topBoxes 142).1 (topBoxes 142).2 = true := by
+  decide +kernel
+
+def skp143 : Skel := (.sub 1239)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp143_ok : skp143.check boxes (topBoxes 143).1 (topBoxes 143).2 = true := by
+  decide +kernel
+
+def skp144 : Skel := (.split 3 (0 : ℚ) (.sub 1240) (.split 2 (1 / 2 : ℚ) (.split 1 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1241) (.sub 1242)) (.split 6 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1243) (.sub 1244)) (.split 3 (1 / 2 : ℚ) (.sub 1245) (.sub 1246)))) (.split 1 (-1 / 2 : ℚ) (.sub 1247) (.split 6 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1248) (.sub 1249)) (.split 3 (1 / 2 : ℚ) (.sub 1250) (.split 1 (-1 / 4 : ℚ) (.sub 1251) (.sub 1252)))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp144_ok : skp144.check boxes (topBoxes 144).1 (topBoxes 144).2 = true := by
+  decide +kernel
+
+def skp145 : Skel := (.sub 1253)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp145_ok : skp145.check boxes (topBoxes 145).1 (topBoxes 145).2 = true := by
+  decide +kernel
+
+def skp146 : Skel := (.split 0 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1254) (.sub 1255)) (.split 3 (1 / 2 : ℚ) (.sub 1256) (.split 2 (1 / 4 : ℚ) (.sub 1257) (.split 3 (3 / 4 : ℚ) (.sub 1258) (.sub 1259))))) (.split 3 (1 / 2 : ℚ) (.sub 1260) (.sub 1261)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp146_ok : skp146.check boxes (topBoxes 146).1 (topBoxes 146).2 = true := by
+  decide +kernel
+
+def skp147 : Skel := (.split 5 (-1 / 2 : ℚ) (.sub 1262) (.sub 1263))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp147_ok : skp147.check boxes (topBoxes 147).1 (topBoxes 147).2 = true := by
+  decide +kernel
+
+def skp148 : Skel := (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.sub 1264) (.sub 1265)) (.sub 1266))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp148_ok : skp148.check boxes (topBoxes 148).1 (topBoxes 148).2 = true := by
+  decide +kernel
+
+def skp149 : Skel := (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 1267) (.sub 1268)) (.sub 1269)) (.sub 1270)) (.sub 1271))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp149_ok : skp149.check boxes (topBoxes 149).1 (topBoxes 149).2 = true := by
+  decide +kernel
+
+def skp150 : Skel := (.split 2 (9 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1272) (.split 0 (1 / 32 : ℚ) (.split 2 (17 / 32 : ℚ) (.sub 1273) (.sub 1274)) (.split 2 (17 / 32 : ℚ) (.sub 1275) (.split 5 (-13 / 32 : ℚ) (.sub 1276) (.sub 1277))))) (.sub 1278)) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1279) (.sub 1280)) (.sub 1281))) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 1282) (.split 2 (19 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1283) (.split 5 (-13 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1284) (.sub 1285)) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.sub 1286) (.split 2 (73 / 128 : ℚ) (.sub 1287) (.sub 1288))) (.sub 1289)) (.sub 1290)))) (.split 3 (21 / 32 : ℚ) (.sub 1291) (.split 5 (-13 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1292) (.sub 1293)) (.split 2 (37 / 64 : ℚ) (.sub 1294) (.sub 1295))))) (.sub 1296))) (.sub 1297)) (.split 3 (11 / 16 : ℚ) (.sub 1298) (.sub 1299))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp150_ok : skp150.check boxes (topBoxes 150).1 (topBoxes 150).2 = true := by
+  decide +kernel
+
+def skp151 : Skel := (.split 2 (9 / 16 : ℚ) (.sub 1300) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1301) (.sub 1302)) (.sub 1303)) (.sub 1304)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp151_ok : skp151.check boxes (topBoxes 151).1 (topBoxes 151).2 = true := by
+  decide +kernel
+
+def skp152 : Skel := (.split 2 (9 / 16 : ℚ) (.sub 1305) (.sub 1306))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp152_ok : skp152.check boxes (topBoxes 152).1 (topBoxes 152).2 = true := by
+  decide +kernel
+
+def skp153 : Skel := (.sub 1307)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp153_ok : skp153.check boxes (topBoxes 153).1 (topBoxes 153).2 = true := by
+  decide +kernel
+
+def skp154 : Skel := (.sub 1308)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp154_ok : skp154.check boxes (topBoxes 154).1 (topBoxes 154).2 = true := by
+  decide +kernel
+
+def skp155 : Skel := (.sub 1309)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp155_ok : skp155.check boxes (topBoxes 155).1 (topBoxes 155).2 = true := by
+  decide +kernel
+
+def skp156 : Skel := (.sub 1310)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp156_ok : skp156.check boxes (topBoxes 156).1 (topBoxes 156).2 = true := by
+  decide +kernel
+
+def skp157 : Skel := (.sub 1311)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp157_ok : skp157.check boxes (topBoxes 157).1 (topBoxes 157).2 = true := by
+  decide +kernel
+
+def skp158 : Skel := (.sub 1312)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp158_ok : skp158.check boxes (topBoxes 158).1 (topBoxes 158).2 = true := by
+  decide +kernel
+
+def skp159 : Skel := (.split 2 (1 / 2 : ℚ) (.sub 1313) (.split 3 (1 / 2 : ℚ) (.sub 1314) (.sub 1315)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp159_ok : skp159.check boxes (topBoxes 159).1 (topBoxes 159).2 = true := by
+  decide +kernel
+
+def skp160 : Skel := (.sub 1316)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp160_ok : skp160.check boxes (topBoxes 160).1 (topBoxes 160).2 = true := by
+  decide +kernel
+
+def skp161 : Skel := (.split 3 (1 / 2 : ℚ) (.sub 1317) (.sub 1318))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp161_ok : skp161.check boxes (topBoxes 161).1 (topBoxes 161).2 = true := by
+  decide +kernel
+
+def skp162 : Skel := (.sub 1319)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp162_ok : skp162.check boxes (topBoxes 162).1 (topBoxes 162).2 = true := by
+  decide +kernel
+
+def skp163 : Skel := (.sub 1320)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp163_ok : skp163.check boxes (topBoxes 163).1 (topBoxes 163).2 = true := by
+  decide +kernel
+
+def skp164 : Skel := (.sub 1321)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp164_ok : skp164.check boxes (topBoxes 164).1 (topBoxes 164).2 = true := by
+  decide +kernel
+
+def skp165 : Skel := (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1322) (.split 0 (-3 / 8 : ℚ) (.sub 1323) (.split 5 (-1 / 8 : ℚ) (.sub 1324) (.sub 1325)))) (.split 5 (-1 / 4 : ℚ) (.sub 1326) (.split 0 (-3 / 8 : ℚ) (.sub 1327) (.split 5 (-1 / 8 : ℚ) (.sub 1328) (.sub 1329)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp165_ok : skp165.check boxes (topBoxes 165).1 (topBoxes 165).2 = true := by
+  decide +kernel
+
+def skp166 : Skel := (.split 5 (-1 / 4 : ℚ) (.sub 1330) (.split 0 (-3 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1331) (.split 2 (21 / 32 : ℚ) (.sub 1332) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 1333) (.sub 1334)) (.sub 1335)))) (.sub 1336)) (.split 5 (-1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.sub 1337) (.sub 1338)) (.split 2 (11 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.split 5 (-1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1339) (.split 2 (21 / 32 : ℚ) (.sub 1340) (.split 3 (19 / 32 : ℚ) (.sub 1341) (.sub 1342)))) (.split 3 (9 / 16 : ℚ) (.sub 1343) (.split 2 (21 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 1344) (.sub 1345)) (.split 3 (19 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1346) (.sub 1347)) (.sub 1348)) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1349) (.sub 1350)) (.sub 1351))) (.sub 1352)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 1353) (.sub 1354)) (.sub 1355)))))) (.split 3 (9 / 16 : ℚ) (.sub 1356) (.sub 1357))) (.sub 1358)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp166_ok : skp166.check boxes (topBoxes 166).1 (topBoxes 166).2 = true := by
+  decide +kernel
+
+def skp167 : Skel := (.split 5 (-1 / 4 : ℚ) (.sub 1359) (.split 0 (-3 / 8 : ℚ) (.sub 1360) (.split 5 (-1 / 8 : ℚ) (.sub 1361) (.sub 1362))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp167_ok : skp167.check boxes (topBoxes 167).1 (topBoxes 167).2 = true := by
+  decide +kernel
+
+def skp168 : Skel := (.sub 1363)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp168_ok : skp168.check boxes (topBoxes 168).1 (topBoxes 168).2 = true := by
+  decide +kernel
+
+def skp169 : Skel := (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 1364) (.split 5 (-3 / 8 : ℚ) (.sub 1365) (.sub 1366))) (.split 0 (-1 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 1367) (.sub 1368)) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 1369) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1370) (.split 2 (37 / 64 : ℚ) (.sub 1371) (.sub 1372))) (.sub 1373)) (.sub 1374))) (.split 2 (9 / 16 : ℚ) (.sub 1375) (.split 0 (-1 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1376) (.sub 1377)) (.sub 1378)) (.split 3 (11 / 16 : ℚ) (.sub 1379) (.sub 1380))) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1381) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1382) (.split 3 (43 / 64 : ℚ) (.sub 1383) (.sub 1384))) (.sub 1385)) (.split 2 (37 / 64 : ℚ) (.sub 1386) (.split 3 (43 / 64 : ℚ) (.sub 1387) (.sub 1388)))) (.sub 1389))) (.split 3 (21 / 32 : ℚ) (.sub 1390) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 1391) (.sub 1392)) (.sub 1393)) (.sub 1394)))) (.sub 1395)))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp169_ok : skp169.check boxes (topBoxes 169).1 (topBoxes 169).2 = true := by
+  decide +kernel
+
+def skp170 : Skel := (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 1396) (.split 5 (-3 / 8 : ℚ) (.sub 1397) (.sub 1398))) (.split 0 (-1 / 8 : ℚ) (.sub 1399) (.split 5 (-3 / 8 : ℚ) (.sub 1400) (.sub 1401))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp170_ok : skp170.check boxes (topBoxes 170).1 (topBoxes 170).2 = true := by
+  decide +kernel
+
+def skp171 : Skel := (.sub 1402)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp171_ok : skp171.check boxes (topBoxes 171).1 (topBoxes 171).2 = true := by
+  decide +kernel
+
+def skp172 : Skel := (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1403) (.sub 1404)) (.split 3 (5 / 8 : ℚ) (.sub 1405) (.sub 1406))) (.sub 1407))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp172_ok : skp172.check boxes (topBoxes 172).1 (topBoxes 172).2 = true := by
+  decide +kernel
+
+def skp173 : Skel := (.split 0 (-1 / 2 : ℚ) (.sub 1408) (.split 5 (-1 / 2 : ℚ) (.sub 1409) (.split 0 (-1 / 4 : ℚ) (.sub 1410) (.sub 1411))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp173_ok : skp173.check boxes (topBoxes 173).1 (topBoxes 173).2 = true := by
+  decide +kernel
+
+def skp174 : Skel := (.split 1 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1412) (.split 1 (1 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 1413) (.split 6 (1 / 4 : ℚ) (.split 5 (-1 / 2 : ℚ) (.sub 1414) (.split 0 (-1 / 4 : ℚ) (.sub 1415) (.split 5 (-1 / 4 : ℚ) (.sub 1416) (.sub 1417)))) (.sub 1418))) (.sub 1419))) (.split 3 (1 / 2 : ℚ) (.sub 1420) (.sub 1421))) (.split 3 (1 / 2 : ℚ) (.sub 1422) (.sub 1423)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp174_ok : skp174.check boxes (topBoxes 174).1 (topBoxes 174).2 = true := by
+  decide +kernel
+
+def skp175 : Skel := (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 1424) (.split 5 (-1 / 2 : ℚ) (.sub 1425) (.split 0 (-1 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.sub 1426) (.sub 1427)) (.split 6 (1 / 4 : ℚ) (.sub 1428) (.sub 1429))))) (.sub 1430)) (.sub 1431))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp175_ok : skp175.check boxes (topBoxes 175).1 (topBoxes 175).2 = true := by
+  decide +kernel
+
+def skp176 : Skel := (.sub 1432)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp176_ok : skp176.check boxes (topBoxes 176).1 (topBoxes 176).2 = true := by
+  decide +kernel
+
+def skp177 : Skel := (.sub 1433)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp177_ok : skp177.check boxes (topBoxes 177).1 (topBoxes 177).2 = true := by
+  decide +kernel
+
+def skp178 : Skel := (.split 1 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1434) (.split 0 (-3 / 8 : ℚ) (.sub 1435) (.split 5 (-1 / 8 : ℚ) (.sub 1436) (.split 1 (1 / 16 : ℚ) (.sub 1437) (.split 0 (-5 / 16 : ℚ) (.sub 1438) (.sub 1439)))))) (.split 5 (-1 / 4 : ℚ) (.sub 1440) (.split 0 (-3 / 8 : ℚ) (.sub 1441) (.split 5 (-1 / 8 : ℚ) (.sub 1442) (.sub 1443))))) (.split 6 (1 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1444) (.split 0 (-3 / 8 : ℚ) (.sub 1445) (.split 5 (-1 / 8 : ℚ) (.sub 1446) (.split 1 (1 / 16 : ℚ) (.sub 1447) (.sub 1448))))) (.sub 1449))) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1450) (.split 0 (-3 / 8 : ℚ) (.sub 1451) (.split 5 (-1 / 8 : ℚ) (.sub 1452) (.split 6 (1 / 8 : ℚ) (.sub 1453) (.split 1 (3 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.sub 1454) (.sub 1455)) (.sub 1456)))))) (.sub 1457)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp178_ok : skp178.check boxes (topBoxes 178).1 (topBoxes 178).2 = true := by
+  decide +kernel
+
+def skp179 : Skel := (.sub 1458)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp179_ok : skp179.check boxes (topBoxes 179).1 (topBoxes 179).2 = true := by
+  decide +kernel
+
+def skp180 : Skel := (.split 1 (1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.sub 1459) (.sub 1460)) (.sub 1461)) (.split 6 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.sub 1462) (.sub 1463)) (.sub 1464)) (.split 1 (1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1465) (.sub 1466)) (.split 3 (37 / 64 : ℚ) (.sub 1467) (.split 2 (85 / 128 : ℚ) (.sub 1468) (.sub 1469)))) (.split 1 (1 / 64 : ℚ) (.sub 1470) (.sub 1471))) (.sub 1472)) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1473) (.sub 1474)) (.sub 1475)) (.sub 1476))) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1477) (.sub 1478)) (.sub 1479)) (.sub 1480)))) (.split 2 (21 / 32 : ℚ) (.sub 1481) (.split 3 (19 / 32 : ℚ) (.sub 1482) (.sub 1483))))) (.split 3 (9 / 16 : ℚ) (.sub 1484) (.split 2 (21 / 32 : ℚ) (.sub 1485) (.split 6 (1 / 16 : ℚ) (.sub 1486) (.split 1 (3 / 32 : ℚ) (.sub 1487) (.sub 1488))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp180_ok : skp180.check boxes (topBoxes 180).1 (topBoxes 180).2 = true := by
+  decide +kernel
+
+def skp181 : Skel := (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 1489) (.sub 1490)) (.sub 1491))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp181_ok : skp181.check boxes (topBoxes 181).1 (topBoxes 181).2 = true := by
+  decide +kernel
+
+def skp182 : Skel := (.split 2 (11 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1492) (.sub 1493)) (.sub 1494)) (.sub 1495)) (.sub 1496))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp182_ok : skp182.check boxes (topBoxes 182).1 (topBoxes 182).2 = true := by
+  decide +kernel
+
+def skp183 : Skel := (.split 3 (9 / 16 : ℚ) (.sub 1497) (.split 6 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.split 1 (1 / 32 : ℚ) (.sub 1498) (.sub 1499)) (.split 1 (1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 1500) (.sub 1501)) (.sub 1502))) (.split 2 (21 / 32 : ℚ) (.sub 1503) (.sub 1504))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp183_ok : skp183.check boxes (topBoxes 183).1 (topBoxes 183).2 = true := by
+  decide +kernel
+
+def skp184 : Skel := (.split 6 (1 / 16 : ℚ) (.sub 1505) (.sub 1506))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp184_ok : skp184.check boxes (topBoxes 184).1 (topBoxes 184).2 = true := by
+  decide +kernel
+
+def skp185 : Skel := (.split 1 (1 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 1507) (.sub 1508)) (.split 6 (1 / 32 : ℚ) (.sub 1509) (.sub 1510))) (.sub 1511)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.sub 1512) (.sub 1513)) (.sub 1514)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp185_ok : skp185.check boxes (topBoxes 185).1 (topBoxes 185).2 = true := by
+  decide +kernel
+
+def skp186 : Skel := (.split 3 (19 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 6 (1 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1515) (.sub 1516)) (.sub 1517)) (.sub 1518)) (.sub 1519)) (.split 2 (43 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1520) (.split 6 (1 / 64 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 1521) (.split 1 (1 / 128 : ℚ) (.sub 1522) (.sub 1523))) (.split 2 (85 / 128 : ℚ) (.sub 1524) (.sub 1525)))) (.split 3 (37 / 64 : ℚ) (.sub 1526) (.split 2 (85 / 128 : ℚ) (.sub 1527) (.split 6 (1 / 64 : ℚ) (.sub 1528) (.split 1 (3 / 128 : ℚ) (.split 0 (-23 / 64 : ℚ) (.split 5 (-1 / 64 : ℚ) (.split 0 (-47 / 128 : ℚ) (.sub 1529) (.sub 1530)) (.sub 1531)) (.sub 1532)) (.sub 1533)))))) (.split 1 (1 / 64 : ℚ) (.sub 1534) (.sub 1535)))) (.sub 1536)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 1537) (.sub 1538)) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1539) (.sub 1540)) (.sub 1541))) (.sub 1542))) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.sub 1543) (.sub 1544)) (.sub 1545)) (.sub 1546)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp186_ok : skp186.check boxes (topBoxes 186).1 (topBoxes 186).2 = true := by
+  decide +kernel
+
+def skp187 : Skel := (.split 3 (19 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 1547) (.sub 1548)) (.split 2 (43 / 64 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1549) (.sub 1550)) (.split 1 (3 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 1551) (.sub 1552)) (.sub 1553))) (.sub 1554))) (.sub 1555)) (.sub 1556))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp187_ok : skp187.check boxes (topBoxes 187).1 (topBoxes 187).2 = true := by
+  decide +kernel
+
+def skp188 : Skel := (.split 2 (21 / 32 : ℚ) (.sub 1557) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 1558) (.sub 1559)) (.split 3 (19 / 32 : ℚ) (.sub 1560) (.sub 1561))) (.sub 1562)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp188_ok : skp188.check boxes (topBoxes 188).1 (topBoxes 188).2 = true := by
+  decide +kernel
+
+def skp189 : Skel := (.split 6 (1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1563) (.split 1 (1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 1564) (.sub 1565)) (.split 2 (21 / 32 : ℚ) (.sub 1566) (.sub 1567)))) (.split 3 (9 / 16 : ℚ) (.sub 1568) (.sub 1569)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp189_ok : skp189.check boxes (topBoxes 189).1 (topBoxes 189).2 = true := by
+  decide +kernel
+
+def skp190 : Skel := (.split 0 (-5 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1570) (.split 5 (-1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 1571) (.sub 1572)) (.split 2 (21 / 32 : ℚ) (.split 0 (-11 / 32 : ℚ) (.sub 1573) (.sub 1574)) (.split 0 (-11 / 32 : ℚ) (.split 5 (-1 / 32 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 1575) (.split 1 (3 / 32 : ℚ) (.sub 1576) (.sub 1577))) (.split 6 (1 / 16 : ℚ) (.sub 1578) (.split 1 (3 / 32 : ℚ) (.split 6 (3 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 1579) (.sub 1580)) (.sub 1581)) (.sub 1582)))) (.sub 1583))))) (.split 3 (9 / 16 : ℚ) (.sub 1584) (.split 2 (21 / 32 : ℚ) (.sub 1585) (.sub 1586))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp190_ok : skp190.check boxes (topBoxes 190).1 (topBoxes 190).2 = true := by
+  decide +kernel
+
+def skp191 : Skel := (.split 1 (1 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 5 (-1 / 16 : ℚ) (.sub 1587) (.sub 1588)) (.sub 1589)) (.sub 1590)) (.sub 1591))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp191_ok : skp191.check boxes (topBoxes 191).1 (topBoxes 191).2 = true := by
+  decide +kernel
+
+def skp192 : Skel := (.split 5 (-1 / 4 : ℚ) (.sub 1592) (.split 0 (-3 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.sub 1593) (.sub 1594)) (.split 5 (-1 / 8 : ℚ) (.sub 1595) (.split 2 (11 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1596) (.split 5 (-1 / 16 : ℚ) (.sub 1597) (.split 0 (-11 / 32 : ℚ) (.sub 1598) (.sub 1599)))) (.split 3 (9 / 16 : ℚ) (.sub 1600) (.sub 1601))) (.sub 1602)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp192_ok : skp192.check boxes (topBoxes 192).1 (topBoxes 192).2 = true := by
+  decide +kernel
+
+def skp193 : Skel := (.split 6 (1 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1603) (.split 0 (-3 / 8 : ℚ) (.sub 1604) (.split 5 (-1 / 8 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 1605) (.sub 1606)) (.sub 1607)) (.split 1 (1 / 16 : ℚ) (.split 0 (-5 / 16 : ℚ) (.sub 1608) (.sub 1609)) (.sub 1610))))) (.sub 1611))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp193_ok : skp193.check boxes (topBoxes 193).1 (topBoxes 193).2 = true := by
+  decide +kernel
+
+def skp194 : Skel := (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 1612) (.split 2 (11 / 16 : ℚ) (.split 0 (-3 / 8 : ℚ) (.sub 1613) (.split 5 (-1 / 8 : ℚ) (.sub 1614) (.split 0 (-5 / 16 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1615) (.sub 1616)) (.split 1 (3 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1617) (.sub 1618)) (.sub 1619))) (.split 6 (1 / 8 : ℚ) (.sub 1620) (.split 1 (3 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1621) (.sub 1622)) (.sub 1623)))))) (.sub 1624))) (.sub 1625))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp194_ok : skp194.check boxes (topBoxes 194).1 (topBoxes 194).2 = true := by
+  decide +kernel
+
+def skp195 : Skel := (.split 2 (5 / 8 : ℚ) (.sub 1626) (.sub 1627))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp195_ok : skp195.check boxes (topBoxes 195).1 (topBoxes 195).2 = true := by
+  decide +kernel
+
+def skp196 : Skel := (.sub 1628)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp196_ok : skp196.check boxes (topBoxes 196).1 (topBoxes 196).2 = true := by
+  decide +kernel
+
+def skp197 : Skel := (.split 0 (-1 / 8 : ℚ) (.sub 1629) (.split 5 (-3 / 8 : ℚ) (.sub 1630) (.split 1 (1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.sub 1631) (.sub 1632)) (.sub 1633))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp197_ok : skp197.check boxes (topBoxes 197).1 (topBoxes 197).2 = true := by
+  decide +kernel
+
+def skp198 : Skel := (.split 2 (9 / 16 : ℚ) (.sub 1634) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 1635) (.sub 1636)) (.sub 1637)) (.sub 1638)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp198_ok : skp198.check boxes (topBoxes 198).1 (topBoxes 198).2 = true := by
+  decide +kernel
+
+def skp199 : Skel := (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.sub 1639) (.sub 1640)) (.sub 1641)) (.sub 1642))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp199_ok : skp199.check boxes (topBoxes 199).1 (topBoxes 199).2 = true := by
+  decide +kernel
+
+def skp200 : Skel := (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1643) (.split 2 (37 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 1644) (.split 3 (43 / 64 : ℚ) (.sub 1645) (.sub 1646))) (.split 1 (1 / 64 : ℚ) (.sub 1647) (.split 3 (43 / 64 : ℚ) (.sub 1648) (.sub 1649))))) (.split 3 (21 / 32 : ℚ) (.sub 1650) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 1651) (.split 6 (3 / 64 : ℚ) (.split 1 (3 / 128 : ℚ) (.sub 1652) (.split 2 (73 / 128 : ℚ) (.sub 1653) (.sub 1654))) (.sub 1655))) (.sub 1656)) (.split 3 (43 / 64 : ℚ) (.split 2 (75 / 128 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 1657) (.split 6 (3 / 64 : ℚ) (.split 1 (3 / 128 : ℚ) (.sub 1658) (.split 3 (85 / 128 : ℚ) (.sub 1659) (.sub 1660))) (.sub 1661))) (.sub 1662)) (.sub 1663))))) (.split 3 (21 / 32 : ℚ) (.sub 1664) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 1665) (.sub 1666)) (.split 3 (43 / 64 : ℚ) (.sub 1667) (.sub 1668))))) (.split 1 (1 / 32 : ℚ) (.sub 1669) (.sub 1670))) (.sub 1671))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp200_ok : skp200.check boxes (topBoxes 200).1 (topBoxes 200).2 = true := by
+  decide +kernel
+
+def skp201 : Skel := (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1672) (.split 2 (37 / 64 : ℚ) (.sub 1673) (.sub 1674))) (.sub 1675)) (.sub 1676))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp201_ok : skp201.check boxes (topBoxes 201).1 (topBoxes 201).2 = true := by
+  decide +kernel
+
+def skp202 : Skel := (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1677) (.sub 1678)) (.sub 1679)) (.sub 1680))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp202_ok : skp202.check boxes (topBoxes 202).1 (topBoxes 202).2 = true := by
+  decide +kernel
+
+def skp203 : Skel := (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.sub 1681) (.sub 1682)) (.split 0 (-1 / 16 : ℚ) (.sub 1683) (.sub 1684))) (.split 0 (-1 / 16 : ℚ) (.sub 1685) (.sub 1686)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp203_ok : skp203.check boxes (topBoxes 203).1 (topBoxes 203).2 = true := by
+  decide +kernel
+
+def skp204 : Skel := (.split 5 (-5 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.sub 1687) (.sub 1688)) (.split 3 (21 / 32 : ℚ) (.sub 1689) (.sub 1690))) (.split 2 (19 / 32 : ℚ) (.sub 1691) (.sub 1692))) (.sub 1693)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1694) (.sub 1695)) (.sub 1696))) (.split 6 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1697) (.sub 1698)) (.split 2 (19 / 32 : ℚ) (.sub 1699) (.sub 1700))) (.sub 1701)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1702) (.sub 1703)) (.sub 1704))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp204_ok : skp204.check boxes (topBoxes 204).1 (topBoxes 204).2 = true := by
+  decide +kernel
+
+def skp205 : Skel := (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.sub 1705) (.sub 1706)) (.sub 1707)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1708) (.split 6 (1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 1709) (.sub 1710)) (.split 3 (43 / 64 : ℚ) (.sub 1711) (.sub 1712)))) (.split 2 (37 / 64 : ℚ) (.sub 1713) (.split 3 (43 / 64 : ℚ) (.sub 1714) (.sub 1715)))) (.sub 1716)) (.split 2 (37 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 1717) (.sub 1718)) (.split 1 (1 / 64 : ℚ) (.split 6 (1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 1 (1 / 128 : ℚ) (.split 2 (75 / 128 : ℚ) (.sub 1719) (.sub 1720)) (.split 2 (75 / 128 : ℚ) (.sub 1721) (.sub 1722))) (.sub 1723)) (.split 3 (43 / 64 : ℚ) (.split 2 (75 / 128 : ℚ) (.sub 1724) (.sub 1725)) (.sub 1726))) (.split 3 (43 / 64 : ℚ) (.split 2 (75 / 128 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 0 (-1 / 64 : ℚ) (.split 5 (-23 / 64 : ℚ) (.split 0 (-3 / 128 : ℚ) (.sub 1727) (.sub 1728)) (.sub 1729)) (.sub 1730)) (.sub 1731)) (.sub 1732)) (.sub 1733))))) (.sub 1734)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp205_ok : skp205.check boxes (topBoxes 205).1 (topBoxes 205).2 = true := by
+  decide +kernel
+
+def skp206 : Skel := (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.sub 1735) (.sub 1736)) (.sub 1737)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1738) (.split 3 (43 / 64 : ℚ) (.sub 1739) (.sub 1740))) (.sub 1741)) (.split 2 (37 / 64 : ℚ) (.sub 1742) (.split 3 (43 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 1743) (.split 6 (3 / 64 : ℚ) (.split 1 (3 / 128 : ℚ) (.split 2 (75 / 128 : ℚ) (.sub 1744) (.sub 1745)) (.split 2 (75 / 128 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 0 (-1 / 64 : ℚ) (.split 5 (-23 / 64 : ℚ) (.sub 1746) (.sub 1747)) (.sub 1748)) (.sub 1749)) (.sub 1750))) (.sub 1751))) (.sub 1752)))) (.sub 1753)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp206_ok : skp206.check boxes (topBoxes 206).1 (topBoxes 206).2 = true := by
+  decide +kernel
+
+def skp207 : Skel := (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.sub 1754) (.sub 1755)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1756) (.sub 1757)) (.sub 1758)) (.split 2 (37 / 64 : ℚ) (.sub 1759) (.split 3 (43 / 64 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.sub 1760) (.sub 1761)) (.sub 1762)) (.sub 1763)))) (.sub 1764)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp207_ok : skp207.check boxes (topBoxes 207).1 (topBoxes 207).2 = true := by
+  decide +kernel
+
+def skp208 : Skel := (.split 1 (1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 1765) (.sub 1766)) (.sub 1767)) (.sub 1768)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 1769) (.sub 1770)) (.sub 1771)) (.sub 1772))) (.split 5 (-5 / 16 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1773) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 1774) (.sub 1775)) (.sub 1776))) (.sub 1777))) (.split 3 (21 / 32 : ℚ) (.sub 1778) (.sub 1779)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp208_ok : skp208.check boxes (topBoxes 208).1 (topBoxes 208).2 = true := by
+  decide +kernel
+
+def skp209 : Skel := (.split 2 (19 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1780) (.sub 1781)) (.split 3 (21 / 32 : ℚ) (.sub 1782) (.sub 1783))) (.split 3 (21 / 32 : ℚ) (.sub 1784) (.split 1 (1 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1785) (.sub 1786)) (.split 6 (3 / 32 : ℚ) (.split 1 (3 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 1787) (.sub 1788)) (.split 2 (37 / 64 : ℚ) (.sub 1789) (.sub 1790))) (.sub 1791))))) (.sub 1792)) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.sub 1793) (.sub 1794)) (.sub 1795)) (.sub 1796)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp209_ok : skp209.check boxes (topBoxes 209).1 (topBoxes 209).2 = true := by
+  decide +kernel
+
+def skp210 : Skel := (.split 6 (1 / 16 : ℚ) (.sub 1797) (.sub 1798))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp210_ok : skp210.check boxes (topBoxes 210).1 (topBoxes 210).2 = true := by
+  decide +kernel
+
+def skp211 : Skel := (.split 0 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1799) (.sub 1800)) (.split 2 (19 / 32 : ℚ) (.sub 1801) (.sub 1802))) (.sub 1803)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 5 (-11 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1804) (.sub 1805)) (.split 3 (21 / 32 : ℚ) (.sub 1806) (.sub 1807))) (.split 3 (21 / 32 : ℚ) (.sub 1808) (.split 6 (1 / 16 : ℚ) (.sub 1809) (.sub 1810)))) (.sub 1811)) (.sub 1812)) (.sub 1813)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp211_ok : skp211.check boxes (topBoxes 211).1 (topBoxes 211).2 = true := by
+  decide +kernel
+
+def skp212 : Skel := (.split 0 (-1 / 8 : ℚ) (.sub 1814) (.split 5 (-3 / 8 : ℚ) (.sub 1815) (.split 0 (-1 / 16 : ℚ) (.sub 1816) (.sub 1817))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp212_ok : skp212.check boxes (topBoxes 212).1 (topBoxes 212).2 = true := by
+  decide +kernel
+
+def skp213 : Skel := (.sub 1818)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp213_ok : skp213.check boxes (topBoxes 213).1 (topBoxes 213).2 = true := by
+  decide +kernel
+
+def skp214 : Skel := (.split 2 (9 / 16 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 1819) (.split 0 (-1 / 16 : ℚ) (.sub 1820) (.sub 1821))) (.split 5 (-3 / 8 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 1822) (.sub 1823)) (.split 0 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1824) (.sub 1825)) (.split 1 (1 / 16 : ℚ) (.sub 1826) (.split 6 (3 / 16 : ℚ) (.split 1 (3 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 1827) (.sub 1828)) (.split 2 (19 / 32 : ℚ) (.sub 1829) (.sub 1830))) (.sub 1831)))) (.sub 1832)) (.split 3 (11 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.split 0 (-1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 1 (1 / 16 : ℚ) (.sub 1833) (.split 6 (3 / 16 : ℚ) (.split 1 (3 / 32 : ℚ) (.sub 1834) (.sub 1835)) (.sub 1836))) (.sub 1837)) (.split 2 (19 / 32 : ℚ) (.split 1 (1 / 16 : ℚ) (.sub 1838) (.split 6 (3 / 16 : ℚ) (.split 1 (3 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 1839) (.sub 1840)) (.split 3 (21 / 32 : ℚ) (.sub 1841) (.sub 1842))) (.sub 1843))) (.sub 1844))) (.split 1 (1 / 16 : ℚ) (.sub 1845) (.split 6 (3 / 16 : ℚ) (.split 1 (3 / 32 : ℚ) (.sub 1846) (.split 2 (19 / 32 : ℚ) (.sub 1847) (.sub 1848))) (.sub 1849)))) (.sub 1850)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp214_ok : skp214.check boxes (topBoxes 214).1 (topBoxes 214).2 = true := by
+  decide +kernel
+
+def skp215 : Skel := (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 1851) (.split 5 (-3 / 8 : ℚ) (.sub 1852) (.split 0 (-1 / 16 : ℚ) (.sub 1853) (.sub 1854)))) (.split 0 (-1 / 8 : ℚ) (.sub 1855) (.split 2 (9 / 16 : ℚ) (.sub 1856) (.split 5 (-3 / 8 : ℚ) (.sub 1857) (.split 0 (-1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 6 (1 / 8 : ℚ) (.sub 1858) (.sub 1859)) (.sub 1860)) (.split 5 (-5 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 1861) (.sub 1862)) (.split 3 (11 / 16 : ℚ) (.sub 1863) (.sub 1864))))))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp215_ok : skp215.check boxes (topBoxes 215).1 (topBoxes 215).2 = true := by
+  decide +kernel
+
+def skp216 : Skel := (.split 1 (1 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 1865) (.split 5 (-3 / 8 : ℚ) (.sub 1866) (.split 1 (1 / 16 : ℚ) (.sub 1867) (.sub 1868)))) (.split 0 (-1 / 8 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 1869) (.sub 1870)) (.sub 1871)) (.split 5 (-3 / 8 : ℚ) (.sub 1872) (.split 1 (1 / 16 : ℚ) (.split 0 (-1 / 16 : ℚ) (.split 5 (-5 / 16 : ℚ) (.sub 1873) (.sub 1874)) (.sub 1875)) (.sub 1876))))) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.sub 1877) (.split 5 (-3 / 8 : ℚ) (.sub 1878) (.sub 1879))) (.split 0 (-1 / 8 : ℚ) (.sub 1880) (.split 5 (-3 / 8 : ℚ) (.sub 1881) (.sub 1882))))) (.sub 1883))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp216_ok : skp216.check boxes (topBoxes 216).1 (topBoxes 216).2 = true := by
+  decide +kernel
+
+def skp217 : Skel := (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1884) (.sub 1885)) (.sub 1886))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp217_ok : skp217.check boxes (topBoxes 217).1 (topBoxes 217).2 = true := by
+  decide +kernel
+
+def skp218 : Skel := (.split 6 (1 / 4 : ℚ) (.sub 1887) (.sub 1888))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp218_ok : skp218.check boxes (topBoxes 218).1 (topBoxes 218).2 = true := by
+  decide +kernel
+
+def skp219 : Skel := (.split 1 (1 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1889) (.split 1 (1 / 16 : ℚ) (.sub 1890) (.sub 1891))) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 1892) (.sub 1893)) (.sub 1894)) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 1895) (.sub 1896)) (.sub 1897)))) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.sub 1898) (.sub 1899)) (.sub 1900)) (.sub 1901)) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.sub 1902) (.sub 1903)) (.sub 1904)) (.sub 1905))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp219_ok : skp219.check boxes (topBoxes 219).1 (topBoxes 219).2 = true := by
+  decide +kernel
+
+def skp220 : Skel := (.split 1 (1 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 1 (1 / 16 : ℚ) (.sub 1906) (.sub 1907)) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.split 5 (-3 / 16 : ℚ) (.sub 1908) (.sub 1909)) (.sub 1910)) (.sub 1911)) (.sub 1912)) (.split 0 (-1 / 8 : ℚ) (.sub 1913) (.sub 1914))) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 1915) (.sub 1916)) (.sub 1917)))) (.split 3 (5 / 8 : ℚ) (.sub 1918) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 1919) (.sub 1920)) (.sub 1921)))) (.split 3 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 0 (-3 / 16 : ℚ) (.sub 1922) (.sub 1923)) (.sub 1924)) (.sub 1925)) (.sub 1926)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp220_ok : skp220.check boxes (topBoxes 220).1 (topBoxes 220).2 = true := by
+  decide +kernel
+
+def skp221 : Skel := (.sub 1927)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp221_ok : skp221.check boxes (topBoxes 221).1 (topBoxes 221).2 = true := by
+  decide +kernel
+
+def skp222 : Skel := (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1928) (.sub 1929)) (.split 3 (5 / 8 : ℚ) (.sub 1930) (.sub 1931))) (.split 3 (5 / 8 : ℚ) (.sub 1932) (.sub 1933))) (.split 0 (-1 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 1934) (.sub 1935)) (.sub 1936))) (.sub 1937))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp222_ok : skp222.check boxes (topBoxes 222).1 (topBoxes 222).2 = true := by
+  decide +kernel
+
+def skp223 : Skel := (.split 0 (-1 / 2 : ℚ) (.sub 1938) (.split 5 (-1 / 2 : ℚ) (.sub 1939) (.split 0 (-1 / 4 : ℚ) (.sub 1940) (.sub 1941))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp223_ok : skp223.check boxes (topBoxes 223).1 (topBoxes 223).2 = true := by
+  decide +kernel
+
+def skp224 : Skel := (.split 2 (3 / 4 : ℚ) (.split 0 (-1 / 2 : ℚ) (.sub 1942) (.split 5 (-1 / 2 : ℚ) (.sub 1943) (.split 0 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 1944) (.sub 1945)) (.sub 1946)) (.split 5 (-1 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1947) (.sub 1948)) (.sub 1949)) (.sub 1950)) (.split 3 (3 / 4 : ℚ) (.split 0 (-1 / 8 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1951) (.sub 1952)) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 8 : ℚ) (.sub 1953) (.sub 1954)) (.sub 1955))) (.sub 1956)) (.split 2 (5 / 8 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 1957) (.sub 1958)) (.split 3 (5 / 8 : ℚ) (.sub 1959) (.sub 1960))) (.sub 1961))) (.sub 1962)))))) (.sub 1963))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp224_ok : skp224.check boxes (topBoxes 224).1 (topBoxes 224).2 = true := by
+  decide +kernel
+
+def skp225 : Skel := (.sub 1964)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp225_ok : skp225.check boxes (topBoxes 225).1 (topBoxes 225).2 = true := by
+  decide +kernel
+
+def skp226 : Skel := (.split 3 (1 / 2 : ℚ) (.sub 1965) (.sub 1966))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp226_ok : skp226.check boxes (topBoxes 226).1 (topBoxes 226).2 = true := by
+  decide +kernel
+
+def skp227 : Skel := (.split 6 (0 : ℚ) (.sub 1967) (.split 0 (-1 / 2 : ℚ) (.sub 1968) (.sub 1969)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp227_ok : skp227.check boxes (topBoxes 227).1 (topBoxes 227).2 = true := by
+  decide +kernel
+
+def skp228 : Skel := (.split 0 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 1970) (.sub 1971)) (.sub 1972)) (.split 5 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 1973) (.sub 1974)) (.sub 1975)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp228_ok : skp228.check boxes (topBoxes 228).1 (topBoxes 228).2 = true := by
+  decide +kernel
+
+def skp229 : Skel := (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 1976) (.sub 1977)) (.split 2 (3 / 4 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 1978) (.sub 1979)) (.sub 1980)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp229_ok : skp229.check boxes (topBoxes 229).1 (topBoxes 229).2 = true := by
+  decide +kernel
+
+def skp230 : Skel := (.split 2 (3 / 4 : ℚ) (.sub 1981) (.sub 1982))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp230_ok : skp230.check boxes (topBoxes 230).1 (topBoxes 230).2 = true := by
+  decide +kernel
+
+def skp231 : Skel := (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.sub 1983) (.sub 1984)) (.sub 1985)) (.sub 1986)) (.sub 1987)) (.sub 1988))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp231_ok : skp231.check boxes (topBoxes 231).1 (topBoxes 231).2 = true := by
+  decide +kernel
+
+def skp232 : Skel := (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 0 (-7 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 1989) (.sub 1990)) (.split 3 (9 / 16 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 1991) (.sub 1992)) (.split 2 (21 / 32 : ℚ) (.sub 1993) (.sub 1994))) (.sub 1995)) (.split 2 (21 / 32 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 1996) (.sub 1997)) (.sub 1998)) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 1999) (.sub 2000)) (.sub 2001)) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.sub 2002) (.split 2 (85 / 128 : ℚ) (.sub 2003) (.sub 2004))) (.sub 2005)) (.sub 2006)) (.sub 2007)) (.sub 2008)) (.sub 2009))) (.sub 2010))))) (.split 0 (-7 / 16 : ℚ) (.sub 2011) (.split 3 (9 / 16 : ℚ) (.sub 2012) (.sub 2013)))) (.split 2 (11 / 16 : ℚ) (.sub 2014) (.sub 2015))) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 2016) (.split 2 (21 / 32 : ℚ) (.sub 2017) (.sub 2018))) (.sub 2019))) (.sub 2020))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp232_ok : skp232.check boxes (topBoxes 232).1 (topBoxes 232).2 = true := by
+  decide +kernel
+
+def skp233 : Skel := (.sub 2021)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp233_ok : skp233.check boxes (topBoxes 233).1 (topBoxes 233).2 = true := by
+  decide +kernel
+
+def skp234 : Skel := (.sub 2022)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp234_ok : skp234.check boxes (topBoxes 234).1 (topBoxes 234).2 = true := by
+  decide +kernel
+
+def skp235 : Skel := (.sub 2023)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp235_ok : skp235.check boxes (topBoxes 235).1 (topBoxes 235).2 = true := by
+  decide +kernel
+
+def skp236 : Skel := (.sub 2024)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp236_ok : skp236.check boxes (topBoxes 236).1 (topBoxes 236).2 = true := by
+  decide +kernel
+
+def skp237 : Skel := (.sub 2025)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp237_ok : skp237.check boxes (topBoxes 237).1 (topBoxes 237).2 = true := by
+  decide +kernel
+
+def skp238 : Skel := (.split 1 (1 / 2 : ℚ) (.split 0 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.sub 2026) (.sub 2027)) (.sub 2028)) (.split 6 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 2029) (.sub 2030)) (.sub 2031))) (.split 6 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 1 (1 / 4 : ℚ) (.sub 2032) (.sub 2033)) (.sub 2034)) (.sub 2035)) (.split 1 (1 / 4 : ℚ) (.sub 2036) (.sub 2037))) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.sub 2038) (.sub 2039)) (.sub 2040)))) (.split 0 (-1 / 2 : ℚ) (.sub 2041) (.split 3 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.sub 2042) (.sub 2043)) (.sub 2044)) (.sub 2045))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp238_ok : skp238.check boxes (topBoxes 238).1 (topBoxes 238).2 = true := by
+  decide +kernel
+
+def skp239 : Skel := (.split 3 (1 / 2 : ℚ) (.split 1 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.sub 2046) (.sub 2047)) (.sub 2048)) (.sub 2049)) (.sub 2050)) (.split 1 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 2051) (.sub 2052)) (.sub 2053)) (.sub 2054)) (.sub 2055)) (.sub 2056)) (.sub 2057)) (.sub 2058)) (.sub 2059)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp239_ok : skp239.check boxes (topBoxes 239).1 (topBoxes 239).2 = true := by
+  decide +kernel
+
+def skp240 : Skel := (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.sub 2060) (.sub 2061)) (.sub 2062)) (.sub 2063)) (.sub 2064)) (.sub 2065)) (.sub 2066)) (.sub 2067)) (.sub 2068)) (.split 5 (1 / 2 : ℚ) (.sub 2069) (.sub 2070))) (.sub 2071))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp240_ok : skp240.check boxes (topBoxes 240).1 (topBoxes 240).2 = true := by
+  decide +kernel
+
+def skp241 : Skel := (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 1 (1 / 16 : ℚ) (.sub 2072) (.sub 2073)) (.sub 2074)) (.sub 2075)) (.split 6 (1 / 8 : ℚ) (.sub 2076) (.sub 2077))) (.sub 2078)) (.sub 2079)) (.sub 2080))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp241_ok : skp241.check boxes (topBoxes 241).1 (topBoxes 241).2 = true := by
+  decide +kernel
+
+def skp242 : Skel := (.split 3 (9 / 16 : ℚ) (.sub 2081) (.sub 2082))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp242_ok : skp242.check boxes (topBoxes 242).1 (topBoxes 242).2 = true := by
+  decide +kernel
+
+def skp243 : Skel := (.split 6 (1 / 16 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 0 (-13 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 2083) (.sub 2084)) (.split 6 (1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 2085) (.split 1 (1 / 64 : ℚ) (.sub 2086) (.sub 2087))) (.sub 2088))) (.split 0 (-13 / 32 : ℚ) (.sub 2089) (.split 2 (21 / 32 : ℚ) (.sub 2090) (.sub 2091)))) (.split 1 (1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 2092) (.sub 2093)) (.sub 2094))) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 2095) (.sub 2096)) (.sub 2097)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp243_ok : skp243.check boxes (topBoxes 243).1 (topBoxes 243).2 = true := by
+  decide +kernel
+
+def skp244 : Skel := (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 2098) (.split 6 (1 / 32 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 2099) (.sub 2100)) (.sub 2101))) (.sub 2102))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp244_ok : skp244.check boxes (topBoxes 244).1 (topBoxes 244).2 = true := by
+  decide +kernel
+
+def skp245 : Skel := (.split 6 (1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 2 (43 / 64 : ℚ) (.sub 2103) (.sub 2104)) (.sub 2105)) (.sub 2106)) (.sub 2107))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp245_ok : skp245.check boxes (topBoxes 245).1 (topBoxes 245).2 = true := by
+  decide +kernel
+
+def skp246 : Skel := (.split 3 (19 / 32 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.split 6 (1 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.sub 2108) (.split 1 (1 / 128 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 2109) (.sub 2110)) (.split 0 (-51 / 128 : ℚ) (.sub 2111) (.sub 2112)))) (.split 5 (1 / 64 : ℚ) (.sub 2113) (.split 2 (85 / 128 : ℚ) (.sub 2114) (.sub 2115)))) (.sub 2116)) (.sub 2117)) (.split 2 (43 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 2118) (.sub 2119)) (.sub 2120))) (.split 2 (43 / 64 : ℚ) (.sub 2121) (.sub 2122))) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.split 5 (1 / 64 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 2123) (.sub 2124)) (.split 2 (85 / 128 : ℚ) (.sub 2125) (.sub 2126))) (.sub 2127)) (.split 3 (37 / 64 : ℚ) (.split 2 (85 / 128 : ℚ) (.sub 2128) (.sub 2129)) (.sub 2130))) (.sub 2131)) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.sub 2132) (.sub 2133)) (.sub 2134)))) (.sub 2135))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp246_ok : skp246.check boxes (topBoxes 246).1 (topBoxes 246).2 = true := by
+  decide +kernel
+
+def skp247 : Skel := (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 2136) (.sub 2137)) (.split 3 (37 / 64 : ℚ) (.sub 2138) (.sub 2139))) (.sub 2140)) (.sub 2141)) (.sub 2142))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp247_ok : skp247.check boxes (topBoxes 247).1 (topBoxes 247).2 = true := by
+  decide +kernel
+
+def skp248 : Skel := (.sub 2143)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp248_ok : skp248.check boxes (topBoxes 248).1 (topBoxes 248).2 = true := by
+  decide +kernel
+
+def skp249 : Skel := (.split 2 (21 / 32 : ℚ) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 2144) (.sub 2145)) (.sub 2146)) (.split 5 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 2147) (.split 3 (19 / 32 : ℚ) (.split 2 (43 / 64 : ℚ) (.split 5 (1 / 32 : ℚ) (.split 0 (-25 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 2148) (.sub 2149)) (.split 6 (1 / 32 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 2150) (.sub 2151)) (.split 1 (3 / 64 : ℚ) (.split 3 (37 / 64 : ℚ) (.sub 2152) (.sub 2153)) (.sub 2154)))) (.sub 2155)) (.sub 2156)) (.sub 2157))) (.sub 2158)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp249_ok : skp249.check boxes (topBoxes 249).1 (topBoxes 249).2 = true := by
+  decide +kernel
+
+def skp250 : Skel := (.split 5 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 2159) (.split 0 (-13 / 32 : ℚ) (.sub 2160) (.split 3 (19 / 32 : ℚ) (.sub 2161) (.sub 2162)))) (.sub 2163))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp250_ok : skp250.check boxes (topBoxes 250).1 (topBoxes 250).2 = true := by
+  decide +kernel
+
+def skp251 : Skel := (.split 0 (-7 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 2164) (.sub 2165)) (.split 3 (9 / 16 : ℚ) (.split 5 (1 / 16 : ℚ) (.sub 2166) (.sub 2167)) (.split 5 (1 / 16 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 2168) (.split 6 (1 / 16 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 2169) (.sub 2170)) (.split 0 (-13 / 32 : ℚ) (.sub 2171) (.split 1 (3 / 32 : ℚ) (.split 6 (3 / 32 : ℚ) (.sub 2172) (.sub 2173)) (.sub 2174))))) (.sub 2175))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp251_ok : skp251.check boxes (topBoxes 251).1 (topBoxes 251).2 = true := by
+  decide +kernel
+
+def skp252 : Skel := (.split 1 (1 / 16 : ℚ) (.split 0 (-7 / 16 : ℚ) (.sub 2176) (.split 5 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 0 (-13 / 32 : ℚ) (.sub 2177) (.sub 2178)) (.sub 2179)) (.sub 2180)) (.sub 2181))) (.sub 2182))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp252_ok : skp252.check boxes (topBoxes 252).1 (topBoxes 252).2 = true := by
+  decide +kernel
+
+def skp253 : Skel := (.split 1 (1 / 16 : ℚ) (.split 2 (11 / 16 : ℚ) (.sub 2183) (.sub 2184)) (.sub 2185))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp253_ok : skp253.check boxes (topBoxes 253).1 (topBoxes 253).2 = true := by
+  decide +kernel
+
+def skp254 : Skel := (.split 2 (11 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 2186) (.sub 2187)) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 2 (21 / 32 : ℚ) (.sub 2188) (.split 6 (1 / 32 : ℚ) (.split 3 (19 / 32 : ℚ) (.sub 2189) (.sub 2190)) (.split 3 (19 / 32 : ℚ) (.sub 2191) (.sub 2192)))) (.split 2 (21 / 32 : ℚ) (.sub 2193) (.split 3 (19 / 32 : ℚ) (.sub 2194) (.sub 2195)))) (.split 2 (21 / 32 : ℚ) (.sub 2196) (.sub 2197)))) (.split 3 (9 / 16 : ℚ) (.sub 2198) (.split 2 (21 / 32 : ℚ) (.sub 2199) (.sub 2200)))) (.split 1 (1 / 16 : ℚ) (.sub 2201) (.sub 2202)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp254_ok : skp254.check boxes (topBoxes 254).1 (topBoxes 254).2 = true := by
+  decide +kernel
+
+def skp255 : Skel := (.sub 2203)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp255_ok : skp255.check boxes (topBoxes 255).1 (topBoxes 255).2 = true := by
+  decide +kernel
+
+def skp256 : Skel := (.sub 2204)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp256_ok : skp256.check boxes (topBoxes 256).1 (topBoxes 256).2 = true := by
+  decide +kernel
+
+def skp257 : Skel := (.sub 2205)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp257_ok : skp257.check boxes (topBoxes 257).1 (topBoxes 257).2 = true := by
+  decide +kernel
+
+def skp258 : Skel := (.sub 2206)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp258_ok : skp258.check boxes (topBoxes 258).1 (topBoxes 258).2 = true := by
+  decide +kernel
+
+def skp259 : Skel := (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 2207) (.sub 2208)) (.sub 2209)) (.sub 2210)) (.sub 2211)) (.split 3 (5 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 2212) (.sub 2213)) (.sub 2214)) (.sub 2215))) (.sub 2216)) (.sub 2217)) (.sub 2218))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp259_ok : skp259.check boxes (topBoxes 259).1 (topBoxes 259).2 = true := by
+  decide +kernel
+
+def skp260 : Skel := (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.sub 2219) (.sub 2220)) (.sub 2221)) (.sub 2222)) (.sub 2223)) (.sub 2224)) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (1 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 2225) (.sub 2226)) (.sub 2227)) (.sub 2228)) (.sub 2229)) (.split 3 (5 / 8 : ℚ) (.split 2 (11 / 16 : ℚ) (.split 6 (1 / 8 : ℚ) (.split 3 (9 / 16 : ℚ) (.sub 2230) (.sub 2231)) (.split 3 (9 / 16 : ℚ) (.sub 2232) (.sub 2233))) (.sub 2234)) (.sub 2235))) (.sub 2236)) (.sub 2237)) (.sub 2238)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp260_ok : skp260.check boxes (topBoxes 260).1 (topBoxes 260).2 = true := by
+  decide +kernel
+
+def skp261 : Skel := (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.sub 2239) (.sub 2240)) (.sub 2241)) (.sub 2242)) (.sub 2243)) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 0 (-3 / 8 : ℚ) (.sub 2244) (.sub 2245)) (.sub 2246)) (.sub 2247)) (.sub 2248)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp261_ok : skp261.check boxes (topBoxes 261).1 (topBoxes 261).2 = true := by
+  decide +kernel
+
+def skp262 : Skel := (.sub 2249)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp262_ok : skp262.check boxes (topBoxes 262).1 (topBoxes 262).2 = true := by
+  decide +kernel
+
+def skp263 : Skel := (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 5 (1 / 2 : ℚ) (.split 0 (-1 / 4 : ℚ) (.split 5 (1 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.sub 2250) (.split 0 (-3 / 8 : ℚ) (.sub 2251) (.sub 2252))) (.sub 2253)) (.sub 2254)) (.sub 2255)) (.sub 2256)) (.sub 2257))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp263_ok : skp263.check boxes (topBoxes 263).1 (topBoxes 263).2 = true := by
+  decide +kernel
+
+def skp264 : Skel := (.sub 2258)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp264_ok : skp264.check boxes (topBoxes 264).1 (topBoxes 264).2 = true := by
+  decide +kernel
+
+def skp265 : Skel := (.sub 2259)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp265_ok : skp265.check boxes (topBoxes 265).1 (topBoxes 265).2 = true := by
+  decide +kernel
+
+def skp266 : Skel := (.sub 2260)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp266_ok : skp266.check boxes (topBoxes 266).1 (topBoxes 266).2 = true := by
+  decide +kernel
+
+def skp267 : Skel := (.split 5 (0 : ℚ) (.split 6 (0 : ℚ) (.sub 2261) (.split 0 (1 / 2 : ℚ) (.sub 2262) (.sub 2263))) (.sub 2264))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp267_ok : skp267.check boxes (topBoxes 267).1 (topBoxes 267).2 = true := by
+  decide +kernel
+
+def skp268 : Skel := (.split 0 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 2265) (.sub 2266)) (.split 3 (1 / 2 : ℚ) (.sub 2267) (.split 2 (1 / 4 : ℚ) (.sub 2268) (.split 3 (3 / 4 : ℚ) (.sub 2269) (.sub 2270))))) (.split 3 (1 / 2 : ℚ) (.sub 2271) (.sub 2272)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp268_ok : skp268.check boxes (topBoxes 268).1 (topBoxes 268).2 = true := by
+  decide +kernel
+
+def skp269 : Skel := (.split 0 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.sub 2273) (.sub 2274)) (.sub 2275))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp269_ok : skp269.check boxes (topBoxes 269).1 (topBoxes 269).2 = true := by
+  decide +kernel
+
+def skp270 : Skel := (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.sub 2276) (.sub 2277)) (.sub 2278))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp270_ok : skp270.check boxes (topBoxes 270).1 (topBoxes 270).2 = true := by
+  decide +kernel
+
+def skp271 : Skel := (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 2279) (.sub 2280)) (.sub 2281)) (.sub 2282)) (.sub 2283))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp271_ok : skp271.check boxes (topBoxes 271).1 (topBoxes 271).2 = true := by
+  decide +kernel
+
+def skp272 : Skel := (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2284) (.split 0 (1 / 32 : ℚ) (.split 2 (17 / 32 : ℚ) (.sub 2285) (.sub 2286)) (.split 2 (17 / 32 : ℚ) (.sub 2287) (.split 5 (-13 / 32 : ℚ) (.sub 2288) (.sub 2289))))) (.sub 2290)) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2291) (.sub 2292)) (.sub 2293))) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2294) (.split 2 (19 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2295) (.split 5 (-13 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 2296) (.sub 2297)) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.sub 2298) (.split 2 (73 / 128 : ℚ) (.sub 2299) (.sub 2300))) (.sub 2301)) (.sub 2302)))) (.split 3 (21 / 32 : ℚ) (.sub 2303) (.split 2 (37 / 64 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 2304) (.sub 2305)) (.sub 2306)))) (.sub 2307))) (.sub 2308)) (.split 3 (11 / 16 : ℚ) (.sub 2309) (.sub 2310)))) (.split 2 (9 / 16 : ℚ) (.sub 2311) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2312) (.sub 2313)) (.sub 2314)) (.sub 2315))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp272_ok : skp272.check boxes (topBoxes 272).1 (topBoxes 272).2 = true := by
+  decide +kernel
+
+def skp273 : Skel := (.split 2 (9 / 16 : ℚ) (.sub 2316) (.sub 2317))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp273_ok : skp273.check boxes (topBoxes 273).1 (topBoxes 273).2 = true := by
+  decide +kernel
+
+def skp274 : Skel := (.sub 2318)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp274_ok : skp274.check boxes (topBoxes 274).1 (topBoxes 274).2 = true := by
+  decide +kernel
+
+def skp275 : Skel := (.sub 2319)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp275_ok : skp275.check boxes (topBoxes 275).1 (topBoxes 275).2 = true := by
+  decide +kernel
+
+def skp276 : Skel := (.sub 2320)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp276_ok : skp276.check boxes (topBoxes 276).1 (topBoxes 276).2 = true := by
+  decide +kernel
+
+def skp277 : Skel := (.sub 2321)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp277_ok : skp277.check boxes (topBoxes 277).1 (topBoxes 277).2 = true := by
+  decide +kernel
+
+def skp278 : Skel := (.sub 2322)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp278_ok : skp278.check boxes (topBoxes 278).1 (topBoxes 278).2 = true := by
+  decide +kernel
+
+def skp279 : Skel := (.sub 2323)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp279_ok : skp279.check boxes (topBoxes 279).1 (topBoxes 279).2 = true := by
+  decide +kernel
+
+def skp280 : Skel := (.split 2 (1 / 2 : ℚ) (.sub 2324) (.split 3 (1 / 2 : ℚ) (.sub 2325) (.sub 2326)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp280_ok : skp280.check boxes (topBoxes 280).1 (topBoxes 280).2 = true := by
+  decide +kernel
+
+def skp281 : Skel := (.split 0 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.sub 2327) (.sub 2328)) (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.sub 2329) (.sub 2330)) (.sub 2331)) (.sub 2332))) (.split 6 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 0 (1 / 4 : ℚ) (.sub 2333) (.sub 2334)) (.split 1 (1 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 2 (1 / 4 : ℚ) (.sub 2335) (.split 3 (3 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 6 (1 / 8 : ℚ) (.sub 2336) (.sub 2337)) (.sub 2338)) (.sub 2339)) (.sub 2340))) (.sub 2341)) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.sub 2342) (.sub 2343)) (.sub 2344)) (.sub 2345))) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.sub 2346) (.sub 2347)) (.sub 2348))) (.split 0 (1 / 4 : ℚ) (.sub 2349) (.sub 2350)))) (.split 3 (1 / 2 : ℚ) (.sub 2351) (.sub 2352)))) (.split 3 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.sub 2353) (.sub 2354)) (.split 6 (1 / 2 : ℚ) (.sub 2355) (.sub 2356))) (.sub 2357)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp281_ok : skp281.check boxes (topBoxes 281).1 (topBoxes 281).2 = true := by
+  decide +kernel
+
+def skp282 : Skel := (.split 0 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.split 5 (-1 / 2 : ℚ) (.sub 2358) (.split 6 (1 / 2 : ℚ) (.sub 2359) (.sub 2360))) (.sub 2361)) (.sub 2362))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp282_ok : skp282.check boxes (topBoxes 282).1 (topBoxes 282).2 = true := by
+  decide +kernel
+
+def skp283 : Skel := (.split 5 (-1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.sub 2363) (.sub 2364)) (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.sub 2365) (.sub 2366)) (.sub 2367)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp283_ok : skp283.check boxes (topBoxes 283).1 (topBoxes 283).2 = true := by
+  decide +kernel
+
+def skp284 : Skel := (.split 6 (1 / 2 : ℚ) (.split 1 (1 / 4 : ℚ) (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 6 (1 / 4 : ℚ) (.split 1 (1 / 8 : ℚ) (.split 2 (5 / 8 : ℚ) (.sub 2368) (.sub 2369)) (.sub 2370)) (.sub 2371)) (.sub 2372)) (.sub 2373)) (.sub 2374)) (.sub 2375))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp284_ok : skp284.check boxes (topBoxes 284).1 (topBoxes 284).2 = true := by
+  decide +kernel
+
+def skp285 : Skel := (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.sub 2376) (.sub 2377)) (.sub 2378)) (.sub 2379)) (.sub 2380)) (.sub 2381))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp285_ok : skp285.check boxes (topBoxes 285).1 (topBoxes 285).2 = true := by
+  decide +kernel
+
+def skp286 : Skel := (.split 3 (11 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2382) (.split 1 (1 / 32 : ℚ) (.split 0 (1 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 2 (17 / 32 : ℚ) (.sub 2383) (.split 1 (1 / 64 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2384) (.sub 2385)) (.sub 2386))) (.split 2 (17 / 32 : ℚ) (.sub 2387) (.sub 2388))) (.split 2 (17 / 32 : ℚ) (.sub 2389) (.split 6 (1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2390) (.sub 2391)) (.split 3 (21 / 32 : ℚ) (.sub 2392) (.sub 2393))) (.split 5 (-13 / 32 : ℚ) (.sub 2394) (.sub 2395))))) (.split 0 (1 / 32 : ℚ) (.sub 2396) (.split 2 (17 / 32 : ℚ) (.sub 2397) (.split 5 (-13 / 32 : ℚ) (.sub 2398) (.sub 2399)))))) (.split 2 (17 / 32 : ℚ) (.sub 2400) (.split 5 (-7 / 16 : ℚ) (.sub 2401) (.split 0 (1 / 32 : ℚ) (.sub 2402) (.split 5 (-13 / 32 : ℚ) (.sub 2403) (.sub 2404)))))) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2405) (.sub 2406)) (.sub 2407)) (.sub 2408)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp286_ok : skp286.check boxes (topBoxes 286).1 (topBoxes 286).2 = true := by
+  decide +kernel
+
+def skp287 : Skel := (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 2409) (.sub 2410)) (.split 6 (1 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 2 (17 / 32 : ℚ) (.sub 2411) (.sub 2412)) (.sub 2413)) (.sub 2414))) (.sub 2415))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp287_ok : skp287.check boxes (topBoxes 287).1 (topBoxes 287).2 = true := by
+  decide +kernel
+
+def skp288 : Skel := (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2416) (.split 0 (1 / 32 : ℚ) (.sub 2417) (.sub 2418))) (.sub 2419)) (.split 3 (11 / 16 : ℚ) (.sub 2420) (.sub 2421)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp288_ok : skp288.check boxes (topBoxes 288).1 (topBoxes 288).2 = true := by
+  decide +kernel
+
+def skp289 : Skel := (.sub 2422)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp289_ok : skp289.check boxes (topBoxes 289).1 (topBoxes 289).2 = true := by
+  decide +kernel
+
+def skp290 : Skel := (.split 6 (1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 2423) (.split 1 (1 / 64 : ℚ) (.sub 2424) (.sub 2425))) (.split 5 (-13 / 32 : ℚ) (.sub 2426) (.sub 2427)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp290_ok : skp290.check boxes (topBoxes 290).1 (topBoxes 290).2 = true := by
+  decide +kernel
+
+def skp291 : Skel := (.split 5 (-13 / 32 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 6 (1 / 64 : ℚ) (.sub 2428) (.sub 2429)) (.sub 2430)) (.sub 2431)) (.split 1 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.sub 2432) (.split 6 (1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 1 (1 / 128 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 2433) (.sub 2434)) (.split 2 (73 / 128 : ℚ) (.sub 2435) (.sub 2436))) (.sub 2437)) (.sub 2438)) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 0 (3 / 128 : ℚ) (.sub 2439) (.sub 2440)) (.sub 2441)) (.sub 2442)))) (.split 0 (1 / 64 : ℚ) (.sub 2443) (.sub 2444))) (.split 0 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 2445) (.sub 2446)) (.sub 2447)) (.sub 2448)) (.split 5 (-25 / 64 : ℚ) (.sub 2449) (.sub 2450))) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 2 (73 / 128 : ℚ) (.sub 2451) (.sub 2452)) (.sub 2453)) (.sub 2454)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp291_ok : skp291.check boxes (topBoxes 291).1 (topBoxes 291).2 = true := by
+  decide +kernel
+
+def skp292 : Skel := (.split 5 (-13 / 32 : ℚ) (.sub 2455) (.split 0 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 2456) (.split 6 (3 / 64 : ℚ) (.split 1 (3 / 128 : ℚ) (.sub 2457) (.split 2 (73 / 128 : ℚ) (.sub 2458) (.sub 2459))) (.sub 2460))) (.split 2 (73 / 128 : ℚ) (.sub 2461) (.split 1 (1 / 64 : ℚ) (.sub 2462) (.split 6 (3 / 64 : ℚ) (.split 1 (3 / 128 : ℚ) (.sub 2463) (.split 3 (85 / 128 : ℚ) (.sub 2464) (.sub 2465))) (.sub 2466))))) (.sub 2467)) (.split 5 (-25 / 64 : ℚ) (.sub 2468) (.split 3 (43 / 64 : ℚ) (.sub 2469) (.sub 2470)))) (.split 2 (37 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 1 (1 / 64 : ℚ) (.sub 2471) (.split 2 (73 / 128 : ℚ) (.sub 2472) (.sub 2473))) (.sub 2474)) (.sub 2475))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp292_ok : skp292.check boxes (topBoxes 292).1 (topBoxes 292).2 = true := by
+  decide +kernel
+
+def skp293 : Skel := (.split 3 (21 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.sub 2476) (.sub 2477)) (.split 6 (1 / 32 : ℚ) (.split 1 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 5 (-13 / 32 : ℚ) (.split 6 (1 / 64 : ℚ) (.sub 2478) (.sub 2479)) (.split 6 (1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.sub 2480) (.sub 2481)) (.sub 2482))) (.sub 2483)) (.split 2 (37 / 64 : ℚ) (.sub 2484) (.sub 2485))) (.split 5 (-13 / 32 : ℚ) (.sub 2486) (.split 2 (37 / 64 : ℚ) (.sub 2487) (.sub 2488)))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp293_ok : skp293.check boxes (topBoxes 293).1 (topBoxes 293).2 = true := by
+  decide +kernel
+
+def skp294 : Skel := (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2489) (.split 5 (-13 / 32 : ℚ) (.sub 2490) (.split 2 (37 / 64 : ℚ) (.split 0 (1 / 64 : ℚ) (.split 3 (43 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.sub 2491) (.split 6 (1 / 32 : ℚ) (.sub 2492) (.split 1 (3 / 64 : ℚ) (.split 6 (3 / 64 : ℚ) (.sub 2493) (.sub 2494)) (.sub 2495)))) (.sub 2496)) (.split 3 (43 / 64 : ℚ) (.sub 2497) (.sub 2498))) (.split 0 (1 / 64 : ℚ) (.split 5 (-25 / 64 : ℚ) (.sub 2499) (.sub 2500)) (.sub 2501))))) (.split 3 (21 / 32 : ℚ) (.sub 2502) (.sub 2503)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp294_ok : skp294.check boxes (topBoxes 294).1 (topBoxes 294).2 = true := by
+  decide +kernel
+
+def skp295 : Skel := (.split 1 (1 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2504) (.sub 2505)) (.sub 2506))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp295_ok : skp295.check boxes (topBoxes 295).1 (topBoxes 295).2 = true := by
+  decide +kernel
+
+def skp296 : Skel := (.sub 2507)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp296_ok : skp296.check boxes (topBoxes 296).1 (topBoxes 296).2 = true := by
+  decide +kernel
+
+def skp297 : Skel := (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2508) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2509) (.split 1 (1 / 32 : ℚ) (.split 5 (-13 / 32 : ℚ) (.sub 2510) (.split 0 (1 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 2511) (.sub 2512)) (.sub 2513))) (.split 5 (-13 / 32 : ℚ) (.sub 2514) (.split 0 (1 / 64 : ℚ) (.split 6 (3 / 32 : ℚ) (.split 2 (37 / 64 : ℚ) (.split 1 (3 / 64 : ℚ) (.sub 2515) (.sub 2516)) (.sub 2517)) (.sub 2518)) (.split 6 (3 / 32 : ℚ) (.split 1 (3 / 64 : ℚ) (.split 2 (37 / 64 : ℚ) (.sub 2519) (.sub 2520)) (.sub 2521)) (.sub 2522)))))) (.split 3 (21 / 32 : ℚ) (.sub 2523) (.sub 2524)))) (.sub 2525)) (.sub 2526))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp297_ok : skp297.check boxes (topBoxes 297).1 (topBoxes 297).2 = true := by
+  decide +kernel
+
+def skp298 : Skel := (.split 6 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 2527) (.sub 2528)) (.sub 2529))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp298_ok : skp298.check boxes (topBoxes 298).1 (topBoxes 298).2 = true := by
+  decide +kernel
+
+def skp299 : Skel := (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 5 (-7 / 16 : ℚ) (.sub 2530) (.split 0 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2531) (.sub 2532)) (.sub 2533))) (.sub 2534)) (.sub 2535)) (.sub 2536))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp299_ok : skp299.check boxes (topBoxes 299).1 (topBoxes 299).2 = true := by
+  decide +kernel
+
+def skp300 : Skel := (.split 2 (9 / 16 : ℚ) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.sub 2537) (.sub 2538)) (.sub 2539)) (.split 1 (1 / 16 : ℚ) (.split 6 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.split 1 (1 / 32 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 6 (1 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2540) (.sub 2541)) (.split 3 (21 / 32 : ℚ) (.sub 2542) (.sub 2543))) (.sub 2544)) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2545) (.sub 2546)) (.sub 2547))) (.sub 2548)) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2549) (.split 1 (1 / 32 : ℚ) (.sub 2550) (.split 6 (3 / 32 : ℚ) (.split 1 (3 / 64 : ℚ) (.sub 2551) (.sub 2552)) (.sub 2553)))) (.sub 2554)) (.sub 2555))) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.split 3 (21 / 32 : ℚ) (.sub 2556) (.sub 2557)) (.sub 2558)) (.sub 2559))))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp300_ok : skp300.check boxes (topBoxes 300).1 (topBoxes 300).2 = true := by
+  decide +kernel
+
+def skp301 : Skel := (.split 1 (1 / 16 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 2560) (.sub 2561)) (.sub 2562))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp301_ok : skp301.check boxes (topBoxes 301).1 (topBoxes 301).2 = true := by
+  decide +kernel
+
+def skp302 : Skel := (.sub 2563)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp302_ok : skp302.check boxes (topBoxes 302).1 (topBoxes 302).2 = true := by
+  decide +kernel
+
+def skp303 : Skel := (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 2564) (.sub 2565)) (.sub 2566)) (.sub 2567)) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.split 0 (1 / 16 : ℚ) (.sub 2568) (.sub 2569)) (.split 0 (1 / 16 : ℚ) (.split 3 (11 / 16 : ℚ) (.sub 2570) (.sub 2571)) (.sub 2572))) (.split 2 (9 / 16 : ℚ) (.sub 2573) (.split 3 (11 / 16 : ℚ) (.split 2 (19 / 32 : ℚ) (.sub 2574) (.sub 2575)) (.sub 2576)))) (.sub 2577)) (.sub 2578)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp303_ok : skp303.check boxes (topBoxes 303).1 (topBoxes 303).2 = true := by
+  decide +kernel
+
+def skp304 : Skel := (.sub 2579)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp304_ok : skp304.check boxes (topBoxes 304).1 (topBoxes 304).2 = true := by
+  decide +kernel
+
+def skp305 : Skel := (.split 0 (1 / 4 : ℚ) (.split 3 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.sub 2580) (.sub 2581)) (.sub 2582)) (.sub 2583)) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 5 (-3 / 8 : ℚ) (.split 2 (9 / 16 : ℚ) (.sub 2584) (.sub 2585)) (.split 2 (9 / 16 : ℚ) (.sub 2586) (.sub 2587))) (.sub 2588)) (.sub 2589))) (.sub 2590))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp305_ok : skp305.check boxes (topBoxes 305).1 (topBoxes 305).2 = true := by
+  decide +kernel
+
+def skp306 : Skel := (.split 1 (1 / 8 : ℚ) (.sub 2591) (.sub 2592))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp306_ok : skp306.check boxes (topBoxes 306).1 (topBoxes 306).2 = true := by
+  decide +kernel
+
+def skp307 : Skel := (.sub 2593)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp307_ok : skp307.check boxes (topBoxes 307).1 (topBoxes 307).2 = true := by
+  decide +kernel
+
+def skp308 : Skel := (.split 3 (3 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 2594) (.split 5 (-3 / 8 : ℚ) (.sub 2595) (.sub 2596))) (.sub 2597)) (.split 3 (5 / 8 : ℚ) (.sub 2598) (.sub 2599))) (.sub 2600)) (.sub 2601)) (.sub 2602))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp308_ok : skp308.check boxes (topBoxes 308).1 (topBoxes 308).2 = true := by
+  decide +kernel
+
+def skp309 : Skel := (.sub 2603)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp309_ok : skp309.check boxes (topBoxes 309).1 (topBoxes 309).2 = true := by
+  decide +kernel
+
+def skp310 : Skel := (.split 2 (3 / 4 : ℚ) (.split 3 (3 / 4 : ℚ) (.split 0 (1 / 4 : ℚ) (.split 2 (5 / 8 : ℚ) (.split 5 (-1 / 4 : ℚ) (.split 0 (1 / 8 : ℚ) (.split 3 (5 / 8 : ℚ) (.sub 2604) (.sub 2605)) (.sub 2606)) (.sub 2607)) (.sub 2608)) (.sub 2609)) (.sub 2610)) (.sub 2611))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp310_ok : skp310.check boxes (topBoxes 310).1 (topBoxes 310).2 = true := by
+  decide +kernel
+
+def skp311 : Skel := (.sub 2612)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp311_ok : skp311.check boxes (topBoxes 311).1 (topBoxes 311).2 = true := by
+  decide +kernel
+
+def skp312 : Skel := (.sub 2613)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp312_ok : skp312.check boxes (topBoxes 312).1 (topBoxes 312).2 = true := by
+  decide +kernel
+
+def skp313 : Skel := (.sub 2614)
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp313_ok : skp313.check boxes (topBoxes 313).1 (topBoxes 313).2 = true := by
+  decide +kernel
+
+def skp314 : Skel := (.split 2 (1 / 2 : ℚ) (.split 1 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 2615) (.sub 2616)) (.split 3 (1 / 2 : ℚ) (.sub 2617) (.sub 2618))) (.split 3 (1 / 2 : ℚ) (.sub 2619) (.sub 2620))) (.split 1 (1 / 2 : ℚ) (.split 6 (1 / 2 : ℚ) (.split 3 (1 / 2 : ℚ) (.sub 2621) (.split 1 (1 / 4 : ℚ) (.sub 2622) (.sub 2623))) (.split 3 (1 / 2 : ℚ) (.sub 2624) (.sub 2625))) (.sub 2626)))
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem skp314_ok : skp314.check boxes (topBoxes 314).1 (topBoxes 314).2 = true := by
+  decide +kernel
 
 end Harris
